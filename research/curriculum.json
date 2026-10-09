@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-09",
+  "timezone": "Asia/Taipei",
+  "title": "數學 A／數學甲課程分類基線（待官方核驗）",
+  "status": "official-current-unverified",
+  "freshness": "已核對現有網站分類及提供的分析範圍；教育部、國教院與大考中心網站遭網路政策拒絕，尚未確認最新公告或完整官方編碼。",
+  "classificationBasis": "本站整理，用於導航與試題對照；非官方課綱分類、非考試答案，亦不構成完整課綱覆蓋認證。",
+  "officialCodePolicy": "id 與 examScopes 為本站內部識別碼；officialCurriculumCode 為 null，核對官方正文之前不填入推測的編碼。",
+  "sources": [
+    {
+      "id": "moe-curriculum",
+      "label": "教育部課綱發布與修正公告",
+      "url": "https://www.edu.tw/",
+      "status": "pending-network",
+      "retrieved": false
+    },
+    {
+      "id": "naer-curriculum",
+      "label": "國教院數學領域課程綱要",
+      "url": "https://www.naer.edu.tw/",
+      "status": "pending-network",
+      "retrieved": false
+    },
+    {
+      "id": "ceec-scope",
+      "label": "大考中心考試說明與範圍",
+      "url": "https://www.ceec.edu.tw/",
+      "status": "pending-network",
+      "retrieved": false
+    }
+  ],
+  "scopes": [
+    {
+      "id": "math-a",
+      "label": "學測數學 A",
+      "includes": [
+        "grade10-required",
+        "grade11-math-a"
+      ],
+      "baseline": "高一必修數學與高二數學 A",
+      "officialCurrentVerified": false,
+      "note": "待大考中心現行考試說明核驗；內部主題對照依網站基線整理。"
+    },
+    {
+      "id": "math-jia",
+      "label": "分科測驗數學甲",
+      "includes": [
+        "grade10-required",
+        "grade11-math-a",
+        "grade12-math-jia"
+      ],
+      "baseline": "高一必修數學、高二數學 A 與高三數學甲",
+      "officialCurrentVerified": false,
+      "note": "待大考中心現行考試說明核驗；不得將數學甲專屬模組當成學測數學 A 必考。"
+    },
+    {
+      "id": "enrichment",
+      "label": "延伸探索",
+      "includes": [],
+      "baseline": "原網站的延伸工具與較進階視覺化",
+      "officialCurrentVerified": false,
+      "note": "先獨立顯示，不視為已核驗的正式課綱要求。"
+    }
+  ],
+  "topics": [
+    {
+      "id": "numbers",
+      "label": "實數、數與式、絕對值與不等式",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "number-line-absolute",
+        "amgm-rectangle",
+        "cauchy-bound"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "sets",
+      "label": "集合與邏輯",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "set-logic-venn"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "polynomials",
+      "label": "多項式、方程式與不等式",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "quadratic-vertex",
+        "polynomial-remainder",
+        "cubic-symmetry-center",
+        "root-multiplicity"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "functions",
+      "label": "函數圖形與變換",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "function-transformations",
+        "inverse-composition"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "exponential-log",
+      "label": "指數與對數",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "exponential-log",
+        "logarithm-domain-scale"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "sequences",
+      "label": "數列與有限級數",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "sequence-series",
+        "sigma-sum-formulas",
+        "recurrence-sequence"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "trigonometry",
+      "label": "三角比與三角函數",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "trig",
+        "triangle-laws",
+        "trig-composition",
+        "trig-graph-transform",
+        "trig-equation-solutions"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "plane-geometry",
+      "label": "直線、圓與平面解析幾何",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "line-slope-intercept",
+        "circle-line",
+        "circle-standard-equation",
+        "linear-programming"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "vectors",
+      "label": "平面向量與內積",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "projection",
+        "vector-linear-combination",
+        "shoelace-determinant-area"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "space",
+      "label": "空間坐標、空間向量、直線與平面",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "space-skew-lines",
+        "space-plane-distance",
+        "plane-intersection-line",
+        "line-plane-angle",
+        "scalar-triple-product",
+        "sphere-space-coordinate"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "matrices",
+      "label": "矩陣與聯立方程組",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "matrix",
+        "determinant-system",
+        "matrix-inverse-system",
+        "gaussian-elimination-visual",
+        "markov-chain"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "counting",
+      "label": "排列組合與計數",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "counting-principle",
+        "stars-and-bars",
+        "binomial-theorem-pascal"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "probability",
+      "label": "機率、條件機率與隨機變數",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "bayes",
+        "probability-tree-independence",
+        "discrete-random-variable",
+        "two-way-table-bayes",
+        "subjective-objective-probability"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "statistics",
+      "label": "數據分析、相關與迴歸",
+      "examScopes": [
+        "math-a",
+        "math-jia"
+      ],
+      "moduleIds": [
+        "regression",
+        "standardization-transform",
+        "boxplot-spread",
+        "mean-variance-transform",
+        "histogram-cumulative",
+        "covariance-correlation-sign"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "complex",
+      "label": "複數、極式與方程式",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "complex",
+        "complex-demoivre",
+        "complex-nth-roots",
+        "complex-conjugate-roots"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "conics",
+      "label": "二次曲線",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "parabola",
+        "ellipse",
+        "hyperbola",
+        "conic-tangent",
+        "ellipse-parametric"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "limits",
+      "label": "極限、連續與無窮等比級數",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "infinite-geometric-series",
+        "limit-continuity",
+        "piecewise-continuity-ivt",
+        "squeeze-theorem"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "differentiation",
+      "label": "導數、函數性質與最佳化",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "derivative-tangent",
+        "derivative-rules",
+        "derivative-optimization",
+        "concavity-inflection",
+        "optimization-box",
+        "newton-method"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "integration",
+      "label": "積分、面積與體積",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "riemann",
+        "ftc-accumulation",
+        "area-between-curves",
+        "cross-section-volume"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    },
+    {
+      "id": "distributions",
+      "label": "機率分布與統計模型",
+      "examScopes": [
+        "math-jia"
+      ],
+      "moduleIds": [
+        "binomial-distribution",
+        "geometric-distribution",
+        "normal-curve",
+        "normal-approx-binomial",
+        "hypergeometric-sampling"
+      ],
+      "officialCurriculumCode": null,
+      "status": "repository-baseline-unverified"
+    }
+  ],
+  "enrichment": [
+    {
+      "id": "taylor",
+      "label": "泰勒近似",
+      "moduleIds": [
+        "taylor"
+      ],
+      "reason": "局部近似的延伸探索；本次未核實正式課綱要求。"
+    },
+    {
+      "id": "gradient",
+      "label": "等高線與梯度",
+      "moduleIds": [
+        "contour-gradient"
+      ],
+      "reason": "多變數微分延伸，不因網站已有模組即列為高中必修。"
+    },
+    {
+      "id": "sampling-clt",
+      "label": "抽樣分布與中央極限定理",
+      "moduleIds": [
+        "sampling-clt"
+      ],
+      "reason": "統計模擬延伸；正式考試範圍待核對。"
+    },
+    {
+      "id": "rotated-conics",
+      "label": "旋轉二次曲線與 xy 項",
+      "moduleIds": [
+        "conic-rotation-xy"
+      ],
+      "reason": "二次曲線的進階延伸；未核實為正式範圍。"
+    },
+    {
+      "id": "continuous-compounding",
+      "label": "連續複利",
+      "moduleIds": [
+        "exponential-compound-interest"
+      ],
+      "reason": "指數模型延伸；本次未核實課綱對連續複利的要求。"
+    }
+  ],
+  "requiredNetworkDestinations": [
+    "www.ceec.edu.tw",
+    "www.naer.edu.tw",
+    "crd.naer.edu.tw",
+    "www.edu.tw"
+  ],
+  "limits": [
+    "尚未核對最新正規課綱；搜尋日期不代表官方版本更新日期。",
+    "科目與主題對照是本站暫行整理；逐項學習內容應以官方正文為準。",
+    "題目可能跨多個主題；歷屆頻率不能解讀為未來命題機率。",
+    "上傳試卷的出版真偽、官方答案與配分仍須官方來源核對。"
+  ]
+}

@@ -3,72 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>高中動態幾何微型實驗室</title>
-  <meta name="description" content="高中數學 A / 數甲完整單元動態幾何、互動式模擬與數學視覺化微型應用程式。" />
+  <title>高中數學互動實驗室｜數 A・數甲</title>
+  <meta name="description" content="高中數學 A 與數學甲互動實驗室：調整參數、驗證公式、記錄觀察，搭配課綱篩選與歷屆試題主題索引。" />
+  <meta name="theme-color" content="#f6f7fb" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./styles.css" />
+  <script src="./extension-modules.js" defer></script>
+  <script src="./exam-modules.js" defer></script>
+  <script src="./app.js" defer></script>
+  <script src="./evidence.js" defer></script>
+  <script src="./learning.js" defer></script>
+  <script src="./exam-explorer.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#experiment">跳至互動實驗</a>
   <header class="app-header">
-    <div>
-      <p class="eyebrow">Dynamic Geometry · Micro Simulations</p>
-      <h1>高中動態幾何微型實驗室</h1>
-      <p class="subtitle">85 個高中數學 A / 數甲全單元互動模組，把公式變成可拖曳、可觀察、可驗證的視覺化模型。</p>
+    <div class="brand-copy">
+      <p class="eyebrow">MATH LAB / 觀察 · 推理 · 驗證</p>
+      <h1>把數學，變成<br class="desktop-break" />看得見的實驗。</h1>
+      <p class="subtitle">從數 A 到數甲，調整一個參數、找出一個不變量，再留下你的解釋。</p>
+      <nav class="page-nav" aria-label="頁面導覽">
+        <a href="#experiment">互動實驗</a><a href="#notebook">我的筆記</a><a href="#examSection">歷屆索引</a><a href="#research">課綱與研究</a>
+      </nav>
     </div>
-    <div class="header-actions">
-      <button id="resetBtn" type="button">重設參數</button>
-      <button id="exportBtn" type="button" class="primary">匯出截圖</button>
+    <div class="header-side">
+      <div class="lab-summary" aria-label="學習概況">
+        <div><strong id="moduleCount">—</strong><span>互動模組</span></div>
+        <div><strong id="practiceCount">0</strong><span>已練習</span></div>
+        <div><strong id="favoriteCount">0</strong><span>已收藏</span></div>
+      </div>
+      <div class="header-actions"><button id="resetBtn" type="button">重設參數</button><button id="shareBtn" type="button">分享實驗</button><button id="exportBtn" type="button" class="primary">匯出 PNG</button></div>
     </div>
   </header>
-
   <main class="app-shell">
-    <aside class="sidebar" aria-label="模組清單">
-      <div class="side-title">微型應用</div>
-      <input id="moduleSearch" class="module-search" type="search" placeholder="搜尋單元、考點或關鍵字" aria-label="搜尋模組" />
-      <nav id="moduleList" class="module-list"></nav>
-      <section class="teacher-card">
-        <h2>課堂使用建議</h2>
-        <p>每個模組都採用「拖曳觀察 → 公式驗證 → 考點反思」三段式設計，適合 5–8 分鐘課堂暖身或考前觀念校正。</p>
-      </section>
+    <aside class="sidebar" aria-labelledby="browseTitle">
+      <div class="sidebar-head"><h2 id="browseTitle">選一個問題，開始探索</h2><span class="small-label">模組導覽</span></div>
+      <label class="field-label" for="moduleSearch">搜尋模組</label>
+      <input id="moduleSearch" class="module-search" type="search" placeholder="例如：條件機率、向量、極限" autocomplete="off" />
+      <div class="filter-grid">
+        <div><label class="field-label" for="courseFilter">課程範圍</label><select id="courseFilter"><option value="all">全部課程</option><option value="common">共同必修</option><option value="A">數學 A</option><option value="advanced">數學甲</option><option value="enrichment">延伸探索</option></select></div>
+        <div><label class="field-label" for="topicFilter">單元主題</label><select id="topicFilter"><option value="all">全部主題</option></select></div>
+      </div>
+      <label class="checkbox-label filter-favorite"><input id="favoritesOnly" type="checkbox" />只看我的收藏</label>
+      <div class="filter-summary"><p id="filterCount" role="status" aria-live="polite"></p><button id="clearFilters" class="text-button" type="button">清除篩選</button></div>
+      <nav id="moduleList" class="module-list" aria-label="互動模組"></nav>
+      <section class="teacher-card"><h2>一次實驗，三個步驟</h2><ol class="experiment-steps"><li>預測參數改變後的結果。</li><li>操作圖形，比較預測與觀察。</li><li>揭示公式，用自己的話解釋。</li></ol><p>課程分類是教學索引；正式考試範圍請以當年度大考中心公告為準。</p></section>
     </aside>
-
-    <section class="workspace">
-      <section class="canvas-card">
-        <div class="canvas-toolbar">
-          <div>
-            <p id="moduleTag" class="pill">幾何</p>
-            <h2 id="moduleTitle">載入中</h2>
-          </div>
-          <div id="liveStatus" class="live-status" aria-live="polite"></div>
-        </div>
-        <canvas id="plot" width="1100" height="720" aria-label="互動式數學視覺化畫布"></canvas>
+    <div class="workspace">
+      <section id="experiment" class="canvas-card" aria-labelledby="moduleTitle" tabindex="-1">
+        <div class="canvas-toolbar"><div><p id="moduleTag" class="pill">互動實驗</p><h2 id="moduleTitle" tabindex="-1">載入中</h2></div><button id="favoriteBtn" type="button" aria-pressed="false" class="favorite-button">☆ 收藏</button></div>
+        <div class="experiment-options"><label class="checkbox-label"><input id="teacherMode" type="checkbox" />課堂投影模式</label><span id="currentCourse" class="course-caption"></span></div>
+        <canvas id="plot" width="1100" height="720" aria-label="互動式數學視覺化畫布" aria-describedby="canvasHint liveStatus">互動圖形需要瀏覽器支援 Canvas；請搭配下方參數、即時數值與公式進行觀察。</canvas>
+        <div class="canvas-caption"><p id="canvasHint">用下方滑桿或方向鍵微調參數；數值與公式會同步更新。</p><div id="liveStatus" class="live-status" role="status" aria-live="polite" aria-atomic="true"></div></div>
       </section>
-
-      <section class="control-card">
-        <div>
-          <h2>互動參數</h2>
-          <div id="controls" class="controls"></div>
-        </div>
-        <div class="insight-panel">
-          <h2>數學訊號</h2>
-          <p id="examSignal"></p>
-          <h2>即時公式</h2>
-          <div id="formulaBox" class="formula-box"></div>
-          <h2>引導問題</h2>
-          <p id="promptBox"></p>
-          <h2>頂標任務</h2>
-          <p id="challengeBox"></p>
-        </div>
+      <section class="control-card" aria-labelledby="controlsTitle">
+        <div><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或使用鍵盤</span></div><div id="controls" class="controls"></div></div>
+        <div class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>解題線索</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><h2>進階挑戰</h2><p id="challengeBox"></p></div>
       </section>
-    </section>
+      <section id="notebook" class="notebook-card" aria-labelledby="notebookTitle">
+        <div class="section-heading"><div><p class="eyebrow">03 / 記錄</p><h2 id="notebookTitle">我的實驗筆記</h2></div><label class="checkbox-label practiced-label"><input id="practicedCheck" type="checkbox" />我已完成這個模組的練習</label></div>
+        <p class="section-intro">記錄一個觀察、一個理由，或下次想驗證的問題。練習標記代表你的紀錄，並非能力評量。</p>
+        <label class="field-label" for="moduleNotes">目前模組的筆記</label><textarea id="moduleNotes" rows="5" maxlength="10000" placeholder="我調整了……，發現……。因為……，所以我預測……。"></textarea>
+        <div class="notebook-footer"><p id="noteStatus" class="small-label" role="status" aria-live="polite">筆記只儲存在這個瀏覽器。</p><div class="backup-actions"><button id="exportLearning" type="button">匯出學習紀錄</button><button id="importLearning" type="button">匯入紀錄</button><input id="learningFile" type="file" accept="application/json,.json" hidden /></div></div>
+        <p class="privacy-note">不需要登入。收藏、練習與筆記保存在此裝置；清除瀏覽器資料會移除紀錄，建議定期匯出備份。分享網址只包含模組與參數。</p>
+      </section>
+      <section id="examSection" class="exam-card" aria-labelledby="examTitle">
+        <div class="section-heading"><div><p class="eyebrow">EXAM / 考題連結</p><h2 id="examTitle">歷屆試題主題索引</h2></div><span class="small-label">111–115 年・使用者提供試卷</span></div>
+        <p class="section-intro">從試題的核心概念找到可操作的模型。題目摘要與主題分類為教學分析，並非官方解答；未核對原站的試卷會另行標示。</p><div id="examExplorer"><p class="empty-state">正在載入歷屆索引。</p></div>
+      </section>
+      <section id="research" class="research-card" aria-labelledby="researchTitle">
+        <div class="section-heading"><div><p class="eyebrow">EVIDENCE / 課綱與研究</p><h2 id="researchTitle">可追溯的設計依據</h2></div></div>
+        <p class="section-intro">課綱與考試公告用來核對學習範圍；研究提供互動與數值方法的參考。每項來源的實際採用方式與限制均保留在研究紀錄中。</p><div id="curriculumSources" class="source-list"></div><div id="researchSources" class="source-list"></div><p class="source-footnote"><a href="./research/README.md" target="_blank" rel="noopener">查看完整研究、課綱查核與試卷分析紀錄 ↗</a></p>
+      </section>
+    </div>
   </main>
-
-  <footer class="app-footer">
-    <span>Designed for Taiwan 108 課綱高中數學 A / 數甲</span>
-    <span>純前端、可部署 GitHub Pages、可離線展示</span>
-  </footer>
-
-  <script src="./app.js"></script>
+  <div id="sharePanel" class="share-panel" hidden><div class="share-panel-inner"><label class="field-label" for="shareURL">實驗分享網址</label><p>開啟網址即可還原模組與參數。個人筆記不會加入網址。</p><div class="share-input-row"><input id="shareURL" type="url" readonly /><button id="copyShareBtn" type="button">複製網址</button><button id="closeShareBtn" type="button" aria-label="關閉分享面板">關閉</button></div></div></div>
+  <div id="appNotice" class="app-notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  <footer class="app-footer"><span>高中數學互動實驗室 · 108 課綱學習參考</span><span>無外部套件 · 本機筆記 · 支援靜態部署</span><a href="https://github.com/jasoart/Math" target="_blank" rel="noopener">GitHub ↗</a></footer>
 </body>
 </html>

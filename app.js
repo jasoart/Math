@@ -64,17 +64,19 @@ function html(lines) {
   return lines.map(line => `<code>${line}</code>`).join("");
 }
 
+let canvasSize = {width: 1100, height: 720};
 function setupCanvas() {
   const rect = canvas.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.max(720, Math.floor(rect.width * dpr));
-  canvas.height = Math.max(430, Math.floor(rect.height * dpr));
+  // Bound backing-store memory while retaining crisp HiDPI rendering.
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  canvasSize = {width: rect.width, height: rect.height};
+  canvas.width = Math.max(1, Math.round(rect.width * dpr));
+  canvas.height = Math.max(1, Math.round(rect.height * dpr));
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 function makePlane(options = {}) {
-  const width = canvas.getBoundingClientRect().width;
-  const height = canvas.getBoundingClientRect().height;
+  const {width, height} = canvasSize;
   const scale = options.scale ?? Math.min(width, height) / 13;
   const origin = options.origin ?? { x: width / 2, y: height / 2 };
   return {
@@ -89,7 +91,7 @@ function makePlane(options = {}) {
 }
 
 function clearCanvas() {
-  const { width, height } = canvas.getBoundingClientRect();
+  const { width, height } = canvasSize;
   ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
@@ -4420,9 +4422,17 @@ const masteryModules = [
 ];
 
 modules.push(...masteryModules);
+modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []));
+
+const advancedIds = new Set(["parabola", "ellipse", "hyperbola", "complex", "space-skew-lines", "riemann", "derivative-tangent", "derivative-optimization", "limit-continuity", "ftc-accumulation", "area-between-curves", "complex-demoivre", "conic-tangent", "infinite-geometric-series", "newton-method", "derivative-rules", "concavity-inflection", "optimization-box", "piecewise-continuity-ivt", "squeeze-theorem", "cross-section-volume", "complex-nth-roots", "conic-rotation-xy", "ellipse-parametric", "complex-conjugate-roots", "normal-approx-binomial"]);
+const enrichmentIds = new Set(["taylor", "contour-gradient", "sampling-clt"]);
+const mathAIds = new Set(["projection", "matrix", "regression", "bayes", "vector-linear-combination", "cauchy-bound", "determinant-system", "markov-chain", "binomial-distribution", "geometric-distribution", "normal-curve", "space-plane-distance", "plane-intersection-line", "line-plane-angle", "matrix-inverse-system", "gaussian-elimination-visual", "discrete-random-variable", "scalar-triple-product", "sphere-space-coordinate", "hypergeometric-sampling"]);
 
 
 for (const module of modules) {
+  // Navigation groups are editorial labels, not a certification of exam scope.
+  module.course ??= enrichmentIds.has(module.id) ? "enrichment" : advancedIds.has(module.id) ? "advanced" : mathAIds.has(module.id) ? "A" : "common";
+  module.courses ??= module.course === "common" ? ["common", "A", "advanced"] : module.course === "A" ? ["A", "advanced"] : [module.course];
   module.searchText = `${module.title} ${module.short} ${module.tag} ${module.examSignal} ${module.prompt} ${module.challenge ?? ""}`.toLowerCase();
   for (const control of module.controls) {
     control.defaultValue = control.value;
@@ -4436,6 +4446,7 @@ function getCurrentModule() {
 }
 
 function renderModuleList() {
+  if (window.MathLab?.renderNavigation) return window.MathLab.renderNavigation();
   moduleList.innerHTML = "";
   const query = (moduleSearch?.value ?? "").trim().toLowerCase();
   const visibleModules = query
@@ -4499,14 +4510,22 @@ function renderControls(module) {
     input.addEventListener("input", () => {
       control.value = control.type === "select" ? input.value : Number(input.value);
       output.textContent = getControlDisplay(control);
-      drawCurrent();
+      scheduleDraw();
     });
     wrap.appendChild(input);
     controlsEl.appendChild(wrap);
   }
 }
 
+let pendingDraw = 0;
+const renderMetrics = {draws: 0, lastDuration: 0};
+function scheduleDraw() {
+  if (!pendingDraw) pendingDraw = requestAnimationFrame(() => { pendingDraw = 0; drawCurrent(); });
+}
+
 function drawCurrent() {
+  if (pendingDraw) { cancelAnimationFrame(pendingDraw); pendingDraw = 0; }
+  const started = performance.now();
   const module = getCurrentModule();
   clearCanvas();
   const state = stateFromControls(module);
@@ -4514,6 +4533,10 @@ function drawCurrent() {
   module.draw(state, computed);
   setFormula(module.formula(state, computed));
   liveStatus.textContent = module.status(state, computed);
+  canvas.setAttribute("aria-label", `${module.title}。${module.status(state, computed)}。圖形數值可於即時公式閱讀。`);
+  renderMetrics.draws++;
+  renderMetrics.lastDuration = performance.now() - started;
+  document.dispatchEvent(new CustomEvent("mathlab:statechange", {detail: {module}}));
 }
 
 function render() {
@@ -4526,6 +4549,7 @@ function render() {
   renderModuleList();
   renderControls(module);
   drawCurrent();
+  document.dispatchEvent(new CustomEvent("mathlab:modulechange", {detail: {module}}));
 }
 
 function resetCurrent() {
@@ -4553,8 +4577,66 @@ exportBtn.addEventListener("click", () => {
 
 window.addEventListener("resize", () => {
   setupCanvas();
-  drawCurrent();
+  scheduleDraw();
 });
+
+function validateParameters(module, parameters = {}) {
+  if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) throw new Error("參數格式錯誤");
+  for (const key of Object.keys(parameters)) if (!module.controls.some(c => c.key === key)) throw new Error(`未知參數：${key}`);
+  const validated = {};
+  for (const c of module.controls) {
+    const value = Object.hasOwn(parameters, c.key) ? parameters[c.key] : c.defaultValue;
+    if (c.type === "select") {
+      if (!c.options.some(o => o.value === value)) throw new Error(`選項無效：${c.label}`);
+      validated[c.key] = value;
+    } else {
+      if (typeof value !== "number" || !Number.isFinite(value) || value < c.min || value > c.max) throw new Error(`參數超出範圍：${c.label}`);
+      const normalized = c.min + Math.round((value - c.min) / c.step) * c.step;
+      validated[c.key] = Number(clamp(normalized, c.min, c.max).toFixed(10));
+    }
+  }
+  return validated;
+}
+
+function selectModule(id, parameters) {
+  const module = modules.find(m => m.id === id);
+  if (!module) throw new Error("找不到此模組");
+  const values = validateParameters(module, parameters ?? stateFromControls(module));
+  for (const c of module.controls) c.value = values[c.key];
+  currentId = id;
+  render();
+}
+
+function createShareURL() {
+  const url = new URL(location.href);
+  const params = new URLSearchParams(stateFromControls(getCurrentModule()));
+  url.hash = `${currentId}?${params.toString()}`;
+  return url.href;
+}
+
+function restoreHash() {
+  if (!location.hash) return;
+  try {
+    const [rawId, query = ""] = location.hash.slice(1).split("?");
+    if (!query && ["experiment", "notebook", "examSection", "research", "main"].includes(rawId)) return;
+    const id = decodeURIComponent(rawId), module = modules.find(m => m.id === id);
+    if (!module) throw new Error("分享連結的模組不存在");
+    const parameters = Object.create(null), params = new URLSearchParams(query);
+    for (const [key, raw] of params) {
+      const c = module.controls.find(c => c.key === key);
+      if (!c || Object.hasOwn(parameters, key)) throw new Error("分享連結含有未知或重複參數");
+      if (c.type !== "select" && !raw.trim()) throw new Error("分享連結含有空白數值");
+      parameters[key] = c.type === "select" ? raw : Number(raw);
+    }
+    selectModule(id, parameters);
+  } catch (error) {
+    liveStatus.textContent = `${error.message}；已保留目前模組。`;
+    document.dispatchEvent(new CustomEvent("mathlab:error", {detail: {message: error.message}}));
+  }
+}
+
+window.MathLab = {modules, getCurrentModule, selectModule, validateParameters, createShareURL, getState: () => ({moduleId: currentId, parameters: stateFromControls(getCurrentModule())}), refreshList: renderModuleList, scheduleDraw, metrics: renderMetrics};
+window.addEventListener("hashchange", restoreHash);
 
 if (!CanvasRenderingContext2D.prototype.roundRect) {
   CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
@@ -4570,3 +4652,5 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 
 setupCanvas();
 render();
+restoreHash();
+if (typeof ResizeObserver !== "undefined") new ResizeObserver(() => {setupCanvas(); scheduleDraw();}).observe(canvas);

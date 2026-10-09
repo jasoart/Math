@@ -1,0 +1,2065 @@
+{
+  "schemaVersion": 1,
+  "exam": "math-advanced",
+  "label": "分科測驗數學甲",
+  "analysisDate": "2026-10-09",
+  "methodology": {
+    "unit": "one numbered question, including each separately numbered item within a question group",
+    "documentCount": 5,
+    "questionCount": 85,
+    "weighting": "unweighted question counts; points are metadata only",
+    "input": "pdftotext layout text extracted from the five user-uploaded PDF files; figures not fully recovered",
+    "classification": "manual reading; exactly one primary topic chosen by the main operation requested; other topic mentions are nonexclusive",
+    "topicTaxonomy": [
+      "數與式",
+      "函數與多項式",
+      "指數與對數",
+      "數列與級數",
+      "三角",
+      "平面向量",
+      "空間向量與幾何",
+      "矩陣與線性系統",
+      "圓與直線",
+      "二次曲線",
+      "複數",
+      "排列組合",
+      "機率與隨機變數",
+      "統計與數據",
+      "極限",
+      "微分",
+      "積分"
+    ],
+    "primaryTopicCountsSum": 85,
+    "topicMentionCountsMayExceedQuestionCount": true,
+    "excluded": "cover instructions, sample answer boxes, reference formulas, option-level counts, full question text and solution claims",
+    "confidenceMeaning": "confidence concerns topic identification only; high does not mean mathematical symbols or solutions were verified",
+    "moduleMappingMeaning": "core-concept identifies a direct concept learning link; partial or related identify narrower supporting concepts; none means the module reproduces or solves the full exam item",
+    "provenanceCaution": "All source files are user uploads. In particular, the 115 paper label is taken from the upload and cover. On the analysis date the label year is 2026, but neither official release status nor uploaded file authenticity has been independently verified. Do not present these uploads alone as confirmed official publication."
+  },
+  "documents": [
+    {
+      "year": 111,
+      "gregorianLabelYear": 2022,
+      "filename": "01-111分科測驗數學甲試卷定稿.pdf",
+      "uploadPointer": "sediment://file_000000000d30820b99963dcd896cb010",
+      "sourceStatus": "user-uploaded; official release and file authenticity not independently verified",
+      "textSha256": "ce540b669de8037742219e76a6a19b00fb608a08431a402a98a3e9afac55b3ba",
+      "questionCount": 17,
+      "pointsTotal": 100,
+      "questions": [
+        {
+          "number": 1,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "數列與級數",
+          "topics": [
+            "數列與級數",
+            "指數與對數"
+          ],
+          "summary": "等比數列相鄰項運算的對數和與範圍判讀",
+          "moduleIds": [
+            "sequence-series",
+            "logarithm-domain-scale"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "對數內的根號、乘積與下標排版不完整；不據此重建數值。"
+        },
+        {
+          "number": 2,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統"
+          ],
+          "summary": "參數化三元一次方程組的無解條件",
+          "moduleIds": [
+            "gaussian-elimination-visual",
+            "matrix-inverse-system"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "無影響主題分類的文字缺漏；未判定參數答案。"
+        },
+        {
+          "number": 3,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 2,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "三角"
+          ],
+          "summary": "單位位置向量、與坐標軸夾角及到軸距離",
+          "moduleIds": [
+            "sphere-space-coordinate",
+            "line-plane-angle",
+            "projection"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "根式與分母拆行；方向餘弦不等同現有線面角範例。"
+        },
+        {
+          "number": 4,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "函數與多項式"
+          ],
+          "summary": "實係數多項式整除與非實根配對",
+          "moduleIds": [
+            "complex-conjugate-roots",
+            "polynomial-remainder"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "根式符號拆行；分類依「虛根」與整除條件。"
+        },
+        {
+          "number": 5,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "圓與直線",
+          "topics": [
+            "圓與直線",
+            "矩陣與線性系統",
+            "三角"
+          ],
+          "summary": "平移圓的極端距離、極坐標與旋轉後方程",
+          "moduleIds": [
+            "circle-standard-equation",
+            "circle-line",
+            "matrix"
+          ],
+          "proposedModuleIds": [
+            "polar-sector-sweep"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "極坐標方括號及區間有拆行；現有模組僅分別展示圓與矩陣。"
+        },
+        {
+          "number": 6,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統",
+            "平面向量"
+          ],
+          "summary": "由基底像辨認線性變換、行列式、長度與夾角",
+          "moduleIds": [
+            "matrix",
+            "determinant-system",
+            "projection"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "根式在文字中遺失或錯位；不重建矩陣係數。"
+        },
+        {
+          "number": 7,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線",
+            "三角"
+          ],
+          "summary": "拋物線焦點弦、準線投影與三角比關係",
+          "moduleIds": [
+            "parabola",
+            "triangle-laws"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "附圖點位與角標未完整抽取；僅確認題幹的焦點、準線與比值主題。"
+        },
+        {
+          "number": 8,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "極限",
+          "topics": [
+            "極限",
+            "數列與級數"
+          ],
+          "summary": "數列不等式、已知極限與可推出的收斂資訊",
+          "moduleIds": [
+            "squeeze-theorem",
+            "limit-continuity",
+            "sequence-series"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "分式與下標拆行；收斂不能推出某一特定大下標項的誤差界。"
+        },
+        {
+          "number": 9,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數"
+          ],
+          "summary": "有限次連續成功事件構成的顧客成功率與等待期望",
+          "moduleIds": [
+            "probability-tree-independence",
+            "geometric-distribution",
+            "discrete-random-variable"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "文字足以辨識兩層試驗；同分布與不同顧客獨立性須在教學模型中明說。"
+        },
+        {
+          "number": 10,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "排列組合",
+          "topics": [
+            "排列組合"
+          ],
+          "summary": "帶指定日、禁用日與每日非空條件的安排計數",
+          "moduleIds": [
+            "counting-principle",
+            "stars-and-bars"
+          ],
+          "proposedModuleIds": [
+            "constrained-counting"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "無影響主題分類的文字缺漏；現有隔板模型不處理全部指定與禁用條件。"
+        },
+        {
+          "number": 11,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 6,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "平面向量"
+          ],
+          "summary": "單位圓上的複數冪與距離相等條件",
+          "moduleIds": [
+            "complex",
+            "complex-demoivre"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "模長豎線與距離等式符號遺失，不能直接把抽取內容當代數等式。"
+        },
+        {
+          "number": 12,
+          "section": "混合題／非選擇題",
+          "questionType": "選填題",
+          "points": 2,
+          "sourcePage": 7,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "三角"
+          ],
+          "summary": "立體投影與斜角的三角比",
+          "moduleIds": [
+            "line-plane-angle",
+            "space-plane-distance"
+          ],
+          "proposedModuleIds": [
+            "spatial-section-geometry"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "立體附圖未完整轉為文字；新模組若僅支援立方體截面，也只是相關探索。"
+        },
+        {
+          "number": 13,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 7,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "積分"
+          ],
+          "summary": "用全等三角形建立隨高度改變的截面面積",
+          "moduleIds": [
+            "cross-section-volume"
+          ],
+          "proposedModuleIds": [
+            "spatial-section-geometry"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "依文字可分類截面建模；不憑缺失附圖重建此積木或證明。"
+        },
+        {
+          "number": 14,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 8,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "極限",
+            "空間向量與幾何"
+          ],
+          "summary": "切片長方體估計、黎曼和及定積分體積",
+          "moduleIds": [
+            "riemann",
+            "cross-section-volume"
+          ],
+          "proposedModuleIds": [
+            "spatial-section-geometry"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "沿用前題附圖，完整立體重建需人工檢視原 PDF；立方體截面只提供相關模型。"
+        },
+        {
+          "number": 15,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 9,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "平面向量",
+            "三角"
+          ],
+          "summary": "從向量長度與夾角建立函數並求導函數",
+          "moduleIds": [
+            "projection",
+            "triangle-laws",
+            "derivative-rules"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "向量記號與有理式分母拆行；保留主題描述，不輸出函數答案。"
+        },
+        {
+          "number": 16,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 9,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "平面向量",
+            "三角"
+          ],
+          "summary": "用增減性判斷夾角最大時的參數",
+          "moduleIds": [
+            "derivative-optimization",
+            "projection"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "與前題同一函數；未推算最值或假設定義域端點可取。"
+        },
+        {
+          "number": 17,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 10,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "三角"
+          ],
+          "summary": "函數的一次近似用於餘弦估計",
+          "moduleIds": [
+            "taylor",
+            "derivative-tangent"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "一次近似文字明確；只映射近似觀念，不產生題目數值解。"
+        }
+      ]
+    },
+    {
+      "year": 112,
+      "gregorianLabelYear": 2023,
+      "filename": "01-112分科測驗數學甲考科試題.pdf",
+      "uploadPointer": "sediment://file_00000000a508820bad437c65f1f62e95",
+      "sourceStatus": "user-uploaded; official release and file authenticity not independently verified",
+      "textSha256": "5f2c501483c52c5d8d292dd4a8a9d517c396dcd2a5da6d5a3a99eedc434467ba",
+      "questionCount": 17,
+      "pointsTotal": 100,
+      "questions": [
+        {
+          "number": 1,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "平面向量",
+          "topics": [
+            "平面向量",
+            "圓與直線"
+          ],
+          "summary": "指定方向與路程的向量位移及軸交點",
+          "moduleIds": [
+            "vector-linear-combination",
+            "projection",
+            "line-slope-intercept"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "選項根式拆行，方向向量與位移長度不可直接混同。"
+        },
+        {
+          "number": 2,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "指數與對數",
+          "topics": [
+            "指數與對數"
+          ],
+          "summary": "由質量比建立兩種半衰期的指數衰退關係",
+          "moduleIds": [
+            "exponential-log",
+            "exponential-compound-interest"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "指數上標拆行；複利模組提供成長／衰退類比，非同一放射模型。"
+        },
+        {
+          "number": 3,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "極限"
+          ],
+          "summary": "將根式數列和的極限辨認為黎曼積分",
+          "moduleIds": [
+            "riemann",
+            "limit-continuity"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "根號範圍、平方上標與前因子拆行；不據文字重建積分選項。"
+        },
+        {
+          "number": 4,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "數與式",
+          "topics": [
+            "數與式",
+            "函數與多項式"
+          ],
+          "summary": "絕對值不等式的包含區間與變換",
+          "moduleIds": [
+            "number-line-absolute",
+            "function-transformations"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "豎線在抽取內容缺漏；「絕對值」依題型及整體上下文標記。"
+        },
+        {
+          "number": 5,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "函數與多項式",
+            "微分"
+          ],
+          "summary": "共軛虛根推多項式資訊並連結極值及反曲點",
+          "moduleIds": [
+            "complex-conjugate-roots",
+            "derivative-optimization",
+            "concavity-inflection"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "冪次排在下一行；不把未檢核的多項式解析式作計算來源。"
+        },
+        {
+          "number": 6,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "矩陣與線性系統"
+          ],
+          "summary": "內積、外積、線性獨立與三階行列式",
+          "moduleIds": [
+            "projection",
+            "vector-linear-combination",
+            "scalar-triple-product",
+            "gaussian-elimination-visual"
+          ],
+          "proposedModuleIds": [
+            "space-cross-product"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "向量箭號部分遺失；2D 線性組合範例未完全涵蓋3D 張成與退化情形。"
+        },
+        {
+          "number": 7,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數",
+            "矩陣與線性系統"
+          ],
+          "summary": "圓形時鐘上隨機步行的分布、對稱與期望",
+          "moduleIds": [
+            "binomial-distribution",
+            "discrete-random-variable",
+            "markov-chain"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "時鐘附圖只剩數字；現有轉移矩陣模組可能只示範較小狀態，需模12狀態另行建模。"
+        },
+        {
+          "number": 8,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數"
+          ],
+          "summary": "含共軛的複數方程、模長與主輻角",
+          "moduleIds": [
+            "complex",
+            "complex-demoivre",
+            "complex-nth-roots"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "共軛橫線多處遺失；不能按抽取文字解方程或判斷根數。"
+        },
+        {
+          "number": 9,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "三角",
+          "topics": [
+            "三角",
+            "平面向量"
+          ],
+          "summary": "直角三角形外作等腰三角形後的點間距離",
+          "moduleIds": [
+            "triangle-laws",
+            "matrix",
+            "vector-linear-combination"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "邊長根號與平方拆行；無完整圖像，不確認各外側點方向。"
+        },
+        {
+          "number": 10,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何"
+          ],
+          "summary": "直線穿過兩平行平面所截線段的長度",
+          "moduleIds": [
+            "space-plane-distance",
+            "line-plane-angle"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "文字主題清楚；平面間垂距和沿直線距離需區分。"
+        },
+        {
+          "number": 11,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "排列組合",
+          "topics": [
+            "排列組合",
+            "機率與隨機變數"
+          ],
+          "summary": "含重複數字的四位排列與獲獎條件聯集",
+          "moduleIds": [
+            "counting-principle",
+            "hypergeometric-sampling"
+          ],
+          "proposedModuleIds": [
+            "constrained-counting"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "此題要不同四位數個數而非抽牌路徑機率；重複牌不可當不同數字計數。"
+        },
+        {
+          "number": 12,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 2,
+          "sourcePage": 5,
+          "primaryTopic": "平面向量",
+          "topics": [
+            "平面向量",
+            "圓與直線"
+          ],
+          "summary": "圓心到兩點向量的夾角餘弦",
+          "moduleIds": [
+            "projection",
+            "circle-standard-equation"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "題組分式拆行；主題可由夾角餘弦與圓心文字確認。"
+        },
+        {
+          "number": 13,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "圓與直線",
+            "函數與多項式"
+          ],
+          "summary": "二次函數與圓在共同點的共同切線證明",
+          "moduleIds": [
+            "derivative-tangent",
+            "circle-line",
+            "quadratic-vertex"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "圓的切線可用半徑垂直性；未據模組映射宣稱可完成原題證明。"
+        },
+        {
+          "number": 14,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "二次曲線",
+            "圓與直線"
+          ],
+          "summary": "二次函數與半圓弧之間的有界面積",
+          "moduleIds": [
+            "area-between-curves",
+            "riemann"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "上下曲線與界限需原式核對；只提供面積觀念映射。"
+        },
+        {
+          "number": 15,
+          "section": "混合題／非選擇題",
+          "questionType": "選填題",
+          "points": 2,
+          "sourcePage": 6,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線",
+            "矩陣與線性系統"
+          ],
+          "summary": "旋轉橢圓上的最遠點與長軸長度",
+          "moduleIds": [
+            "conic-rotation-xy",
+            "ellipse",
+            "matrix"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "旋轉後 xy 項與點坐標根式拆行；不做未檢核數值對角化。"
+        },
+        {
+          "number": 16,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 6,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線",
+            "矩陣與線性系統"
+          ],
+          "summary": "旋轉橢圓的短軸方向、方程與長度",
+          "moduleIds": [
+            "conic-rotation-xy",
+            "ellipse",
+            "matrix"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "沿用前題排版不完整式子；模組對照屬幾何與旋轉觀念。"
+        },
+        {
+          "number": 17,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 6,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統",
+            "二次曲線"
+          ],
+          "summary": "由旋轉後軸上點反求原橢圓上點的坐標",
+          "moduleIds": [
+            "matrix",
+            "matrix-inverse-system",
+            "conic-rotation-xy"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "原點坐標指原橢圓上的點；需核對前題旋轉角與象限限制。"
+        }
+      ]
+    },
+    {
+      "year": 113,
+      "gregorianLabelYear": 2024,
+      "filename": "113分科測驗數學甲試題.pdf",
+      "uploadPointer": "sediment://file_00000000d81081faadda1c6100f147f4",
+      "sourceStatus": "user-uploaded; official release and file authenticity not independently verified",
+      "textSha256": "b8c2f4fa2161c6edda8233397874f66a72f7c7afd1554ade64e4c8253bb778e2",
+      "questionCount": 17,
+      "pointsTotal": 100,
+      "questions": [
+        {
+          "number": 1,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "三角",
+          "topics": [
+            "三角"
+          ],
+          "summary": "由三角形高及兩底角正切求底邊",
+          "moduleIds": [
+            "triangle-laws",
+            "trig"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "medium",
+          "uncertainty": "附圖位置未完整抽取，文字仍足以辨識高與三角比。"
+        },
+        {
+          "number": 2,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線",
+            "矩陣與線性系統"
+          ],
+          "summary": "沿兩坐標方向伸縮橢圓與焦點",
+          "moduleIds": [
+            "ellipse",
+            "matrix",
+            "function-transformations"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "平方分母及選項根號拆行；不判定焦點數值。"
+        },
+        {
+          "number": 3,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "排列組合",
+          "topics": [
+            "排列組合"
+          ],
+          "summary": "棋盤上互不攻擊棋子與禁放格的限制計數",
+          "moduleIds": [
+            "counting-principle"
+          ],
+          "proposedModuleIds": [
+            "constrained-counting"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "禁放格文字明確；圖示僅作定位，未保留全部棋盤網格。"
+        },
+        {
+          "number": 4,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數",
+            "指數與對數"
+          ],
+          "summary": "重複抽獎、至少一次成功與等待期望的模型判讀",
+          "moduleIds": [
+            "geometric-distribution",
+            "binomial-distribution",
+            "exponential-log"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "題幹抽取只明說每次中獎機率；若示範獨立試驗，須標明額外模型假設，不能由邊際機率自行推得。"
+        },
+        {
+          "number": 5,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "函數與多項式"
+          ],
+          "summary": "共軛虛根、餘式資訊與三次函數對稱中心",
+          "moduleIds": [
+            "complex-conjugate-roots",
+            "polynomial-remainder",
+            "cubic-symmetry-center"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "虛數根與餘式文字清楚；不判斷選項真偽或重建答案。"
+        },
+        {
+          "number": 6,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "平面向量",
+            "數與式"
+          ],
+          "summary": "內積和外積資訊限制夾角、長度及唯一性",
+          "moduleIds": [
+            "projection",
+            "cauchy-bound",
+            "scalar-triple-product"
+          ],
+          "proposedModuleIds": [
+            "space-cross-product"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "向量箭號與模長豎線缺漏；外積模組可補直接運算，三重積僅相關。"
+        },
+        {
+          "number": 7,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "三角",
+            "函數與多項式"
+          ],
+          "summary": "多項式增減凹凸與平移正弦週期的判讀",
+          "moduleIds": [
+            "derivative-rules",
+            "derivative-optimization",
+            "concavity-inflection",
+            "trig-graph-transform"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "上標與角度括號可辨認但有拆行；不輸出選項答案。"
+        },
+        {
+          "number": 8,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "數列與級數",
+            "極限"
+          ],
+          "summary": "複數冪的實虛部數列與收斂、週期關係",
+          "moduleIds": [
+            "complex-demoivre",
+            "complex",
+            "sequence-series",
+            "limit-continuity"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "模長豎線及省略號缺漏；數列收斂不能僅由單個模組畫圖證明。"
+        },
+        {
+          "number": 9,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統"
+          ],
+          "summary": "相同列運算作用於不同常數向量的線性關係",
+          "moduleIds": [
+            "gaussian-elimination-visual",
+            "matrix-inverse-system"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "矩陣多列排版有錯位；不從文字直接抄錄成可解矩陣。"
+        },
+        {
+          "number": 10,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "圓與直線",
+          "topics": [
+            "圓與直線",
+            "三角"
+          ],
+          "summary": "已知弦長及弦線斜率求圓半徑的關係",
+          "moduleIds": [
+            "circle-line",
+            "circle-standard-equation",
+            "line-slope-intercept"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "弦長根號可能缺漏；只映射弦、直線與半徑關係。"
+        },
+        {
+          "number": 11,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "數列與級數",
+          "topics": [
+            "數列與級數",
+            "指數與對數"
+          ],
+          "summary": "等差原數列與對數等差條件的連結",
+          "moduleIds": [
+            "sequence-series",
+            "logarithm-domain-scale"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "下標與省略號拆行；對數定義域的正值限制需保留。"
+        },
+        {
+          "number": 12,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統",
+            "空間向量與幾何"
+          ],
+          "summary": "三平面共同交點的聯立求解",
+          "moduleIds": [
+            "gaussian-elimination-visual",
+            "plane-intersection-line"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "題幹方程可辨認；未提供交點數值。"
+        },
+        {
+          "number": 13,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "三角"
+          ],
+          "summary": "兩平面交線方向與三組直線銳夾角",
+          "moduleIds": [
+            "plane-intersection-line",
+            "line-plane-angle"
+          ],
+          "proposedModuleIds": [
+            "space-cross-product"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "須將平面法向量與交線方向區分；相關模組不代替原題角度證明。"
+        },
+        {
+          "number": 14,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "矩陣與線性系統"
+          ],
+          "summary": "以第四平面圍成指定邊長正四面體",
+          "moduleIds": [
+            "space-plane-distance",
+            "plane-intersection-line",
+            "scalar-triple-product"
+          ],
+          "proposedModuleIds": [
+            "spatial-section-geometry"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "正四面體的多個可能方向需完整幾何分析；立方體截面模組只屬相關探索。"
+        },
+        {
+          "number": 15,
+          "section": "混合題／非選擇題",
+          "questionType": "單選題",
+          "points": 2,
+          "sourcePage": 6,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "三次多項式的導函數辨識",
+          "moduleIds": [
+            "derivative-rules",
+            "derivative-tangent"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "冪次文字清楚；未判定選項。"
+        },
+        {
+          "number": 16,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 6,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "三次函數指定點上的切線",
+          "moduleIds": [
+            "derivative-tangent",
+            "cubic-symmetry-center"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "切線觀念可直接對應；不抄完整題式或給出斜率答案。"
+        },
+        {
+          "number": 17,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 6,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "三次函數與其切線所圍有界面積",
+          "moduleIds": [
+            "area-between-curves",
+            "riemann",
+            "derivative-tangent"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "上下曲線與交點需計算核對；分類不表示已求解。"
+        }
+      ]
+    },
+    {
+      "year": 114,
+      "gregorianLabelYear": 2025,
+      "filename": "01-114分科測驗數學甲試卷.pdf",
+      "uploadPointer": "sediment://file_0000000005248207b641e971bb6b2dc2",
+      "sourceStatus": "user-uploaded; official release and file authenticity not independently verified",
+      "textSha256": "1e9bce02be258fdd4f04fa27b5ff581568f7326b30f9a717fc52116be75b3cf3",
+      "questionCount": 17,
+      "pointsTotal": 100,
+      "questions": [
+        {
+          "number": 1,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "三角",
+          "topics": [
+            "三角"
+          ],
+          "summary": "正弦圖形對稱與相位差方程解",
+          "moduleIds": [
+            "trig-equation-solutions",
+            "trig-graph-transform"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "medium",
+          "uncertainty": "附圖未抽取，但文字提供對稱軸與解的區間。"
+        },
+        {
+          "number": 2,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何"
+          ],
+          "summary": "立方體中同時垂直兩指定平面的平面",
+          "moduleIds": [
+            "line-plane-angle",
+            "plane-intersection-line"
+          ],
+          "proposedModuleIds": [
+            "space-cross-product",
+            "spatial-section-geometry"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "立方體附圖頂點標籤有重影；不能只按文字線序推定三維點位。"
+        },
+        {
+          "number": 3,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "排列組合",
+          "topics": [
+            "排列組合",
+            "圓與直線"
+          ],
+          "summary": "圓上八點決定不同直線的共線去重計數",
+          "moduleIds": [
+            "counting-principle",
+            "line-slope-intercept",
+            "circle-standard-equation"
+          ],
+          "proposedModuleIds": [
+            "constrained-counting"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "主題為不同直線計數；任取兩點的組合需扣除共線重複，不能直接當答案。"
+        },
+        {
+          "number": 4,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線",
+            "函數與多項式"
+          ],
+          "summary": "由鉛直線相交條件判斷二次曲線的x投影範圍",
+          "moduleIds": [
+            "ellipse",
+            "hyperbola",
+            "parabola"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "標準式分母與冪次拆行；可分類圖形投影，不宣稱全部是函數。"
+        },
+        {
+          "number": 5,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "數列與級數",
+          "topics": [
+            "數列與級數",
+            "三角",
+            "極限"
+          ],
+          "summary": "週期餘弦數列的收斂與冪項無窮級數",
+          "moduleIds": [
+            "trig",
+            "sequence-series",
+            "infinite-geometric-series"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "最後選項 (a_n)^n 的下標與上標分離；不能誤讀為一般等比級數。"
+        },
+        {
+          "number": 6,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "指數與對數",
+          "topics": [
+            "指數與對數",
+            "函數與多項式"
+          ],
+          "summary": "指數與直線交點、對數反函數及對稱",
+          "moduleIds": [
+            "exponential-log",
+            "inverse-composition",
+            "logarithm-domain-scale"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "冪次及對數底數錯位；不可把 log(1.2x) 與 log_1.2(x) 混讀。"
+        },
+        {
+          "number": 7,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "由高次多項式局部極值限制導數符號與次數",
+          "moduleIds": [
+            "derivative-optimization",
+            "concavity-inflection",
+            "root-multiplicity"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "局部極值不保證兩者之間全程單調；模組只能支援導數判讀觀念。"
+        },
+        {
+          "number": 8,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數",
+            "圓與直線"
+          ],
+          "summary": "複數冪、共軛模長與三點共線",
+          "moduleIds": [
+            "complex",
+            "complex-demoivre",
+            "complex-conjugate-roots"
+          ],
+          "proposedModuleIds": [
+            "complex-collinearity"
+          ],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "共軛橫線與模長豎線缺漏；不可據抽取文字把 z=2 當作 z 的值。"
+        },
+        {
+          "number": 9,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統",
+            "三角"
+          ],
+          "summary": "旋轉矩陣與鏡射矩陣的合成及三角參數",
+          "moduleIds": [
+            "matrix",
+            "matrix-inverse-system",
+            "trig"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "矩陣下標與乘法順序可辨認；不將 BA 與 AB 對換。"
+        },
+        {
+          "number": 10,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何"
+          ],
+          "summary": "由同一平面與坐標平面交出的平行直線求距離",
+          "moduleIds": [
+            "space-skew-lines",
+            "space-plane-distance",
+            "plane-intersection-line"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "現有歪斜線模組可能不處理平行退化情形，需按模組顯示確認適用範圍。"
+        },
+        {
+          "number": 11,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "平面向量",
+          "topics": [
+            "平面向量",
+            "圓與直線"
+          ],
+          "summary": "平行四邊形對角線與邊方向決定面積",
+          "moduleIds": [
+            "vector-linear-combination",
+            "shoelace-determinant-area",
+            "line-slope-intercept"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "向量箭號遺失，PQ=(10,-1) 仍可由上下文判讀為向量。"
+        },
+        {
+          "number": 12,
+          "section": "混合題／非選擇題",
+          "questionType": "單選題",
+          "points": 2,
+          "sourcePage": 5,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數"
+          ],
+          "summary": "兩次獨立抽獎皆失敗的事件機率",
+          "moduleIds": [
+            "probability-tree-independence",
+            "binomial-distribution"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "medium",
+          "uncertainty": "題組明確給出互相獨立；主題判讀不需附圖。"
+        },
+        {
+          "number": 13,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數",
+            "數列與級數"
+          ],
+          "summary": "依定義以級數表示首次成功等待次數期望",
+          "moduleIds": [
+            "geometric-distribution",
+            "discrete-random-variable",
+            "sigma-sum-formulas"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "期望級數不是單純等比級數；需要加權 n 的項。"
+        },
+        {
+          "number": 14,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數"
+          ],
+          "summary": "有保底與無上限兩種購買策略的花費期望比较",
+          "moduleIds": [
+            "geometric-distribution",
+            "discrete-random-variable"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "沿用明確独立試驗題組；期望不能當作每次必付金額或風險上界。"
+        },
+        {
+          "number": 15,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 6,
+          "primaryTopic": "函數與多項式",
+          "topics": [
+            "函數與多項式",
+            "數與式"
+          ],
+          "summary": "參數範圍內二次函數在區間的非負性證明",
+          "moduleIds": [
+            "quadratic-vertex",
+            "function-transformations"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "參數界限分式拆行；僅標記非負性與二次函數，不重建證明。"
+        },
+        {
+          "number": 16,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 2,
+          "sourcePage": 6,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "函數與多項式"
+          ],
+          "summary": "參數化二次曲線下的面積不變性",
+          "moduleIds": [
+            "riemann",
+            "area-between-curves"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "沿用前題非負條件；面積和有號積分相等須有此前提。"
+        },
+        {
+          "number": 17,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 6,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "固定平面面積圖形的旋轉體體積與參數最大值",
+          "moduleIds": [
+            "cross-section-volume",
+            "derivative-optimization"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "旋轉體需要平方半徑，平面面積不變不推出體積不變。"
+        }
+      ]
+    },
+    {
+      "year": 115,
+      "gregorianLabelYear": 2026,
+      "filename": "01-115分科測驗數學甲考科試卷.pdf",
+      "uploadPointer": "sediment://file_000000002a8081faadd78a49bd89e3e3",
+      "sourceStatus": "user-uploaded; official release and file authenticity not independently verified",
+      "textSha256": "b5091bd4043bb85737bcbec23b31043f0cca202da875a57b8b2b2226382b54a6",
+      "questionCount": 17,
+      "pointsTotal": 100,
+      "questions": [
+        {
+          "number": 1,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "二次曲線",
+          "topics": [
+            "二次曲線"
+          ],
+          "summary": "比較橢圓與雙曲線圖形的軸向和標準式",
+          "moduleIds": [
+            "ellipse",
+            "hyperbola"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "粗灰與粗黑圖形未保留在文字抽取，無法從文字確認正確圖形選項。"
+        },
+        {
+          "number": 2,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "數列與級數",
+          "topics": [
+            "數列與級數",
+            "極限"
+          ],
+          "summary": "完整與奇數項等比級數的收斂及乘積條件",
+          "moduleIds": [
+            "infinite-geometric-series",
+            "sequence-series"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "公比選項的根式拆行；分類需保留兩級數均收斂的限制。"
+        },
+        {
+          "number": 3,
+          "section": "單選題",
+          "questionType": "單選題",
+          "points": 6,
+          "sourcePage": 1,
+          "primaryTopic": "三角",
+          "topics": [
+            "三角"
+          ],
+          "summary": "相位平移正弦與正餘弦疊合的最大值",
+          "moduleIds": [
+            "trig-composition",
+            "trig-graph-transform"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "根號與相位括號拆行；最大值可用疊合，不必先假設微分解法。"
+        },
+        {
+          "number": 4,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數",
+            "數列與級數",
+            "三角"
+          ],
+          "summary": "抽球條件機率、期望與機率比例的數列及三角形條件",
+          "moduleIds": [
+            "probability-tree-independence",
+            "discrete-random-variable",
+            "sequence-series",
+            "triangle-laws"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "選項含多種概念；主分類按抽球機率模型，其他主題作為多標簽。"
+        },
+        {
+          "number": 5,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 2,
+          "primaryTopic": "複數",
+          "topics": [
+            "複數"
+          ],
+          "summary": "參數複數商的實虛部、共軛、模長與主輻角",
+          "moduleIds": [
+            "complex",
+            "complex-conjugate-roots"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "medium",
+          "uncertainty": "模長豎線與共軛橫線缺漏；主輻角區間应依原卷規定或課程慣例核對。"
+        },
+        {
+          "number": 6,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "微分"
+          ],
+          "summary": "左右端點黎曼和、導數符號與梯形近似误差",
+          "moduleIds": [
+            "riemann",
+            "concavity-inflection"
+          ],
+          "proposedModuleIds": [
+            "riemann-error-bounds"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "表格可辨主題，但端點和積分上下標拆行；需區分有號積分與面積。"
+        },
+        {
+          "number": 7,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 3,
+          "primaryTopic": "指數與對數",
+          "topics": [
+            "指數與對數",
+            "函數與多項式"
+          ],
+          "summary": "對數有理式的定義域、奇對稱與反函數",
+          "moduleIds": [
+            "logarithm-domain-scale",
+            "inverse-composition",
+            "exponential-log"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "最後選項指數中的分式錯位；不據此判定其是否真為反函數。"
+        },
+        {
+          "number": 8,
+          "section": "多選題",
+          "questionType": "多選題",
+          "points": 8,
+          "sourcePage": 4,
+          "primaryTopic": "平面向量",
+          "topics": [
+            "平面向量",
+            "數與式",
+            "圓與直線"
+          ],
+          "summary": "固定向量和長度及向量差下的內積與面積界",
+          "moduleIds": [
+            "projection",
+            "cauchy-bound",
+            "shoelace-determinant-area",
+            "vector-linear-combination"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "向量箭號與模長線多處缺漏；題目主題可辨，未重建全部限制式。"
+        },
+        {
+          "number": 9,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "矩陣與線性系統",
+          "topics": [
+            "矩陣與線性系統"
+          ],
+          "summary": "購買總量、總價及重量差模型的高斯消去",
+          "moduleIds": [
+            "gaussian-elimination-visual",
+            "matrix-inverse-system"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "增廣矩陣分數與列界限錯位；僅作建模與列運算映射。"
+        },
+        {
+          "number": 10,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 4,
+          "primaryTopic": "圓與直線",
+          "topics": [
+            "圓與直線",
+            "平面向量"
+          ],
+          "summary": "圓到兩不相交直線的距离比與过原點切線",
+          "moduleIds": [
+            "circle-line",
+            "circle-standard-equation",
+            "line-slope-intercept"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "分式斜率和根式拆行；兩條線均不相交是距离公式適用的關鍵。"
+        },
+        {
+          "number": 11,
+          "section": "選填題",
+          "questionType": "選填題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "機率與隨機變數",
+          "topics": [
+            "機率與隨機變數"
+          ],
+          "summary": "兩階段二項試驗與獲獎條件下的條件機率",
+          "moduleIds": [
+            "binomial-distribution",
+            "two-way-table-bayes",
+            "probability-tree-independence"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "題幹可辨兩階段；教學中須明說不同投擲獨立與獲獎條件的事件聯集。"
+        },
+        {
+          "number": 12,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 2,
+          "sourcePage": 5,
+          "primaryTopic": "函數與多項式",
+          "topics": [
+            "函數與多項式",
+            "積分"
+          ],
+          "summary": "多項式與變上限積分恆等式的特定點關係",
+          "moduleIds": [
+            "polynomial-remainder",
+            "ftc-accumulation"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "平方與積分上下限跨行；需核對 q 的平方和外乘 x，不直接解析抽取公式。"
+        },
+        {
+          "number": 13,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 5,
+          "primaryTopic": "積分",
+          "topics": [
+            "積分",
+            "微分",
+            "函數與多項式"
+          ],
+          "summary": "利用變上限積分關係與多項式條件辨識 被積函數",
+          "moduleIds": [
+            "ftc-accumulation",
+            "derivative-rules",
+            "polynomial-remainder"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "沿用前題跨行恆等式；不把部分辨識的文字當作完整公式计算。"
+        },
+        {
+          "number": 14,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 5,
+          "primaryTopic": "微分",
+          "topics": [
+            "微分",
+            "積分",
+            "函數與多項式"
+          ],
+          "summary": "變上限積分函數在閉區間的最大與最小值",
+          "moduleIds": [
+            "ftc-accumulation",
+            "derivative-optimization"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "區間下界分數拆行；闭區間最值要比較臨界點與端點。"
+        },
+        {
+          "number": 15,
+          "section": "混合題／非選擇題",
+          "questionType": "選填題",
+          "points": 2,
+          "sourcePage": 6,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何"
+          ],
+          "summary": "指定點到平面的距離",
+          "moduleIds": [
+            "space-plane-distance"
+          ],
+          "proposedModuleIds": [],
+          "coverage": "core-concept",
+          "confidence": "high",
+          "uncertainty": "分數答案框不影響主題分類；不輸出原題數值。"
+        },
+        {
+          "number": 16,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 4,
+          "sourcePage": 6,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "矩陣與線性系統"
+          ],
+          "summary": "包含給定直線且平行兩平面交線的平面",
+          "moduleIds": [
+            "plane-intersection-line",
+            "space-plane-distance",
+            "vector-linear-combination"
+          ],
+          "proposedModuleIds": [
+            "space-cross-product"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "空間方向線性組合與2D 模組只部分相關；需核對平行及包含的區別。"
+        },
+        {
+          "number": 17,
+          "section": "混合題／非選擇題",
+          "questionType": "非選擇題",
+          "points": 6,
+          "sourcePage": 6,
+          "primaryTopic": "空間向量與幾何",
+          "topics": [
+            "空間向量與幾何",
+            "三角"
+          ],
+          "summary": "三平面的垂直截面形成正三角形的證明與邊長",
+          "moduleIds": [
+            "line-plane-angle",
+            "plane-intersection-line",
+            "space-plane-distance"
+          ],
+          "proposedModuleIds": [
+            "spatial-section-geometry",
+            "space-cross-product"
+          ],
+          "coverage": "partial",
+          "confidence": "high",
+          "uncertainty": "垂直截面在多平面間的具体幾何未由文字直接重建；立方體截面模組只支援相關觀察。"
+        }
+      ]
+    }
+  ],
+  "primaryTopicCounts": {
+    "數與式": 1,
+    "函數與多項式": 2,
+    "指數與對數": 3,
+    "數列與級數": 4,
+    "三角": 4,
+    "平面向量": 4,
+    "空間向量與幾何": 13,
+    "矩陣與線性系統": 7,
+    "圓與直線": 3,
+    "二次曲線": 6,
+    "複數": 8,
+    "排列組合": 4,
+    "機率與隨機變數": 8,
+    "統計與數據": 0,
+    "極限": 1,
+    "微分": 9,
+    "積分": 8
+  },
+  "topicMentionCounts": {
+    "數與式": 4,
+    "函數與多項式": 19,
+    "指數與對數": 6,
+    "數列與級數": 8,
+    "三角": 18,
+    "平面向量": 11,
+    "空間向量與幾何": 15,
+    "矩陣與線性系統": 15,
+    "圓與直線": 11,
+    "二次曲線": 8,
+    "複數": 8,
+    "排列組合": 4,
+    "機率與隨機變數": 9,
+    "統計與數據": 0,
+    "極限": 6,
+    "微分": 14,
+    "積分": 11
+  },
+  "gaps": [
+    {
+      "moduleId": "complex-collinearity",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "以複數商的虛部與三點共線連結代數和幾何。",
+      "questionRefs": [
+        "114-8"
+      ]
+    },
+    {
+      "moduleId": "constrained-counting",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "限制排列、重複元素與禁止位置；需清楚區分不同物件與不同結果。",
+      "questionRefs": [
+        "111-10",
+        "112-11",
+        "113-3",
+        "114-3"
+      ]
+    },
+    {
+      "moduleId": "polar-sector-sweep",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "極坐標半徑與角度的圖形掃描；111 第5題只屬部分關聯。",
+      "questionRefs": [
+        "111-5"
+      ]
+    },
+    {
+      "moduleId": "riemann-error-bounds",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "左右端點和、梯形近似以及單調和凹凸條件下的有號積分誤差。",
+      "questionRefs": [
+        "115-6"
+      ]
+    },
+    {
+      "moduleId": "space-cross-product",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "外積、法向量、面積與兩平面交線方向的三維互動。",
+      "questionRefs": [
+        "112-6",
+        "113-6",
+        "113-13",
+        "114-2",
+        "115-16",
+        "115-17"
+      ]
+    },
+    {
+      "moduleId": "spatial-section-geometry",
+      "status": "proposed; implementation must be checked before linking",
+      "description": "立體與平面截面觀察；若實作只支援立方體，對積木、正四面體和多平面截面仍屬部分關聯。",
+      "questionRefs": [
+        "111-12",
+        "111-13",
+        "111-14",
+        "113-14",
+        "114-2",
+        "115-17"
+      ]
+    }
+  ]
+}

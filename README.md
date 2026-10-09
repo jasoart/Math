@@ -3,7 +3,30 @@
 > GitHub Pages-ready interactive micro-apps for Taiwan high school dynamic geometry, scientific visualization, and mathematical visualization.
 
 本專案可放入 `https://github.com/jasoart/Math` 作為 `dynamic-geometry/` 子專案，或直接作為 GitHub Pages 的網站根目錄。  
-目前為 **v1.1 全單元覆蓋校準版**：純前端、不需後端、不需打包工具，開啟 `index.html` 即可使用。
+目前為 **v2.0 研究與歷屆題型擴充版**：98 個互動模組，純前端、不需後端或打包工具。
+
+新增課程／主題篩選、收藏、練習紀錄、本機筆記、教師投影與公式揭露、參數分享、JSON 備份還原，以及 111–115 年學測數 A／分科數甲的 **185 個題號索引**。題型分析以使用者上傳試卷為依據，僅提供觀念摘要和模組關聯，不是官方詳解或命題預測。
+
+研究與來源：[技術論文與官方核驗狀態](research/SOURCES.md)、[數 A 分析](research/EXAMS_MATH_A.md)、[數甲分析](research/EXAMS_MATH_ADVANCED.md)。本次官方入口受環境網路政策限制，尚未核對現行完整課綱正文與修訂日；網站分類為教學參考，延伸內容另標示，不能宣稱最新正式課綱完整覆蓋。
+
+## v2.0 使用與驗證
+
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+分享網址包含模組與參數，不包含筆記。筆記、收藏、練習狀態使用瀏覽器 localStorage；「已練習」是自行標記，沒有自動評分。可用 JSON 備份保存至其他裝置，匯入會驗證版本、模組與參數範圍。網站不依賴 CDN；靜態檔案可以在本機伺服器使用，尚未提供斷網重新載入的 Service Worker 快取。
+
+開發驗證使用 Node.js 20+、Python 3、Playwright 與 Chromium：
+
+```bash
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci
+npm run evidence
+npm run check
+npm test
+```
+
+`npm test` 使用 `/usr/bin/chromium`；可用 `CHROMIUM_PATH` 指定可信任的已安裝 Chromium。測試啟動自己的暫時靜態伺服器，並於結束清理。編輯 `research/*.json` 後執行 `npm run evidence`，將資料生成為可直接部署的 `evidence.js`。
 
 ## 專案定位
 
@@ -11,7 +34,7 @@
 
 設計目標：
 
-1. **完整高中數學 A / 數甲核心單元覆蓋**：10 年級必修、11 年級數學 A、12 年級數學甲核心考點均有對應互動模組。
+1. **高中數學 A / 數甲觀念練習**：以核心概念和歷屆題型建立學習連結，逐題對應程度與限制另列。
 2. **動態幾何與視覺化**：讓學生拖曳參數，觀察圖形、距離、角度、面積、機率分布如何變化。
 3. **考點轉譯**：每個模組都有「數學訊號」，協助學生把題目關鍵字對應到解題直覺。
 4. **頂標任務**：每個模組提供一個可當課堂提問或作業的小任務。

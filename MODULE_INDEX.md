@@ -1,6 +1,22 @@
 # Module Index
 
-本檔列出 v1.1 的 **85 個互動模組**。每個模組都包含互動參數、即時公式、數學訊號、引導問題與頂標任務。
+目前共 **98 個互動模組**。下列分類保留 v1.1 的 85 個模型；v2.0 新增 13 個考題概念實驗如下。每個模組包含參數、公式、引導問題與頂標任務。教學連結的適用限制詳見 research 逐題資料。
+
+## v2.0 新增
+
+- `constrained-counting`：有限樣本的限制計數。
+- `floor-function-lattice`：取整函數與格點計數。
+- `matrix-power-recurrence`：矩陣冪與遞迴。
+- `space-cross-product`：空間外積與三角形面積。
+- `geometric-locus-ratio`：定距比軌跡與退化直線。
+- `piecewise-continuity`：分段函數的連續與左右導數。
+- `trig-inequality-intervals`：三角不等式的解區間。
+- `discrete-convolution`：兩個獨立骰子和的精確分布。
+- `polar-sector-sweep`：極坐標、弧長與環帶扇形。
+- `data-projection-variance`：投影變異數（包含延伸探索）。
+- `complex-collinearity`：複數商、共線與面積。
+- `riemann-error-bounds`：左右端點與梯形積分誤差。
+- `spatial-section-geometry`：單位立方體的平面截面。
 
 ## 數與式／邏輯
 
