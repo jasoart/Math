@@ -91,7 +91,7 @@ git push
 
 1. 到 repo 的 **Settings → Pages**
 2. Source 選擇 `GitHub Actions`，或直接指定 branch/folder
-3. 若採用本專案內建 workflow，將資料夾放在 repo 根目錄即可自動部署
+3. 本專案目前沒有內建部署 workflow。最簡單的方式是選擇 `Deploy from a branch`，指定 `main` 與根目錄 `/ (root)`；若已採 GitHub Actions，需使用實際存在的部署 workflow。
 
 ## 專案檔案
 
@@ -100,6 +100,9 @@ git push
 | `index.html` | 單頁應用入口 |
 | `styles.css` | 響應式版面與卡片樣式 |
 | `app.js` | 85 個互動模組與 Canvas 繪圖邏輯 |
+| `extension-modules.js`、`exam-modules.js` | v2.0 新增的 13 個概念實驗，合計 98 個模組 |
+| `learning.js` | 本機筆記、收藏、投影、分享及 JSON 備份 |
+| `evidence.js`、`exam-explorer.js` | 185 題索引、研究來源與篩選介面 |
 | `MODULE_INDEX.md` | 模組索引 |
 | `CURRICULUM_MAP.md` | 課程單元對照 |
 | `ALL_UNITS_CHECKLIST.md` | 全單元覆蓋檢核 |
@@ -115,10 +118,10 @@ git push
 npm run check
 ```
 
-目前檢查項目：
+`npm run check` 檢查所有應用程式腳本；功能與數學驗證使用：
 
 ```bash
-node --check app.js
+npm test
 ```
 
 ## 授權
