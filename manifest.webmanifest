@@ -1,0 +1,15 @@
+{
+  "name": "高中動態幾何微型實驗室",
+  "short_name": "動態幾何",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#2f63ff",
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

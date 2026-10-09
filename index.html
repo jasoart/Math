@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>高中動態幾何微型實驗室</title>
+  <meta name="description" content="高中數學 A / 數甲完整單元動態幾何、互動式模擬與數學視覺化微型應用程式。" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Dynamic Geometry · Micro Simulations</p>
+      <h1>高中動態幾何微型實驗室</h1>
+      <p class="subtitle">85 個高中數學 A / 數甲全單元互動模組，把公式變成可拖曳、可觀察、可驗證的視覺化模型。</p>
+    </div>
+    <div class="header-actions">
+      <button id="resetBtn" type="button">重設參數</button>
+      <button id="exportBtn" type="button" class="primary">匯出截圖</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sidebar" aria-label="模組清單">
+      <div class="side-title">微型應用</div>
+      <input id="moduleSearch" class="module-search" type="search" placeholder="搜尋單元、考點或關鍵字" aria-label="搜尋模組" />
+      <nav id="moduleList" class="module-list"></nav>
+      <section class="teacher-card">
+        <h2>課堂使用建議</h2>
+        <p>每個模組都採用「拖曳觀察 → 公式驗證 → 考點反思」三段式設計，適合 5–8 分鐘課堂暖身或考前觀念校正。</p>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <section class="canvas-card">
+        <div class="canvas-toolbar">
+          <div>
+            <p id="moduleTag" class="pill">幾何</p>
+            <h2 id="moduleTitle">載入中</h2>
+          </div>
+          <div id="liveStatus" class="live-status" aria-live="polite"></div>
+        </div>
+        <canvas id="plot" width="1100" height="720" aria-label="互動式數學視覺化畫布"></canvas>
+      </section>
+
+      <section class="control-card">
+        <div>
+          <h2>互動參數</h2>
+          <div id="controls" class="controls"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>數學訊號</h2>
+          <p id="examSignal"></p>
+          <h2>即時公式</h2>
+          <div id="formulaBox" class="formula-box"></div>
+          <h2>引導問題</h2>
+          <p id="promptBox"></p>
+          <h2>頂標任務</h2>
+          <p id="challengeBox"></p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Designed for Taiwan 108 課綱高中數學 A / 數甲</span>
+    <span>純前端、可部署 GitHub Pages、可離線展示</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
