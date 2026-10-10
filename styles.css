@@ -231,3 +231,7 @@ input[type="range"] { width: 100%; min-height: 26px; margin: 0; }
 .exam-links button { margin: 0; }
 .exam-load-more { display: block; margin: 1rem auto 0; min-width: 200px; }
 @media (max-width: 650px) { .exam-filters { grid-template-columns: 1fr; gap: .55rem; } .exam-filters label { grid-template-columns: 80px minmax(0, 1fr); align-items: center; } }
+
+.graph-entry { display:block;padding:1rem;margin-bottom:1rem;background:#eaf1ff;border:1px solid #cbdcf8;border-radius:14px;text-decoration:none; }
+.graph-entry strong { display:block;color:var(--accent); }
+.graph-entry span { color:var(--muted);font-size:.78rem; }
