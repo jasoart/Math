@@ -308,7 +308,7 @@ function getControlDisplay(control) {
     const selected = control.options.find(option => option.value === control.value);
     return selected ? selected.label : String(control.value);
   }
-  return `${control.value}${control.unit ?? ""}`;
+  return control.exact ? `${control.exact}${control.unit && !/(°|rad|度)\s*$/.test(control.exact) ? control.unit : ""}` : `${control.value}${control.unit ?? ""}`;
 }
 
 function drawContours(plane, f, levels, options = {}) {
@@ -4436,6 +4436,8 @@ for (const module of modules) {
   module.searchText = `${module.title} ${module.short} ${module.tag} ${module.examSignal} ${module.prompt} ${module.challenge ?? ""}`.toLowerCase();
   for (const control of module.controls) {
     control.defaultValue = control.value;
+    control.mathUnit = control.unit === '°' || /（度）|\(度\)|視角方位角/.test(control.label) ? 'deg' : 'rad';
+    control.integer = control.integer ?? (/次數|項數|分割數|等分數|筆數|物件數|物品數|人數|球數|抽取數|成功數|樣本數|總數|點數|張數|字串長度|數字種類|整數橫座標上限|階數|次方 n|期數|組數|抽樣數|選取數|取出數|重數/.test(control.label) || (control.step === 1 && /^(n|N|K|power)$/.test(control.key)));
   }
 }
 
@@ -4488,7 +4490,7 @@ function renderControls(module) {
     label.appendChild(output);
     wrap.appendChild(label);
 
-    let input;
+    let input, symbolic;
     if (control.type === "select") {
       input = document.createElement("select");
       for (const opt of control.options) {
@@ -4509,10 +4511,23 @@ function renderControls(module) {
     input.id = `control-${control.key}`;
     input.addEventListener("input", () => {
       control.value = control.type === "select" ? input.value : Number(input.value);
+      delete control.exact;
+      if(symbolic){symbolic.value=String(control.value);symbolic.setAttribute('aria-invalid','false');wrap.querySelector('.symbol-input-error').hidden=true;}
       output.textContent = getControlDisplay(control);
       scheduleDraw();
     });
     wrap.appendChild(input);
+    if(control.type !== 'select'){
+      const row=document.createElement('div');row.className='symbol-input-row';
+      symbolic=document.createElement('input');symbolic.type='text';symbolic.className='symbol-input';symbolic.id=`symbol-${control.key}`;symbolic.value=control.exact??String(control.value);symbolic.dataset.mathInput='true';symbolic.dataset.mathScalar='true';symbolic.dataset.mathUnit=control.mathUnit;symbolic.maxLength=240;
+      symbolic.setAttribute('aria-label',`${control.label} 精確算式`);
+      const key=document.createElement('button');key.type='button';key.textContent='⌨ 符號';key.setAttribute('aria-label',`開啟 ${control.label} 數學鍵盤`);key.onclick=()=>{symbolic.focus();window.MathKeyboard.open(symbolic);};row.append(symbolic,key);wrap.append(row);
+      const hint=document.createElement('p');hint.className='symbol-input-hint';hint.textContent=`${control.integer?'整數結果':'可輸入 √2、π/3、1/2'} · 範圍 ${control.min}～${control.max}${control.unit??''}${control.mathUnit==='deg'?' · π/3 rad = 60°':''}`;wrap.append(hint);
+      const error=document.createElement('p');error.className='symbol-input-error';error.hidden=true;error.id=`symbol-error-${control.key}`;error.setAttribute('role','status');symbolic.setAttribute('aria-describedby',error.id);wrap.append(error);
+      const apply=()=>{if(!symbolic.isConnected)return;try{const v=readControlExpression(control,symbolic.value);control.value=v.value;control.exact=v.source;input.value=v.value;output.textContent=getControlDisplay(control);symbolic.setAttribute('aria-invalid','false');error.hidden=true;scheduleDraw();}catch(e){symbolic.setAttribute('aria-invalid','true');error.hidden=false;error.textContent=e.message+' 圖形保留上一個有效值。';}};
+      let editTimer;symbolic.oninput=()=>{clearTimeout(editTimer);editTimer=setTimeout(apply,180);};symbolic.onchange=()=>{clearTimeout(editTimer);apply();};
+      window.MathKeyboard.enhance(symbolic);
+    }
     controlsEl.appendChild(wrap);
   }
 }
@@ -4532,6 +4547,8 @@ function drawCurrent() {
   const computed = module.compute(state);
   module.draw(state, computed);
   setFormula(module.formula(state, computed));
+  renderExactParameters(module);
+  persistSymbolicInputs();
   liveStatus.textContent = module.status(state, computed);
   canvas.setAttribute("aria-label", `${module.title}。${module.status(state, computed)}。圖形數值可於即時公式閱讀。`);
   renderMetrics.draws++;
@@ -4557,6 +4574,7 @@ function resetCurrent() {
   for (const control of module.controls) {
     if (Object.prototype.hasOwnProperty.call(control, "defaultValue")) {
       control.value = control.defaultValue;
+      delete control.exact;
     }
   }
   render();
@@ -4580,6 +4598,21 @@ window.addEventListener("resize", () => {
   scheduleDraw();
 });
 
+function readControlExpression(control,raw){
+  return window.MathExact.scalar(raw,{unit:control.mathUnit||'rad',min:control.min,max:control.max,integer:control.integer});
+}
+function documentParameters(module){return Object.fromEntries(module.controls.map(c=>[c.key,c.type==='select'?c.value:(c.exact??c.value)]));}
+function renderExactParameters(module){
+  let panel=document.getElementById('exactParameters');if(!panel){panel=document.createElement('div');panel.id='exactParameters';panel.className='exact-parameters';formulaBox.before(panel);}
+  const active=module.controls.filter(c=>c.exact);panel.hidden=!active.length;panel.replaceChildren();
+  if(!active.length)return;
+  const title=document.createElement('b');title.textContent='保留精確算式';panel.append(title,document.createElement('br'));
+  for(const c of active){const line=document.createElement('span');line.className='exact-entry';const label=document.createElement('span');label.textContent=c.key+' = ';const expression=document.createElement('span');expression.innerHTML=window.MathExact.markup(c.exact);line.append(label,expression);panel.append(line);}
+  const note=document.createElement('p');note.textContent='原式會完整保存在分享與備份；下方既有模組的圖形、即時數值與計算結果採數值近似。';panel.append(note);
+}
+let symbolSaveTimer;
+function persistSymbolicInputs(){clearTimeout(symbolSaveTimer);symbolSaveTimer=setTimeout(()=>{try{const saved=Object.fromEntries(modules.filter(m=>m.controls.some(c=>c.exact)).map(m=>[m.id,documentParameters(m)]));localStorage.setItem('mathlab.symbolic.v1',JSON.stringify(saved));}catch{}},300);}
+function restoreSymbolicInputs(){try{const text=localStorage.getItem('mathlab.symbolic.v1');if(!text||text.length>250000)return;const saved=JSON.parse(text);if(!saved||typeof saved!=='object'||Array.isArray(saved))return;for(const m of modules){if(!Object.hasOwn(saved,m.id))continue;try{const values=validateParameters(m,saved[m.id]);applyParameters(m,values);}catch{}}}catch{}}
 function validateParameters(module, parameters = {}) {
   if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) throw new Error("參數格式錯誤");
   for (const key of Object.keys(parameters)) if (!module.controls.some(c => c.key === key)) throw new Error(`未知參數：${key}`);
@@ -4590,26 +4623,27 @@ function validateParameters(module, parameters = {}) {
       if (!c.options.some(o => o.value === value)) throw new Error(`選項無效：${c.label}`);
       validated[c.key] = value;
     } else {
-      if (typeof value !== "number" || !Number.isFinite(value) || value < c.min || value > c.max) throw new Error(`參數超出範圍：${c.label}`);
-      const normalized = c.min + Math.round((value - c.min) / c.step) * c.step;
-      validated[c.key] = Number(clamp(normalized, c.min, c.max).toFixed(10));
+      const exact=readControlExpression(c,value);
+      validated[c.key]=typeof value==='string'?exact.source:exact.value;
     }
   }
   return validated;
 }
+function applyParameters(module,values){for(const c of module.controls){if(c.type==='select'){c.value=values[c.key];continue;}const value=values[c.key],result=readControlExpression(c,value);c.value=result.value;if(typeof value==='string')c.exact=result.source;else delete c.exact;}}
 
 function selectModule(id, parameters) {
   const module = modules.find(m => m.id === id);
   if (!module) throw new Error("找不到此模組");
-  const values = validateParameters(module, parameters ?? stateFromControls(module));
-  for (const c of module.controls) c.value = values[c.key];
+  const values = validateParameters(module, parameters ?? documentParameters(module));
+  applyParameters(module,values);
   currentId = id;
   render();
 }
 
 function createShareURL() {
   const url = new URL(location.href);
-  const params = new URLSearchParams(stateFromControls(getCurrentModule()));
+  const module=getCurrentModule(),values=documentParameters(module);
+  const params = new URLSearchParams(Object.fromEntries(module.controls.map(c=>[c.key,c.exact?'~'+c.exact:values[c.key]])));
   url.hash = `${currentId}?${params.toString()}`;
   return url.href;
 }
@@ -4626,7 +4660,7 @@ function restoreHash() {
       const c = module.controls.find(c => c.key === key);
       if (!c || Object.hasOwn(parameters, key)) throw new Error("分享連結含有未知或重複參數");
       if (c.type !== "select" && !raw.trim()) throw new Error("分享連結含有空白數值");
-      parameters[key] = c.type === "select" ? raw : Number(raw);
+      parameters[key] = c.type === "select" ? raw : raw.startsWith("~") ? raw.slice(1) : Number(raw);
     }
     selectModule(id, parameters);
   } catch (error) {
@@ -4635,7 +4669,7 @@ function restoreHash() {
   }
 }
 
-window.MathLab = {modules, getCurrentModule, selectModule, validateParameters, createShareURL, getState: () => ({moduleId: currentId, parameters: stateFromControls(getCurrentModule())}), refreshList: renderModuleList, scheduleDraw, metrics: renderMetrics};
+window.MathLab = {modules, getCurrentModule, selectModule, validateParameters, createShareURL, getState: () => ({moduleId: currentId, parameters: documentParameters(getCurrentModule())}), refreshList: renderModuleList, scheduleDraw, metrics: renderMetrics};
 window.addEventListener("hashchange", restoreHash);
 
 if (!CanvasRenderingContext2D.prototype.roundRect) {
@@ -4650,6 +4684,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
   };
 }
 
+restoreSymbolicInputs();
 setupCanvas();
 render();
 restoreHash();

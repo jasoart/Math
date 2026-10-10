@@ -13,7 +13,7 @@ close(M.parse('xy=6').at(2,3),0);close(M.parse('x^2+y^2=9').at(0,3),0);close(M.p
 assert.deepEqual(M.parse('(2,3)').at(0),[2,3]);checks++;
 const p=value('(3cos(t),2sin(t))',Math.PI/2);close(p[0],0);close(p[1],2);
 const polar=value('r=3cos(2θ)',0);close(polar[0],3);close(polar[1],0);
-for(const s of ['window.alert(1)','constructor(1)','x;1','x=','y=x=y','sin x','sin()','max(1)','sqrt(1,2)','x+','(x','x)','foo','y=t','r=x','(x,2)','[1]','x'.repeat(241)]){assert.throws(()=>M.parse(s),s);checks++;}
+for(const s of ['window.alert(1)','constructor(1)','x;1','x=','y=x=y','sin x','sin()','max(1)','sqrt(1,2)','x+','(x','x)','foo','y=t','r=x','(x,2)','[1]','x'.repeat(481)]){assert.throws(()=>M.parse(s),s);checks++;}
 for(const [s,expected]of [['y=x','function'],['x=2','implicit'],['(2,3)','point'],['(t,t^2)','parametric'],['r=sin(t)','polar']]){assert.equal(M.parse(s).kind,expected);checks++;}
 let result=M.analyze(x=>x*x-2,-5,5);assert.equal(result.zeros.length,2);close(result.zeros[0],-Math.SQRT2);close(result.extrema[0],0);
 result=M.analyze(x=>(x-.12345)**2,-5,5);assert.equal(result.zeros.length,1);close(result.zeros[0],.12345);

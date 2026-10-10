@@ -1,14 +1,16 @@
 {
   "scripts": {
-    "check": "node --check app.js && node --check extension-modules.js && node --check exam-modules.js && node --check learning.js && node --check exam-explorer.js && node --check evidence.js && node --check graph/math.js && node --check graph/graph.js",
+    "check": "node --check app.js && node --check extension-modules.js && node --check exam-modules.js && node --check learning.js && node --check exam-explorer.js && node --check evidence.js && node --check graph/math.js && node --check graph/graph.js && node --check graph/state.js && node --check graph/svg.js && node --check graph/exact.js && node --check math-keyboard.js",
     "evidence": "node scripts/build-evidence.cjs",
     "test": "node scripts/verify.cjs",
-    "test:graph": "node scripts/graph-math.test.cjs && node scripts/verify-graph.cjs"
+    "test:graph": "npm run test:graph:core && node scripts/verify-graph.cjs",
+    "test:graph:core": "node scripts/graph-math.test.cjs && node scripts/graph-pro.test.cjs && node scripts/graph-dom.test.cjs && node scripts/symbol-input.test.cjs"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "jsdom": "^26.1.0",
     "playwright": "1.62.1"
   }
 }

@@ -1,0 +1,55 @@
+/* DOM/event regression tests, not a replacement for real-browser layout/touch QA. */
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {JSDOM,VirtualConsole}=require('jsdom');
+const root=path.join(__dirname,'..'),errors=[],downloads=[],blobs=new Map();
+const console=new VirtualConsole();console.on('jsdomError',e=>errors.push(e.message));
+const dom=new JSDOM(fs.readFileSync(path.join(root,'graph.html'),'utf8'),{url:'https://example.com/Math/graph.html',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:console});
+const w=dom.window,d=w.document,$=id=>d.getElementById(id),wait=ms=>new Promise(r=>setTimeout(r,ms));
+let frames=0,operations=0;const rect={x:0,y:0,left:0,top:0,right:800,bottom:500,width:800,height:500};
+w.addEventListener('error',e=>errors.push(e.message));
+w.HTMLCanvasElement.prototype.getBoundingClientRect=()=>rect;
+w.HTMLCanvasElement.prototype.getContext=function(){if(!this._ctx)this._ctx=new Proxy({setLineDash(){},measureText:s=>({width:s.length*7})},{get:(t,k)=>k in t?t[k]:(...args)=>{if(k==='clearRect')frames++;operations++;for(const a of args)if(typeof a==='number')assert.ok(Number.isFinite(a),`nonfinite canvas ${String(k)}(${a})`);},set:(t,k,v)=>(t[k]=v,true)});return this._ctx;};
+w.HTMLCanvasElement.prototype.toBlob=function(cb){cb(new Blob(['test image'],{type:'image/png'}));};
+w.HTMLCanvasElement.prototype.setPointerCapture=()=>{};
+w.HTMLElement.prototype.scrollIntoView=()=>{};
+w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
+w.ResizeObserver=class{constructor(cb){this.cb=cb;}observe(){this.cb();}};
+w.Blob=Blob;w.URL.createObjectURL=b=>{const id='blob:test'+blobs.size;blobs.set(id,b);return id;};w.URL.revokeObjectURL=()=>{};
+w.HTMLAnchorElement.prototype.click=function(){downloads.push({name:this.download,blob:blobs.get(this.href)});};
+const input=(id,v)=>{const el=typeof id==='string'?$(id):id;el.value=v;el.dispatchEvent(new w.Event('input',{bubbles:true}));el.dispatchEvent(new w.Event('change',{bubbles:true}));};
+const click=id=>$(id).click();
+const example=name=>input('exampleSelect',name);
+(async()=>{
+ for(const file of ['math.js','exact.js','../math-keyboard.js','state.js','svg.js','graph.js'])w.eval(fs.readFileSync(path.join(root,'graph',file),'utf8'));
+ await wait(550);assert.equal($('tMax').value,'2π');assert.equal(d.querySelectorAll('.expression-row').length,2);assert.match($('analysisResults').textContent,/交點/);assert.ok(frames>0&&operations>100);
+ for(const name of ['circle','trig','rational','parametric','polar','points','piecewise','inequality','integral','vt']){example(name);await wait(260);assert.equal(d.querySelectorAll('[aria-invalid=true]').length,0,name);}
+ assert.match($('integralResult').textContent,/16/);
+ example('integral');await wait(60);assert.match($('integralResult').textContent,/2.25/);assert.match($('integralResult').textContent,/2.75/);
+ input('integralA',2);input('integralB',-1);click('calculateIntegral');assert.match($('integralResult').textContent,/-2.25/);assert.match($('integralResult').textContent,/2.75/);
+ input('integralA',-1);input('integralB',1);input(d.querySelector('.expression-input'),'1/x');click('calculateIntegral');assert.equal($('integralResult').dataset.error,'true');assert.match($('integralResult').textContent,/無法可靠/);
+ input(d.querySelector('.expression-input'),'window.alert(1)');assert.equal(d.querySelector('.expression-input').getAttribute('aria-invalid'),'true');assert.equal(w.alert.called,undefined);
+ example('quadratic');input('param-a',2.5);await wait(550);click('undoGraph');assert.equal($('param-a').value,'1');click('redoGraph');assert.equal($('param-a').value,'2.5');
+ const range=d.querySelector('[aria-label="a 最小值"]');input(range,-5);assert.equal(d.querySelector('[aria-label="調整參數 a"]').min,'-5');
+ input(d.querySelector('[aria-label="a 最大值"]'),-6);assert.equal(d.querySelector('[aria-label="a 最大值"]').value,'10');
+ input(d.querySelector('[aria-label="a 最大值"]'),5);
+ d.querySelector('[aria-label="播放參數 a"]').click();await wait(160);assert.equal($('calculateIntegral').disabled,true);assert.notEqual($('param-a').value,'2.5');d.querySelector('[aria-label="播放參數 a"]').click();assert.equal($('calculateIntegral').disabled,false);
+ input('param-a','√2');assert.equal($('param-a').value,'√2');click('shareGraph');let exactState=JSON.parse(decodeURIComponent($('graphShareURL').value.split('#g=')[1]));assert.equal(exactState.paramText.a,'√2');assert.ok(Math.abs(exactState.params.a-Math.SQRT2)<1e-12);Object.defineProperty($('projectFile'),'files',{configurable:true,value:[{size:600,text:async()=>JSON.stringify(exactState)}]});await $('projectFile').onchange({target:$('projectFile')});assert.equal($('param-a').value,'√2');
+ input('viewX','π/3');input('viewY','√2');input('viewSpan','4π');click('applyView');await wait(80);assert.equal($('viewX').value,'π/3');assert.equal($('viewSpan').value,'4π');
+ example('parametric');input('tMax','4π');assert.equal($('tMax').value,'4π');click('shareGraph');exactState=JSON.parse(decodeURIComponent($('graphShareURL').value.split('#g=')[1]));assert.equal(exactState.tText[1],'4π');
+ example('quadratic');const editor=d.querySelector('.expression-input');editor.value='';editor.focus();editor.setSelectionRange(0,0);editor.dispatchEvent(new w.Event('select',{bubbles:true}));d.querySelector('[data-insert="√(▯)"]').click();d.querySelector('[data-insert="2"]').click();assert.equal(editor.value,'√(2)');assert.equal(editor.selectionStart,3);assert.ok($('mathKeyboardPreview').innerHTML.includes('msqrt'));d.querySelector('[data-edit="apply"]').click();assert.equal($('mathKeyboard').hidden,true);
+ const old=d.querySelectorAll('.expression-row').length;d.querySelector('.expression-duplicate').click();assert.equal(d.querySelectorAll('.expression-row').length,old+1);d.querySelector('.expression-delete').click();assert.equal(d.querySelectorAll('.expression-row').length,old);
+ while(d.querySelectorAll('.expression-row').length<12)click('addExpression');assert.equal($('addExpression').disabled,true);assert.match($('curveCount').textContent,/12 \/ 12/);
+ example('quadratic');input(d.querySelector('input[type=color]'),'#ff0088');click('shareGraph');const shared=$('graphShareURL').value,documentState=JSON.parse(decodeURIComponent(shared.split('#g=')[1]));assert.equal(documentState.rows[0].color,'#ff0088');assert.equal(documentState.version,3);
+ click('saveProject');assert.equal(downloads.at(-1).name,'mathlab-graph.json');const saved=JSON.parse(await downloads.at(-1).blob.text());assert.equal(saved.rows[0].color,'#ff0088');
+ const before=d.querySelector('.expression-input').value;Object.defineProperty($('projectFile'),'files',{configurable:true,value:[{size:12,text:async()=>'bad json'}]});await $('projectFile').onchange({target:$('projectFile')});assert.equal(d.querySelector('.expression-input').value,before);
+ const imported=w.GraphState.defaults();imported.rows=[{text:'y=x^2',visible:true,color:'#2166d1'}];Object.defineProperty($('projectFile'),'files',{configurable:true,value:[{size:400,text:async()=>JSON.stringify(imported)}]});await $('projectFile').onchange({target:$('projectFile')});assert.equal(d.querySelector('.expression-input').value,'y=x^2');click('undoGraph');assert.equal(d.querySelector('.expression-input').value,before);
+ example('integral');click('buildTable');assert.equal(d.querySelectorAll('#valueTable tbody tr').length,9);input('tableCount',201);click('buildTable');assert.match($('graphNotice').textContent,/1–200/);input('tableCount',5);click('exportCSV');assert.equal(downloads.at(-1).name,'mathlab-values.csv');assert.equal((await downloads.at(-1).blob.text()).trim().split('\r\n').length,6);
+ input('probeX',1);$('showTangent').checked=true;$('showDerivative').checked=true;$('traceCurve').checked=true;$('showDerivative').dispatchEvent(new w.Event('input'));await wait(100);assert.match($('probeResult').textContent,/斜率/);
+ input('viewX',2);input('viewY',3);input('viewSpan',8);click('applyView');await wait(50);assert.match($('viewReadout').textContent,/-2, 6/);click('focusGraph');assert.ok(d.body.classList.contains('graph-focused'));click('focusGraph');assert.ok(!d.body.classList.contains('graph-focused'));
+ for(const name of ['quadratic','circle','inequality','integral','parametric','polar']){example(name);await wait(50);click('exportSVG');const file=downloads.at(-1);assert.equal(file.name,'mathlab-graph.svg');const xml=await file.blob.text();assert.ok(xml.includes('<path'));assert.ok(!/NaN|Infinity/.test(xml));const parsed=new JSDOM(xml,{contentType:'image/svg+xml'});assert.equal(parsed.window.document.documentElement.tagName,'svg');parsed.window.close();}
+ click('exportGraph');assert.equal(downloads.at(-1).name,'mathlab-graph.png');
+ await wait(600);assert.equal(JSON.parse(w.localStorage.getItem('mathlab-graph-v1')).version,3);
+ const legacy={version:1,rows:[{text:'y=x',visible:true}],params:{a:1,b:1,c:0},view:{x:0,y:0,span:14},t:[0,6.28],grid:true};w.location.hash='g='+encodeURIComponent(JSON.stringify(legacy));await wait(300);assert.equal(d.querySelector('.expression-input').value,'y=x');
+ assert.deepEqual(errors,[]);process.stdout.write(`PASS graph DOM/events: examples, history, sliders, animation, 12 rows, colors, sharing, imports, CSV, calculus, trace, focus, SVG, v1 migration (${frames} frames)\n`);
+})().catch(e=>{process.stderr.write(e.stack+'\n');process.exitCode=1;}).finally(()=>w.close());

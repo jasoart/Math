@@ -2,45 +2,54 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>智慧繪圖｜高中數學互動實驗室</title>
-  <meta name="description" content="自由輸入函數、隱函數、參數式、極座標與座標點，即時調參數、找交點並匯出圖形。">
+  <title>智慧繪圖 Pro｜高中數學互動實驗室</title>
+  <meta name="description" content="自由輸入函數、隱函數、參數式、極座標與座標點，即時調參數、找交點、積分面積、數值表並匯出圖形。">
   <meta name="theme-color" content="#f5f7fb"><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./graph/graph.css">
-  <script src="./graph/math.js" defer></script><script src="./graph/graph.js" defer></script>
+  <script src="./graph/math.js" defer></script><script src="./graph/exact.js" defer></script><script src="./math-keyboard.js" defer></script><script src="./graph/state.js" defer></script><script src="./graph/svg.js" defer></script><script src="./graph/graph.js" defer></script>
+<link rel="stylesheet" href="./math-keyboard.css">
 </head>
 <body class="graph-app">
   <a class="skip-link" href="#graphCanvas">跳至繪圖畫布</a>
   <header class="graph-header">
-    <div><a class="back-link" href="./index.html">← 數學互動實驗室</a><p class="eyebrow">MATH LAB / GRAPH STUDIO</p><h1>智慧繪圖<span>把想法，畫出來。</span></h1></div>
-    <div class="graph-actions"><span class="local-badge">自動保存在此裝置</span><button id="shareGraph">分享圖形</button><button id="exportGraph" class="primary">匯出 PNG ↗</button></div>
+    <div><a class="back-link" href="./index.html">← 數學互動實驗室</a><p class="eyebrow">MATH LAB / GRAPH STUDIO 2.2</p><h1>智慧繪圖 <em>Pro</em><span>把想法，畫出來。</span></h1></div>
+    <div class="graph-actions"><span class="local-badge">自動保存在此裝置</span><button id="undoGraph" title="復原 Ctrl/Cmd+Z" disabled>↶ 復原</button><button id="redoGraph" title="重做 Ctrl/Cmd+Shift+Z" disabled>↷ 重做</button><button id="shareGraph">分享圖形</button><button id="exportGraph" class="primary">匯出 PNG ↗</button><button id="exportSVG">SVG</button></div>
   </header>
   <main class="graph-layout">
     <aside class="graph-sidebar" aria-label="繪圖設定">
       <section class="graph-panel"><div class="graph-heading"><h2>算式與圖形</h2><span id="curveCount" class="small-label"></span></div>
-        <p class="graph-intro">輸入算式，自動辨識圖形類型。三角函數使用弧度。</p>
+        <p class="graph-intro">點選欄位開啟數學鍵盤，直接輸入 √、π、分數與次方。三角函數使用弧度；最多 12 條圖形。</p>
         <div id="expressions"></div><button id="addExpression" class="add-expression">＋ 新增一條圖形</button>
-        <label class="field-label" for="exampleSelect">一鍵探索</label><select id="exampleSelect"><option value="">選一組範例…</option><option value="quadratic">拋物線與直線</option><option value="circle">圓與橢圓</option><option value="trig">三角函數變換</option><option value="rational">有理函數與漸近線</option><option value="parametric">參數式：李沙育曲線</option><option value="polar">極座標：玫瑰線</option><option value="points">座標點與直線</option></select>
-        <p class="small-label">選擇範例會替換目前算式，可按「復原」。</p><button id="undoExample" hidden>復原上一次替換</button>
+        <label class="field-label" for="exampleSelect">一鍵探索</label><select id="exampleSelect"><option value="">選一組範例…</option><option value="quadratic">拋物線與直線</option><option value="circle">圓與橢圓</option><option value="trig">三角函數變換</option><option value="rational">有理函數與漸近線</option><option value="parametric">參數式：李沙育曲線</option><option value="polar">極座標：玫瑰線</option><option value="points">座標點與直線</option><option value="piecewise">分段函數與定義域</option><option value="inequality">不等式：圓內與半平面</option><option value="integral">定積分：正負面積</option><option value="vt">v–t 圖：等加速度位移</option></select>
+        <p class="small-label">選擇範例會替換目前算式，可按頂端「復原」。</p>
       </section>
-      <section id="parameterPanel" class="graph-panel" hidden><div class="graph-heading"><h2>動態參數</h2><span class="small-label">自動偵測 a、b、c</span></div><div id="parameters"></div></section>
+      <section id="parameterPanel" class="graph-panel" hidden><div class="graph-heading"><h2>動態參數</h2><span class="small-label">自動偵測 a、b、c、d、h、k</span></div><div id="parameters"></div></section>
       <section id="tPanel" class="graph-panel" hidden><h2>參數範圍（弧度）</h2><div class="two-fields"><label>t 起點<input id="tMin" type="number" value="0" step="any"></label><label>t 終點<input id="tMax" type="number" value="6.283185307179586" step="any"></label></div></section>
+      <section class="graph-panel"><h2>圖形檔案</h2><div class="file-actions"><button id="saveProject">下載 JSON</button><button id="openProject">匯入 JSON</button></div><input id="projectFile" type="file" accept=".json,application/json" hidden><p class="small-label">保留算式、顏色、參數、滑桿與視窗。匯入後可復原。</p></section>
       <details class="graph-panel graph-help"><summary>輸入說明與快捷鍵</summary>
-        <dl><dt>一般函數</dt><dd><code>y = a(x-b)^2+c</code><br><code>sin(x)</code>、<code>1/x</code>、<code>sqrt(x)</code></dd><dt>隱函數／直線</dt><dd><code>x^2+y^2=9</code>、<code>x=2</code></dd><dt>參數式／極座標</dt><dd><code>(3cos(t),2sin(t))</code><br><code>r=3cos(2t)</code>（也可使用 θ）</dd><dt>座標點</dt><dd><code>(2,3)</code>、<code>(a,b)</code></dd><dt>支援的運算</dt><dd>+ − * / ^、π、e、sin、cos、tan、asin、acos、atan、sqrt、abs、exp、ln、log（底數 10）、floor、ceil、round、sign、min、max。函數引數必須加括號。</dd></dl>
-        <p>支援 2x、xy、x(x+1) 等省略乘號寫法。除法連寫請加括號，例如 1/(2x)。不支援不等式、分段條件或任意自然語言。</p>
-        <p>拖曳平移；滾輪或雙指縮放。畫布聚焦後可用方向鍵平移、+ / − 縮放、0 回到預設。每次最多 8 條圖形。</p>
+        <dl><dt>精確符號輸入</dt><dd><code>√2</code>、<code>π/3</code>、<code>1/2</code>、<code>sin(30°)</code>。原式會保留在參數、分享與備份。</dd><dt>一般函數</dt><dd><code>y = a(x-b)^2+c</code><br><code>sin(x)</code>、<code>1/x</code>、<code>sqrt(x)</code></dd><dt>隱函數／直線</dt><dd><code>x^2+y^2=9</code>、<code>x=2</code></dd><dt>參數式／極座標</dt><dd><code>(3cos(t),2sin(t))</code><br><code>r=3cos(2t)</code>（也可使用 θ）</dd><dt>分段函數／定義域</dt><dd><code>if(x&lt;0,-x,x^2)</code><br><code>y=sqrt(x) {0&lt;=x&lt;=4}</code></dd><dt>不等式區域</dt><dd><code>x^2+y^2&lt;=9</code><br><code>y&gt;x+1</code>（嚴格不等式畫虛線）</dd><dt>座標點</dt><dd><code>(2,3)</code>、<code>(a,b)</code></dd><dt>支援的運算</dt><dd>+ − * / ^、π、e、sin、cos、tan、asin、acos、atan、sqrt、abs、exp、ln、log（底數 10）、floor、ceil、round、sign、min、max、cbrt、sec、csc、cot、sinh、cosh、tanh、if。函數引數必須加括號。</dd></dl>
+        <p>支援 2x、xy、x(x+1) 等省略乘號寫法。除法連寫請加括號，例如 1/(2x)。條件支援 &lt;、≤、&gt;、≥、=、!=、&amp;&amp;、||；以 if(條件,成立值,否則值) 定義分段函數。不支援任意自然語言或自訂函數。</p>
+        <p>拖曳平移；滾輪或雙指縮放。畫布聚焦後可用方向鍵平移、+ / − 縮放、0 回到預設。Ctrl/Cmd+Z 復原；Ctrl/Cmd+Shift+Z 重做。編輯輸入框時，快捷鍵交由文字欄位處理。</p>
       </details>
     </aside>
     <div class="graph-workspace">
       <section class="graph-stage" aria-label="座標平面">
-        <div class="graph-toolbar"><div class="graph-tool-group"><button id="zoomIn" aria-label="放大">＋</button><button id="zoomOut" aria-label="縮小">−</button><button id="homeView">原點</button><button id="fitView">智慧取景</button></div><label class="checkbox-label"><input id="showGrid" type="checkbox" checked>格線</label></div>
+        <div class="graph-toolbar"><div class="graph-tool-group"><button id="zoomIn" aria-label="放大">＋</button><button id="zoomOut" aria-label="縮小">−</button><button id="homeView">原點</button><button id="fitView">智慧取景</button><button id="focusGraph" aria-pressed="false">專注畫布</button></div><label class="checkbox-label"><input id="showGrid" type="checkbox" checked>格線</label></div>
+        <details class="view-settings"><summary>精準視窗與追蹤</summary><div class="view-fields"><label>中心 x<input id="viewX" type="number" step="any"></label><label>中心 y<input id="viewY" type="number" step="any"></label><label>x 軸寬度<input id="viewSpan" type="number" min="0.001" max="1000000" step="any"></label><button id="applyView">套用視窗</button></div><label class="checkbox-label"><input id="traceCurve" type="checkbox">追蹤函數（移動或輕點畫布，使用下方選定函數）</label></details>
         <div class="canvas-wrap"><canvas id="graphCanvas" tabindex="0" aria-label="自由繪圖座標平面；方向鍵移動，加減鍵縮放" aria-describedby="graphHint analysisResults">請使用支援 Canvas 的瀏覽器，或查看下方數值分析。</canvas><div id="coordinateReadout" aria-hidden="true">拖曳平移 · 雙指縮放</div><div class="graph-watermark" aria-hidden="true">MATH LAB</div></div>
-        <div class="graph-stage-footer"><span id="graphHint">x、y 等比例座標 · 三角函數採弧度</span><span id="viewReadout"></span></div>
+        <div class="graph-stage-footer"><span id="graphHint">x、y 等比例 · 保留原式 · 繪圖與分析為數值近似</span><span id="viewReadout"></span></div>
       </section>
       <section class="graph-panel analysis-panel"><div class="graph-heading"><div><p class="eyebrow">EXPLORE / 讓圖形說話</p><h2>智慧分析</h2></div><label class="checkbox-label"><input id="showAnalysis" type="checkbox" checked>標示特殊點</label></div>
         <p class="graph-intro">分析目前視窗內的 y=f(x)：零點、局部極值與兩兩交點。點選結果可移至該處。</p><div id="analysisResults" class="analysis-results"></div>
-        <div class="probe-controls"><label>觀察函數<select id="probeCurve" aria-label="觀察函數"></select></label><label>指定 x<input id="probeX" type="number" value="1" step="0.1"></label><label class="checkbox-label"><input id="showTangent" type="checkbox">顯示切線</label><output id="probeResult"></output></div>
-        <p class="small-label analysis-note">結果為有限取樣的數值近似，不是完整代數解。高頻震盪、狹小區域或不連續處可能遺漏；隱函數僅繪圖，不列特殊點。floor、ceil 等跳躍函數與不存在導數的點，請以定義判斷。</p>
+        <div class="probe-controls"><label>觀察函數<select id="probeCurve" aria-label="觀察函數"></select></label><label>指定 x<input id="probeX" type="number" value="1" step="0.1"></label><label class="checkbox-label"><input id="showTangent" type="checkbox">顯示切線</label><label class="checkbox-label"><input id="showDerivative" type="checkbox">導函數 f′(x)</label><output id="probeResult"></output></div>
+        <p class="small-label analysis-note">結果為有限取樣的數值近似，不是完整代數解。高頻震盪、狹小區域或不連續處可能遺漏；隱函數僅繪圖，不列特殊點。不連續處、分段邊界與不可微點，請以定義判斷；圖上不會自動標出所有空心端點。</p>
       </section>
+      <section class="graph-panel calculus-panel"><div class="graph-heading"><div><p class="eyebrow">CALCULUS / 從圖形讀懂累積</p><h2>定積分與面積</h2></div><label class="checkbox-label"><input id="shadeIntegral" type="checkbox" checked>面積著色</label></div>
+        <p class="graph-intro">使用上方選定的函數 f。可計算對 x 軸的面積，或兩條函數之間的面積。</p>
+        <div class="calculus-controls"><label>下限 a<input id="integralA" type="number" value="-1" step="any"></label><label>上限 b<input id="integralB" type="number" value="2" step="any"></label><label>比較 g(x)<select id="integralCurve"><option value="">x 軸（g = 0）</option></select></label><button id="calculateIntegral" class="primary">計算</button></div>
+        <div id="integralResult" class="integral-result" role="status">設定區間後按「計算」。</div><p class="small-label">定積分保留正負；幾何面積計算 |f − g|。有限區間數值近似，不處理瑕積分或柯西主值。變更函數或參數後須重新計算。</p>
+      </section>
+      <details class="graph-panel table-panel" id="tablePanel"><summary>數值表與 CSV 匯出</summary><p class="graph-intro">列出所有可見 y=f(x) 的值。點 x 可帶入觀察位置。</p><div class="calculus-controls"><label>x 起點<input id="tableStart" type="number" value="-2" step="any"></label><label>x 步長<input id="tableStep" type="number" value="0.5" step="any"></label><label>筆數<input id="tableCount" type="number" value="9" min="1" max="200"></label><button id="buildTable">產生數值表</button><button id="exportCSV">下載 CSV</button></div><div id="valueTable" class="table-scroll"></div></details>
     </div>
   </main>
   <div id="graphNotice" class="app-notice" role="status" aria-live="polite" hidden></div>

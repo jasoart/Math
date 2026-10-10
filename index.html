@@ -9,12 +9,16 @@
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./styles.css" />
+  <script src="./graph/math.js" defer></script>
+  <script src="./graph/exact.js" defer></script>
+  <script src="./math-keyboard.js" defer></script>
   <script src="./extension-modules.js" defer></script>
   <script src="./exam-modules.js" defer></script>
   <script src="./app.js" defer></script>
   <script src="./evidence.js" defer></script>
   <script src="./learning.js" defer></script>
   <script src="./exam-explorer.js" defer></script>
+<link rel="stylesheet" href="./math-keyboard.css">
 </head>
 <body>
   <a class="skip-link" href="#experiment">跳至互動實驗</a>
@@ -38,7 +42,7 @@
   </header>
   <main class="app-shell">
     <aside class="sidebar" aria-labelledby="browseTitle">
-      <a href="./graph.html" class="graph-entry"><strong>↗ 智慧通用繪圖</strong><span>自由輸入算式 · 動態參數 · 交點分析</span></a>
+      <a href="./graph.html" class="graph-entry"><strong>↗ 智慧繪圖 Pro</strong><span>內建數學鍵盤 · 精確符號輸入 · 積分面積</span></a>
       <div class="sidebar-head"><h2 id="browseTitle">選一個問題，開始探索</h2><span class="small-label">模組導覽</span></div>
       <label class="field-label" for="moduleSearch">搜尋模組</label>
       <input id="moduleSearch" class="module-search" type="search" placeholder="例如：條件機率、向量、極限" autocomplete="off" />
@@ -59,7 +63,7 @@
         <div class="canvas-caption"><p id="canvasHint">用下方滑桿或方向鍵微調參數；數值與公式會同步更新。</p><div id="liveStatus" class="live-status" role="status" aria-live="polite" aria-atomic="true"></div></div>
       </section>
       <section class="control-card" aria-labelledby="controlsTitle">
-        <div><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或使用鍵盤</span></div><div id="controls" class="controls"></div></div>
+        <div><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或點選「符號」輸入 √、π、分數</span></div><div id="controls" class="controls"></div></div>
         <div class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>解題線索</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><h2>進階挑戰</h2><p id="challengeBox"></p></div>
       </section>
       <section id="notebook" class="notebook-card" aria-labelledby="notebookTitle">
