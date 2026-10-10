@@ -14,7 +14,7 @@ const {chromium} = require('playwright');
 
 const root = path.resolve(__dirname, '..');
 const executablePath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
-const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 98);
+const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 148);
 const reportPath = path.resolve(process.env.MATHLAB_TEST_REPORT || '/tmp/mathlab-verification-report.json');
 const report = {startedAt: new Date().toISOString(), expectedModules, checks: [], errors: []};
 let server, browser, artifacts;

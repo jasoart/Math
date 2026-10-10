@@ -112,6 +112,7 @@
       return (!query || searchText.includes(query)) &&
         (course === "all" || module.course === course || module.courses?.includes(course)) &&
         (topic === "all" || module.tag === topic) &&
+        (!$("expansionOnly").checked || module.release === '2.3') &&
         (!$("favoritesOnly").checked || getRecord(module.id).favorite);
     });
   }
@@ -121,6 +122,7 @@
     $("courseFilter").value = "all";
     $("topicFilter").value = "all";
     $("favoritesOnly").checked = false;
+    $("expansionOnly").checked = false;
     renderNavigation();
   }
 
@@ -158,7 +160,7 @@
       const mark = document.createElement("span");
       mark.className = "module-mark";
       const record = getRecord(module.id);
-      mark.textContent = [record.favorite ? "★ 收藏" : "", record.practiced ? "✓ 已練習" : ""].filter(Boolean).join(" · ");
+      mark.textContent = [module.release === '2.3' ? '新增' : '', record.favorite ? "★ 收藏" : "", record.practiced ? "✓ 已練習" : ""].filter(Boolean).join(" · ");
       badges.append(topic, mark);
       const course = document.createElement("span");
       course.textContent = courses[module.course] || "教學探索";
@@ -201,6 +203,7 @@
 
   function setTeacherMode(enabled) {
     if (enabled) previousFormulaVisibility = formulasVisible;
+    if (enabled) $("challengeSolution").open = false;
     document.body.classList.toggle("teacher-mode", enabled);
     setFormulaVisibility(enabled ? false : previousFormulaVisibility);
     window.dispatchEvent(new Event("resize"));
@@ -334,7 +337,7 @@
   lab.notify = notify;
   lab.learning = {storageKey, validateBackup, importBackup};
   $("moduleSearch").addEventListener("input", renderNavigation);
-  for (const id of ["courseFilter", "topicFilter", "favoritesOnly"]) $(id).addEventListener("change", renderNavigation);
+  for (const id of ["courseFilter", "topicFilter", "favoritesOnly", "expansionOnly"]) $(id).addEventListener("change", renderNavigation);
   $("clearFilters").addEventListener("click", resetFilters);
   $("favoriteBtn").addEventListener("click", () => {
     const id = lab.getCurrentModule().id;

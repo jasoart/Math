@@ -8,17 +8,18 @@
   <meta name="theme-color" content="#f6f7fb" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./styles.css" />
-  <script src="./graph/math.js" defer></script>
-  <script src="./graph/exact.js" defer></script>
-  <script src="./math-keyboard.js" defer></script>
-  <script src="./extension-modules.js" defer></script>
-  <script src="./exam-modules.js" defer></script>
-  <script src="./app.js" defer></script>
-  <script src="./evidence.js" defer></script>
-  <script src="./learning.js" defer></script>
-  <script src="./exam-explorer.js" defer></script>
-<link rel="stylesheet" href="./math-keyboard.css">
+  <link rel="stylesheet" href="./styles.css?v=2.3.0" />
+  <script src="./graph/math.js?v=2.3.0" defer></script>
+  <script src="./graph/exact.js?v=2.3.0" defer></script>
+  <script src="./math-keyboard.js?v=2.3.0" defer></script>
+  <script src="./extension-modules.js?v=2.3.0" defer></script>
+  <script src="./exam-modules.js?v=2.3.0" defer></script>
+  <script src="./expansion-modules.js?v=2.3.0" defer></script>
+  <script src="./app.js?v=2.3.0" defer></script>
+  <script src="./evidence.js?v=2.3.0" defer></script>
+  <script src="./learning.js?v=2.3.0" defer></script>
+  <script src="./exam-explorer.js?v=2.3.0" defer></script>
+<link rel="stylesheet" href="./math-keyboard.css?v=2.3.0">
 </head>
 <body>
   <a class="skip-link" href="#experiment">跳至互動實驗</a>
@@ -26,7 +27,7 @@
     <div class="brand-copy">
       <p class="eyebrow">MATH LAB / 觀察 · 推理 · 驗證</p>
       <h1>把數學，變成<br class="desktop-break" />看得見的實驗。</h1>
-      <p class="subtitle">從數 A 到數甲，調整一個參數、找出一個不變量，再留下你的解釋。</p>
+      <p class="subtitle">148 個互動模組，新增 50 個主題實驗與解題練習。從數 A 到數甲，調整參數、找出不變量，再留下你的解釋。</p>
       <nav class="page-nav" aria-label="頁面導覽">
         <a href="./graph.html">智慧繪圖 ↗</a><a href="#experiment">互動實驗</a><a href="#notebook">我的筆記</a><a href="#examSection">歷屆索引</a><a href="#research">課綱與研究</a>
       </nav>
@@ -51,6 +52,7 @@
         <div><label class="field-label" for="topicFilter">單元主題</label><select id="topicFilter"><option value="all">全部主題</option></select></div>
       </div>
       <label class="checkbox-label filter-favorite"><input id="favoritesOnly" type="checkbox" />只看我的收藏</label>
+      <label class="checkbox-label expansion-filter"><input id="expansionOnly" type="checkbox" />只看本次新增的 50 個模組</label>
       <div class="filter-summary"><p id="filterCount" role="status" aria-live="polite"></p><button id="clearFilters" class="text-button" type="button">清除篩選</button></div>
       <nav id="moduleList" class="module-list" aria-label="互動模組"></nav>
       <section class="teacher-card"><h2>一次實驗，三個步驟</h2><ol class="experiment-steps"><li>預測參數改變後的結果。</li><li>操作圖形，比較預測與觀察。</li><li>揭示公式，用自己的話解釋。</li></ol><p>課程分類是教學索引；正式考試範圍請以當年度大考中心公告為準。</p></section>
@@ -64,7 +66,7 @@
       </section>
       <section class="control-card" aria-labelledby="controlsTitle">
         <div><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或點選「符號」輸入 √、π、分數</span></div><div id="controls" class="controls"></div></div>
-        <div class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>解題線索</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><h2>進階挑戰</h2><p id="challengeBox"></p></div>
+        <div class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>解題線索</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><section id="moduleTrapWrap" class="module-trap" hidden><h2>常見陷阱</h2><p id="moduleTrap"></p></section><h2>進階挑戰</h2><p id="challengeBox"></p><details id="challengeSolution" class="challenge-solution" hidden><summary>先自己作答，再展開解答</summary><p id="challengeAnswer"></p></details></div>
       </section>
       <section id="notebook" class="notebook-card" aria-labelledby="notebookTitle">
         <div class="section-heading"><div><p class="eyebrow">03 / 記錄</p><h2 id="notebookTitle">我的實驗筆記</h2></div><label class="checkbox-label practiced-label"><input id="practicedCheck" type="checkbox" />我已完成這個模組的練習</label></div>

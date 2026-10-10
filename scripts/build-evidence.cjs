@@ -3,7 +3,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = name => JSON.parse(fs.readFileSync(path.join(root, 'research', name), 'utf8'));
 const data = {curriculum:read('curriculum.json'),sources:read('sources.json'),exams:[read('exams-math-a.json'),read('exams-math-advanced.json')]};
-const moduleIds=new Set(['app.js','exam-modules.js','extension-modules.js'].flatMap(file=>[...fs.readFileSync(path.join(root,file),'utf8').matchAll(/\bid:\s*["']([^"']+)["']/g)].map(m=>m[1])));
+const moduleIds=new Set(['app.js','exam-modules.js','extension-modules.js','expansion-modules.js'].flatMap(file=>[...fs.readFileSync(path.join(root,file),'utf8').matchAll(/\bid:\s*["']([^"']+)["']/g)].map(m=>m[1])));
 for (const exam of data.exams) {
   if (exam.documents.length !== 5) throw new Error('Each exam must have five documents');
   for (const doc of exam.documents) {

@@ -1,6 +1,90 @@
 # Module Index
 
-目前共 **98 個互動模組**。下列分類保留 v1.1 的 85 個模型；v2.0 新增 13 個考題概念實驗如下。每個模組包含參數、公式、引導問題與頂標任務。教學連結的適用限制詳見 research 逐題資料。
+目前共 **148 個互動模組**。v2.3 新增 50 個主題實驗；v2.0 新增 13 個考題概念實驗；既有 v1.1 的 85 個模型保留。每個模組包含參數、公式、引導問題與頂標任務。教學連結的適用限制詳見 research 逐題資料。
+
+## v2.3 新增 50 個模組
+
+每個新增模組均有符號輸入、互動圖形、常見陷阱與預設收合的練習解答。首頁勾選「只看本次新增」即可集中瀏覽。
+
+### 代數與不等式
+
+- [`quadratic-root-location`](https://jasoart.github.io/Math/#quadratic-root-location)：**二次實根的位置** — 二次方程：判別式與實根位置
+- [`vieta-product-locus`](https://jasoart.github.io/Math/#vieta-product-locus)：**根和固定與根積** — 韋達定理：固定根和時的根積上界
+- [`quadratic-sign-intervals`](https://jasoart.github.io/Math/#quadratic-sign-intervals)：**二次不等式符號** — 二次不等式：根、開口與正負區間
+- [`rational-sign-chart`](https://jasoart.github.io/Math/#rational-sign-chart)：**分式不等式與禁點** — 分式不等式：零點、分母零點與約分禁點
+- [`absolute-distance-sum`](https://jasoart.github.io/Math/#absolute-distance-sum)：**兩點距離和與平台** — 絕對值方程：數線上兩點的距離和
+- [`reciprocal-minimum`](https://jasoart.github.io/Math/#reciprocal-minimum)：**x+k/x 的最小值** — 算幾不等式：正數與倒數的平衡
+
+### 指數與對數
+
+- [`logarithmic-equation-domain`](https://jasoart.github.io/Math/#logarithmic-equation-domain)：**對數方程與定義域** — 對數方程：底數、平移與指數還原
+- [`exponential-half-life`](https://jasoart.github.io/Math/#exponential-half-life)：**半衰期與指數衰減** — 指數模型：半衰期與剩餘比例
+
+### 三角函數與測量
+
+- [`sine-law-ssa`](https://jasoart.github.io/Math/#sine-law-ssa)：**SSA 的零、一、兩解** — 正弦定理：SSA 三角形的多解情形
+- [`triangle-included-area`](https://jasoart.github.io/Math/#triangle-included-area)：**夾角與三角形面積** — 三角形面積：固定兩邊時的最大值
+- [`trig-double-angle`](https://jasoart.github.io/Math/#trig-double-angle)：**二倍角與單位圓** — 二倍角公式：一個角轉成兩倍角
+- [`trig-half-angle-sign`](https://jasoart.github.io/Math/#trig-half-angle-sign)：**半角公式與正負號** — 半角公式：根號前的符號從哪裡來
+- [`trig-addition-rotation`](https://jasoart.github.io/Math/#trig-addition-rotation)：**和差角與旋轉** — 和差角公式：坐標旋轉的乘加結構
+- [`two-station-height`](https://jasoart.github.io/Math/#two-station-height)：**兩測站求高度** — 三角測量：同側兩測站與建物高度
+
+### 平面幾何
+
+- [`triangle-angle-bisector`](https://jasoart.github.io/Math/#triangle-angle-bisector)：**角平分線分邊比** — 角平分線定理：把角度條件轉成邊長比例
+- [`triangle-median-identity`](https://jasoart.github.io/Math/#triangle-median-identity)：**中線定理** — 中線定理：兩邊平方和與中線長
+- [`triangle-three-centers`](https://jasoart.github.io/Math/#triangle-three-centers)：**重心、內心與外心** — 三角形的三個中心：平均、等距與加權
+- [`circle-point-power`](https://jasoart.github.io/Math/#circle-point-power)：**圓冪與切割線** — 圓冪定理：割線乘積與切線長
+- [`circle-common-tangents`](https://jasoart.github.io/Math/#circle-common-tangents)：**兩圓公切線** — 兩圓公切線：位置關係、條數與線段長
+- [`circle-inscribed-angle`](https://jasoart.github.io/Math/#circle-inscribed-angle)：**圓周角與所對弧** — 圓周角定理：同弦兩側的補角
+- [`reflection-shortest-path`](https://jasoart.github.io/Math/#reflection-shortest-path)：**反射與最短折線** — 最短路徑：把折線反射成直線
+- [`similarity-length-area`](https://jasoart.github.io/Math/#similarity-length-area)：**相似比、周長比、面積比** — 相似形縮放：長度一次方、面積平方
+
+### 空間向量
+
+- [`space-point-line-projection`](https://jasoart.github.io/Math/#space-point-line-projection)：**空間點到直線** — 空間點到直線：投影足與垂直距離
+- [`space-vector-coplanarity`](https://jasoart.github.io/Math/#space-vector-coplanarity)：**三向量共面判斷** — 向量共面：線性組合與三重積為零
+
+### 空間幾何
+
+- [`sphere-plane-section-radius`](https://jasoart.github.io/Math/#sphere-plane-section-radius)：**球的平面截圓** — 球與平面：截圓半徑與相切條件
+- [`tetrahedron-intercept-volume`](https://jasoart.github.io/Math/#tetrahedron-intercept-volume)：**三軸截距四面體** — 四面體體積：三軸截距與 1/6 因子
+
+### 數列與級數
+
+- [`telescoping-fraction-series`](https://jasoart.github.io/Math/#telescoping-fraction-series)：**裂項相消級數** — 裂項相消：有限和與極限尾項
+- [`arithmetic-geometric-weighted-sum`](https://jasoart.github.io/Math/#arithmetic-geometric-weighted-sum)：**等差乘等比的和** — 錯位相減：Σ k r^(k−1)
+- [`geometric-sequence-convergence`](https://jasoart.github.io/Math/#geometric-sequence-convergence)：**rⁿ 的收斂分類** — 等比數列極限：收斂、振盪與無界
+- [`quadratic-sequence-differences`](https://jasoart.github.io/Math/#quadratic-sequence-differences)：**差分與二次數列** — 數列差分：二次式的二階差固定
+
+### 排列組合
+
+- [`circular-permutation-rotation`](https://jasoart.github.io/Math/#circular-permutation-rotation)：**圓排列與座位編號** — 圓排列：旋轉視為相同時為何除以 n
+- [`nonadjacent-position-selection`](https://jasoart.github.io/Math/#nonadjacent-position-selection)：**不相鄰選位** — 不相鄰組合：直線與環狀位置
+- [`derangements-fixed-points`](https://jasoart.github.io/Math/#derangements-fixed-points)：**錯排與固定點分布** — 錯排：每個人都拿錯與恰好 k 人拿對（延伸探索）
+- [`three-set-inclusion-exclusion`](https://jasoart.github.io/Math/#three-set-inclusion-exclusion)：**三集合容斥** — 三集合容斥：交集為何要加回一次
+- [`bounded-stars-bars`](https://jasoart.github.io/Math/#bounded-stars-bars)：**有容量上限的隔板法** — 隔板法加容斥：每盒最多放 m 個
+- [`lattice-path-forbidden-point`](https://jasoart.github.io/Math/#lattice-path-forbidden-point)：**格線路徑避開一點** — 最短格線路徑：扣掉經過障礙點的走法
+
+### 機率與統計
+
+- [`birthday-collision-probability`](https://jasoart.github.io/Math/#birthday-collision-probability)：**生日碰撞與補事件** — 生日問題：至少一對相同的機率
+- [`monty-hall-generalized`](https://jasoart.github.io/Math/#monty-hall-generalized)：**換門策略與資訊** — 換門問題：主持人的規則決定機率（延伸探索）
+- [`replacement-vs-no-replacement`](https://jasoart.github.io/Math/#replacement-vs-no-replacement)：**放回與不放回比較** — 抽球分布：二項與超幾何的差異
+- [`conditional-expected-successes`](https://jasoart.github.io/Math/#conditional-expected-successes)：**條件期望與重新分配** — 條件期望：已知至少一次成功（延伸探索）
+- [`least-squares-residual-cost`](https://jasoart.github.io/Math/#least-squares-residual-cost)：**最小平方法的代價** — 迴歸最佳化：殘差平方和如何最小
+- [`variance-sum-covariance`](https://jasoart.github.io/Math/#variance-sum-covariance)：**和的變異數與共變異** — 變異數相加：相關性多出哪一項
+
+### 極限與微積分
+
+- [`rationalization-difference-quotient`](https://jasoart.github.io/Math/#rationalization-difference-quotient)：**根式極限與有理化** — 根式極限：消去 0/0 而不消掉定義域
+- [`removable-hole-function-value`](https://jasoart.github.io/Math/#removable-hole-function-value)：**可去點與函數值** — 極限不等於函數值：補點能否連續
+- [`mean-value-parallel-tangent`](https://jasoart.github.io/Math/#mean-value-parallel-tangent)：**均值定理與平行切線** — 微分均值定理：平均斜率在哪裡取到
+- [`power-cusp-differentiability`](https://jasoart.github.io/Math/#power-cusp-differentiability)：**尖點與可微門檻** — |x|ᵖ 在原點：連續不代表可微
+- [`velocity-signed-distance`](https://jasoart.github.io/Math/#velocity-signed-distance)：**位移與路程的差別** — v–t 面積：位移、路程與轉向時刻
+- [`integral-average-height`](https://jasoart.github.io/Math/#integral-average-height)：**函數平均值** — 積分平均值：等面積長方形的高度
+- [`washer-conical-volume`](https://jasoart.github.io/Math/#washer-conical-volume)：**圓環法與中空旋轉體** — 旋轉體圓環法：外半徑平方減內半徑平方
+- [`parabola-tangent-normal`](https://jasoart.github.io/Math/#parabola-tangent-normal)：**切線與法線** — 拋物線切線、法線與頂點特例
 
 ## v2.0 新增
 

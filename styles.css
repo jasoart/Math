@@ -235,3 +235,10 @@ input[type="range"] { width: 100%; min-height: 26px; margin: 0; }
 .graph-entry { display:block;padding:1rem;margin-bottom:1rem;background:#eaf1ff;border:1px solid #cbdcf8;border-radius:14px;text-decoration:none; }
 .graph-entry strong { display:block;color:var(--accent); }
 .graph-entry span { color:var(--muted);font-size:.78rem; }
+.expansion-filter { padding: .65rem; margin-top: .5rem; border: 1px solid #bddacc; background: #eef9f3; border-radius: 9px; font-size: .8rem; color: #246648; }
+.module-trap { padding: .65rem .8rem; margin: .8rem 0; border-left: 3px solid #dcac51; background: #fff8e9; border-radius: 6px; }
+.module-trap h2 { font-size: .87rem; margin: 0 0 .35rem; }
+.module-trap p { margin: 0; }
+.challenge-solution { margin-top: .65rem; padding: .7rem .85rem; border: 1px solid #cfddf0; background: #f3f7fc; border-radius: 9px; }
+.challenge-solution summary { cursor: pointer; font-weight: 700; color: #2456a2; }
+.challenge-solution p { margin: .65rem 0 0; line-height: 1.8; }

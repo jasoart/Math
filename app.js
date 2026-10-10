@@ -61,7 +61,7 @@ function format(n, digits = 3) {
 }
 
 function html(lines) {
-  return lines.map(line => `<code>${line}</code>`).join("");
+  return lines.map(line => `<code>${window.MathExact.escape(line)}</code>`).join("");
 }
 
 let canvasSize = {width: 1100, height: 720};
@@ -4422,7 +4422,7 @@ const masteryModules = [
 ];
 
 modules.push(...masteryModules);
-modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []));
+modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []), ...(window.createExpansionModules?.() ?? []));
 
 const advancedIds = new Set(["parabola", "ellipse", "hyperbola", "complex", "space-skew-lines", "riemann", "derivative-tangent", "derivative-optimization", "limit-continuity", "ftc-accumulation", "area-between-curves", "complex-demoivre", "conic-tangent", "infinite-geometric-series", "newton-method", "derivative-rules", "concavity-inflection", "optimization-box", "piecewise-continuity-ivt", "squeeze-theorem", "cross-section-volume", "complex-nth-roots", "conic-rotation-xy", "ellipse-parametric", "complex-conjugate-roots", "normal-approx-binomial"]);
 const enrichmentIds = new Set(["taylor", "contour-gradient", "sampling-clt"]);
@@ -4563,6 +4563,12 @@ function render() {
   examSignal.textContent = module.examSignal;
   promptBox.textContent = module.prompt;
   challengeBox.textContent = module.challenge ?? "調整參數，觀察不變量，並用公式說明圖形現象。";
+  document.getElementById('moduleTrapWrap').hidden = !module.trap;
+  document.getElementById('moduleTrap').textContent = module.trap ?? '';
+  const solution = document.getElementById('challengeSolution');
+  solution.hidden = !module.challengeAnswer;
+  solution.open = false;
+  document.getElementById('challengeAnswer').textContent = module.challengeAnswer ?? '';
   renderModuleList();
   renderControls(module);
   drawCurrent();
