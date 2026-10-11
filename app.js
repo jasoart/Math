@@ -946,7 +946,7 @@ const modules = [
     title: "複數平面：乘法的旋轉與伸縮",
     short: "複數極式",
     tag: "複數平面",
-    examSignal: "看到複數乘法，不要只展開；用極式看成「模長相乘、幅角相加」，考場會快很多。",
+    examSignal: "看到複數乘法，不要只展開；用極式看成「模長相乘、幅角相加」，更容易看出幾何關係。",
     prompt: "調整乘數 w 的模長與角度，觀察 z 乘上 w 後如何旋轉、伸縮。請用圖形說明 arg(zw)=arg z+arg w。",
     controls: [
       { key: "zr", label: "|z|", min: 0.4, max: 3.5, step: 0.05, value: 2.1 },
@@ -1077,7 +1077,7 @@ const modules = [
     title: "泰勒近似：局部線性與二次近似",
     short: "局部近似",
     tag: "微積分",
-    examSignal: "看到「在某點附近、近似、切線」就想到局部線性；數甲再進一步用二次項看曲率。",
+    examSignal: "看到「在某點附近、近似、切線」就想到局部線性；二次項可進一步呈現曲率。",
     prompt: "拖曳基準點 c 與觀察點 x，比較原函數、切線近似與二次近似。請觀察 x 越靠近 c，近似誤差如何改變。",
     controls: [
       { key: "func", label: "函數", type: "select", value: "sin", options: [
@@ -1648,7 +1648,7 @@ const curriculumModules = [
         `f(x)=x³+${format(s.p)}x²+${format(s.q)}x+${format(s.r)}`,
         `f(x)=(x-c)Q(x)+f(c)`,
         `c=${format(s.c)}，餘式 f(c)=${format(m.rem)}`,
-        `局部切線斜率 f′(c)=${format(m.slope)}（數甲連結）`
+        `局部切線斜率 f′(c)=${format(m.slope)}`
       ];
     },
     draw(s, m) {
@@ -2109,7 +2109,7 @@ const curriculumModules = [
         `分類：${m.method}`,
         `公式：${m.formula}`,
         `結果：${format(m.count,0)}`,
-        `考場第一步：先判斷「重複」與「順序」`
+        `觀察第一步：先判斷「重複」與「順序」`
       ];
     },
     draw(s, m) {
@@ -4161,7 +4161,7 @@ const masteryModules = [
     title: "旋轉橢圓：含 xy 項的二次曲線",
     short: "旋轉橢圓",
     tag: "二次曲線",
-    examSignal: "含 xy 項常代表坐標軸旋轉；108 課綱重點是由旋轉橢圓認識，不要求直接解一般二次式。",
+    examSignal: "含 xy 項常代表坐標軸旋轉；用旋轉橢圓觀察主軸方向，再連結一般二次式的係數。",
     prompt: "調整旋轉角，觀察標準橢圓旋轉後出現斜向長短軸。",
     challenge: "說明為什麼旋轉不改變橢圓的長短軸長，只改變方向。",
     controls: [

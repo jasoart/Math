@@ -23,15 +23,16 @@ const edit=(input,text)=>{input.value=text;input.dispatchEvent(new w.Event('inpu
  const lab=w.MathLab;assert.equal(lab.modules.length,148);
  assert.equal(new Set(lab.modules.map(m=>m.id)).size,148);
  assert.equal($('moduleCount').textContent,'148');
- $('expansionOnly').checked=true;$('expansionOnly').dispatchEvent(new w.Event('change'));
- assert.equal(d.querySelectorAll('#moduleList button[data-module-id]').length,50);
+ assert.equal(d.querySelectorAll('#moduleList button[data-module-id]').length,148);
+ assert.equal(d.querySelectorAll('#courseFilter,#expansionOnly,#currentCourse,#examSection,#research').length,0);
+ assert.equal(d.querySelectorAll('script[src*="evidence.js"],script[src*="exam-explorer.js"]').length,0);
  $('moduleSearch').value='SSA';$('moduleSearch').dispatchEvent(new w.Event('input'));await wait(220);
  assert.equal(d.querySelectorAll('#moduleList button[data-module-id]').length,1);
  d.querySelector('#moduleList button[data-module-id]').click();assert.equal(lab.getCurrentModule().id,'sine-law-ssa');
  assert.equal($('moduleTrapWrap').hidden,false);assert.equal($('challengeSolution').hidden,false);assert.equal($('challengeSolution').open,false);
  $('challengeSolution').open=true;$('teacherMode').checked=true;$('teacherMode').dispatchEvent(new w.Event('change'));assert.equal($('challengeSolution').open,false);
  $('teacherMode').checked=false;$('teacherMode').dispatchEvent(new w.Event('change'));
- $('clearFilters').click();assert.equal($('expansionOnly').checked,false);assert.equal(d.querySelectorAll('#moduleList button[data-module-id]').length,148);
+ $('clearFilters').click();assert.equal($('topicFilter').value,'all');assert.equal(d.querySelectorAll('#moduleList button[data-module-id]').length,148);
  lab.selectModule('mean-value-parallel-tangent');assert.ok($('formulaBox').textContent.includes('a<c<b'));
  lab.selectModule('triangle-included-area',{a:'√2',b:'π',C:'π/2 rad'});const newURL=lab.createShareURL();w.location.hash=new URL(newURL).hash;await wait(60);assert.equal(lab.getState().parameters.a,'√2');assert.equal(lab.getState().parameters.C,'π/2 rad');
  lab.selectModule('circle-line');assert.equal($('moduleTrapWrap').hidden,true);assert.equal($('challengeSolution').hidden,true);
@@ -46,5 +47,6 @@ const edit=(input,text)=>{input.value=text;input.dispatchEvent(new w.Event('inpu
  await wait(400);const saved=JSON.parse(w.localStorage.getItem('mathlab.symbolic.v1'));assert.equal(saved['circle-line'].r,'√2');
  lab.selectModule('riemann-error-bounds');edit($('symbol-n'),'√2');assert.equal($('symbol-n').getAttribute('aria-invalid'),'true');edit($('symbol-n'),'√4');assert.equal(lab.getState().parameters.n,'√4');close(lab.getCurrentModule().controls.find(c=>c.key==='n').value,2);
  const symbol=$('symbol-b');symbol.value='';symbol.focus();symbol.setSelectionRange(0,0);symbol.dispatchEvent(new w.Event('select',{bubbles:true}));d.querySelector('[data-insert="π"]').click();d.querySelector('[data-insert="÷"]').click();d.querySelector('[data-insert="2"]').click();assert.equal(symbol.value,'π÷2');d.querySelector('[data-edit="apply"]').click();assert.equal(lab.getState().parameters.b,'π÷2');
+ assert.equal(fields,433,'All exact parameter fields remain available in the unified catalog');
  assert.deepEqual(errors,[]);process.stdout.write(`PASS ${checks} symbolic checks and ${fields} exact fields across all ${lab.modules.length} modules; keyboard, radians/degrees, no slider rounding, sharing, local storage, learning JSON\n`);
 })().catch(e=>{process.stderr.write(e.stack+'\n');process.exitCode=1;}).finally(()=>w.close());

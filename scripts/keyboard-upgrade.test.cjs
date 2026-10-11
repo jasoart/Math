@@ -63,5 +63,12 @@ try{
     edit('undo');equal(parameter.value,initial);select(parameter,parameter.value.length);type(parameter,'+1');
     equal(d.querySelector('[data-edit="undo"]').disabled,false);edit('undo');equal(parameter.value,initial);equal(d.querySelector('[data-edit="undo"]').disabled,true);
   }
-  assert.deepEqual(errors,[]);console.log(`PASS ${checks} keyboard checks: nested/selection-aware templates, slot navigation, typed history, undo/redo caret, scalar constraints, native events, shortcut scope`);
+  const surface=field('z=sin(x)*cos(y)',{'data-math-surface':'true'});equal(status(),'valid');
+  tab('variables');for(const variable of ['x','y'])equal(d.querySelector(`[data-insert="${variable}"]`).disabled,false);
+  for(const variable of ['t','θ','a','b','c','d','h','k'])equal(d.querySelector(`[data-insert="${variable}"]`).disabled,true);
+  select(surface,0,surface.value.length);type(surface,'x+t');equal(status(),'error');
+  select(surface,0,surface.value.length);type(surface,'sqrt(x^2+y^2)');equal(status(),'valid');
+  select(surface,0,surface.value.length);type(surface,'sin(');equal(status(),'incomplete');
+  field('sin(x)+y');equal(status(),'error');
+  assert.deepEqual(errors,[]);console.log(`PASS ${checks} keyboard checks: nested/selection-aware templates, slot navigation, typed history, undo/redo caret, scalar constraints, surface expressions, native events, shortcut scope`);
 }finally{w.close();}

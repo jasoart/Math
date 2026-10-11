@@ -2,24 +2,29 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>智慧繪圖 Pro｜高中數學互動實驗室</title>
+  <title>平面繪圖｜MATH LAB 數學工作室</title>
   <meta name="description" content="自由輸入函數、隱函數、參數式、極座標與座標點，即時調參數、找交點、積分面積、數值表並匯出圖形。">
-  <meta name="theme-color" content="#f5f7fb"><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#f5f3ee"><link rel="icon" href="./assets/studio-icon.png" type="image/png">
   <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./graph/graph.css">
   <script src="./graph/math.js" defer></script><script src="./graph/exact.js" defer></script><script src="./math-keyboard.js" defer></script><script src="./graph/state.js" defer></script><script src="./graph/svg.js" defer></script><script src="./graph/render.js" defer></script><script src="./graph/graph.js" defer></script>
 <link rel="stylesheet" href="./math-keyboard.css">
 </head>
 <body class="graph-app">
   <a class="skip-link" href="#graphCanvas">跳至繪圖畫布</a>
+  <header class="brandbar">
+    <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./graph.html" aria-current="page">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <a class="brandbar-action" href="./graph.html">開啟畫布 <span aria-hidden="true">↗</span></a>
+  </header>
   <header class="graph-header">
-    <div><a class="back-link" href="./index.html">← 數學互動實驗室</a><p class="eyebrow">MATH LAB / GRAPH STUDIO 2.4</p><h1>智慧繪圖 <em>Pro</em><span>把想法，畫出來。</span></h1></div>
+    <div><p class="eyebrow">THE GRAPH STUDIO</p><h1>平面繪圖<span>每條曲線，都有自己的語言。</span></h1></div>
     <div class="graph-actions"><span class="local-badge">自動保存在此裝置</span><button id="undoGraph" title="復原 Ctrl/Cmd+Z" disabled>↶ 復原</button><button id="redoGraph" title="重做 Ctrl/Cmd+Shift+Z" disabled>↷ 重做</button><button id="shareGraph">分享圖形</button><button id="exportGraph" class="primary">匯出 PNG ↗</button><button id="exportSVG">SVG</button></div>
   </header>
   <main class="graph-layout">
     <aside class="graph-sidebar" aria-label="繪圖設定">
       <section class="graph-panel"><div class="graph-heading"><h2>算式與圖形</h2><span id="curveCount" class="small-label"></span></div>
         <p class="graph-intro">點選欄位開啟數學鍵盤，直接輸入 √、π、分數與次方。三角函數使用弧度；最多 12 條圖形。</p>
-        <div id="expressions"></div><button id="addExpression" class="add-expression">＋ 新增一條圖形</button>
+        <div id="expressions"></div><button id="addExpression" class="add-expression">＋ 加入圖形</button>
         <label class="field-label" for="exampleSelect">一鍵探索</label><select id="exampleSelect"><option value="">選一組範例…</option><option value="quadratic">拋物線與直線</option><option value="circle">圓與橢圓</option><option value="trig">三角函數變換</option><option value="rational">有理函數與漸近線</option><option value="parametric">參數式：李沙育曲線</option><option value="polar">極座標：玫瑰線</option><option value="points">座標點與直線</option><option value="piecewise">分段函數與定義域</option><option value="inequality">不等式：圓內與半平面</option><option value="integral">定積分：正負面積</option><option value="vt">v–t 圖：等加速度位移</option><option value="wave">密集波形：自適應繪圖</option><option value="saddle">雙曲線：隱函數輪廓</option><option value="annotations">三角形：自動標註</option></select>
         <p class="small-label">選擇範例會替換目前算式，可按頂端「復原」。每列可另填圖形名稱，保留於分享、備份與匯出。</p>
       </section>
@@ -54,6 +59,7 @@
       <details class="graph-panel table-panel" id="tablePanel"><summary>數值表與 CSV 匯出</summary><p class="graph-intro">列出所有可見 y=f(x) 的值。點 x 可帶入觀察位置。</p><div class="calculus-controls"><label>x 起點<input id="tableStart" type="number" value="-2" step="any"></label><label>x 步長<input id="tableStep" type="number" value="0.5" step="any"></label><label>筆數<input id="tableCount" type="number" value="9" min="1" max="200"></label><button id="buildTable">產生數值表</button><button id="exportCSV">下載 CSV</button></div><div id="valueTable" class="table-scroll"></div></details>
     </div>
   </main>
+  <footer class="app-footer"><span>MATH LAB · 數學工作室</span><a href="./spatial.html">把視角，延伸至立體 ↗</a></footer>
   <div id="graphNotice" class="app-notice" role="status" aria-live="polite" hidden></div>
   <dialog id="graphShareDialog"><form method="dialog"><h2>分享這張圖</h2><p>網址包含算式、參數與視窗設定，收到的人可繼續操作。</p><label class="field-label" for="graphShareURL">圖形網址</label><input id="graphShareURL" type="url" readonly><div class="graph-actions"><button type="button" id="copyGraphURL">複製網址</button><button>關閉</button></div></form></dialog>
 </body></html>

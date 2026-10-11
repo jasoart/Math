@@ -1,15 +1,9 @@
 {
-  "name": "高中動態幾何微型實驗室",
-  "short_name": "動態幾何",
+  "name": "MATH LAB 數學工作室",
+  "short_name": "MATH LAB",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f6f7fb",
-  "theme_color": "#2f63ff",
-  "icons": [
-    {
-      "src": "./assets/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
-  ]
+  "background_color": "#f5f3ee",
+  "theme_color": "#087f73",
+  "icons": [{"src": "./assets/studio-icon.png", "sizes": "192x192", "type": "image/png"}]
 }

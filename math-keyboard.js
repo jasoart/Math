@@ -47,7 +47,13 @@
         for(const name of ['min','max']){const raw=active.dataset['math'+name[0].toUpperCase()+name.slice(1)]??active.getAttribute(name);if(raw!==null&&raw!==undefined&&raw!==''&&Number.isFinite(Number(raw)))options[name]=Number(raw);}
         options.integer=active.dataset.mathInteger==='true';
         const result=X.scalar(source,options);status='valid';message='有效常數 · 數值約 '+Number(result.value.toPrecision(12));
-      }else{M.parse(source);status='valid';message='算式語法正確；可繼續編輯或按完成輸入。';}
+      }else{
+        if(active.dataset.mathSurface==='true'){
+          const compiled=M.compile(source.replace(/^z\s*=\s*/i,''));
+          if(compiled.variables.some(variable=>!['x','y'].includes(variable)))throw Error('曲面算式僅支援 x、y 變數。');
+        }else M.parse(source);
+        status='valid';message='算式語法正確；可繼續編輯或按完成輸入。';
+      }
     }catch(e){status=incomplete(source,e.message)?'incomplete':'error';message=status==='incomplete'?'算式尚未完成；補上空格內容、運算元或右括號。':e.message;}}
     node.dataset.status=status;node.textContent=message;
   }
@@ -67,6 +73,7 @@
     for(const [label,template]of groups[tab]){
       const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.insert=template;b.setAttribute('aria-label','輸入 '+label);
       b.disabled=scalar(active)&&(['x','y','t','θ','a','b','c','d','h','k'].includes(template)||['{▯}','(▯,▯)','y=▯','r=▯','(cos(t),sin(t))','▯ {▯}'].includes(template));
+      if(active.dataset.mathSurface==='true'&&['t','θ','a','b','c','d','h','k','{▯}','(▯,▯)','y=▯','r=▯','(cos(t),sin(t))','▯ {▯}'].includes(template))b.disabled=true;
       b.onclick=()=>insert(template);host.append(b);
     }
     panel.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));

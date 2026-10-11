@@ -16,6 +16,7 @@ const root = path.resolve(__dirname, '..');
 const executablePath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 148);
 const reportPath = path.resolve(process.env.MATHLAB_TEST_REPORT || '/tmp/mathlab-verification-report.json');
+const legacyCopy = /本次新增|這次新增|新增\s*50|歷屆|考試|考場|課綱|參考專案|GRAPH STUDIO\s+2\.4|\bv2\.[0-9]+(?:\.[0-9]+)?\b/i;
 const report = {startedAt: new Date().toISOString(), expectedModules, checks: [], errors: []};
 let server, browser, artifacts;
 let serverLog = '';
@@ -73,7 +74,8 @@ async function main() {
   const page = await context.newPage();
   page.setDefaultTimeout(10000);
   page.setDefaultNavigationTimeout(15000);
-  const pageErrors = [], consoleErrors = [], badResponses = [], externalRequests = [];
+  const pageErrors = [], consoleErrors = [], badResponses = [], externalRequests = [], requestedAssets = [];
+  page.on('request', request => requestedAssets.push(new URL(request.url()).pathname));
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('console', message => {if (message.type() === 'error') consoleErrors.push(message.text());});
   page.on('response', response => {if (response.status() >= 400) badResponses.push({url: response.url(), status: response.status()});});
@@ -90,13 +92,15 @@ async function main() {
   const catalog = await page.evaluate(() => MathLab.modules.map(module => ({id: module.id, controls: module.controls.map(control => ({key: control.key, type: control.type || 'range', min: control.min, max: control.max, options: control.options?.map(option => option.value)}))})));
   assert.equal(catalog.length, expectedModules, 'Complete module catalog must load');
   assert.equal(new Set(catalog.map(module => module.id)).size, catalog.length, 'Module IDs must be unique');
-  record('complete module catalog', {count: catalog.length});
+  assert.equal(catalog.reduce((count, module) => count + module.controls.filter(control => control.type !== 'select').length, 0), 433, 'All 433 symbolic parameter fields remain available');
+  record('complete unified module catalog', {count: catalog.length, symbolicFields: 433});
 
   // Every boundary starts from defaults, so one control's singularity cannot
   // hide a different control's failure. Changes use real input events.
   const sweep = await page.evaluate(async () => {
     const frame = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const result = {defaults: 0, rangeBoundaries: 0, selectOptions: 0, failures: []};
+    const legacyCopy = /本次新增|這次新增|新增\s*50|歷屆|考試|考場|課綱|參考專案|GRAPH STUDIO\s+2\.4|\bv2\.[0-9]+(?:\.[0-9]+)?\b/i;
     const check = label => {
       const formula = document.getElementById('formulaBox').textContent.trim();
       const status = document.getElementById('liveStatus').textContent.trim();
@@ -108,6 +112,7 @@ async function main() {
         MathLab.selectModule(module.id);
         await frame();
         check(`${module.id}/default`);
+        if (legacyCopy.test(document.body.innerText)) result.failures.push(`${module.id}: legacy release/exam/reference copy remains visible`);
         result.defaults++;
         for (const control of module.controls) {
           const values = control.type === 'select' ? control.options.map(option => option.value) : [control.min, control.max];
@@ -187,8 +192,8 @@ async function main() {
     close('degenerate dice variance', find('discrete-convolution').compute({a: 1, b: 1, target: 2}).variance, 0);
     return results;
   });
-  record('new module mathematical invariants and singular cases', {count: invariants.length, values: invariants});
-  await evidenceChecks(page);
+  record('mathematical invariants and singular cases', {count: invariants.length, values: invariants});
+  await unifiedCatalogChecks(page);
 
   await page.evaluate(() => MathLab.selectModule('riemann-error-bounds', {b: 3.7, n: 23, method: 'trapezoid'}));
   const share = await page.evaluate(() => ({url: MathLab.createShareURL(), state: MathLab.getState()}));
@@ -263,6 +268,7 @@ async function main() {
   await settled(page);
   assert.equal(await page.evaluate(() => MathLab.modules.length), expectedModules);
   assert.deepEqual(externalRequests, [], 'App must make no external network requests');
+  assert.deepEqual(requestedAssets.filter(asset => /\/(?:evidence|exam-explorer)\.js$/.test(asset)), [], 'Retired exam and reference assets must not load');
   assert.deepEqual(badResponses, [], 'All local static assets must return successful responses');
   assert.deepEqual(pageErrors, [], 'No browser runtime exceptions');
   assert.deepEqual(consoleErrors, [], 'No console errors');
@@ -271,54 +277,22 @@ async function main() {
   report.passed = true;
 }
 
-async function evidenceChecks(page) {
-  const data = await page.evaluate(() => {
-    const ids = new Set(MathLab.modules.map(module => module.id));
-    const evidence = MathLabEvidence;
-    const missing = [];
-    let questions = 0, documents = 0;
-    for (const exam of evidence.exams) for (const document of exam.documents) {
-      documents++;
-      questions += document.questions.length;
-      for (const question of document.questions) for (const id of [...(question.moduleIds || []), ...(question.proposedModuleIds || []), ...(question.extensionModuleIds || [])]) {
-        if (!ids.has(id)) missing.push(`${exam.exam}/${document.year}/${question.number}: ${id}`);
-      }
-    }
-    return {questions, documents, missing, sources: evidence.sources.length, researchSources: evidence.sources.filter(source => !source.type?.startsWith('official-')).length, officialSources: evidence.curriculum.sources.length, exams: evidence.exams.map(exam => ({id: exam.exam, documents: exam.documents.map(document => ({year: document.year, questions: document.questions.map(question => question.primaryTopic)}))}))};
-  });
-  assert.equal(data.documents, 10, 'All ten uploaded exam papers must be indexed');
-  assert.equal(data.questions, 185, 'All numbered questions must be indexed');
-  assert.deepEqual(data.missing, [], 'Every existing and proposed exam module link must resolve');
-  assert.equal(await page.locator('#researchSources .source-card').count(), data.researchSources);
-  assert.equal(await page.locator('#curriculumSources .source-card').count(), data.officialSources);
-  assert.equal(data.sources, 8);
-  assert.equal(data.researchSources + data.officialSources, 8);
-  const filters = page.locator('#examExplorer select');
-  for (const exam of data.exams) {
-    await filters.nth(0).selectOption(exam.id);
-    for (const document of exam.documents) {
-      await filters.nth(1).selectOption(String(document.year));
-      await filters.nth(2).selectOption('all');
-      assert.equal(await page.locator('.exam-question').count(), Math.min(20, document.questions.length));
-      if (document.questions.length > 20) {
-        await page.locator('.exam-load-more').click();
-        assert.equal(await page.locator('.exam-question').count(), document.questions.length);
-      }
-      const firstTopic = document.questions[0];
-      await filters.nth(2).selectOption(firstTopic);
-      assert.equal(await page.locator('.exam-question').count(), document.questions.filter(topic => topic === firstTopic).length);
-    }
+async function unifiedCatalogChecks(page) {
+  assert.equal(await page.locator('#examSection, #examExplorer, #research, #researchSources, #curriculumSources, #courseFilter, #expansionOnly, #currentCourse').count(), 0, 'Retired exam, reference, course and release UI must be removed');
+  assert.doesNotMatch(await page.locator('body').innerText(), legacyCopy, 'Homepage copy must present a unified product');
+  const topics = await page.evaluate(() => [...new Set(MathLab.modules.map(module => module.tag))].sort());
+  const options = await page.locator('#topicFilter option').evaluateAll(items => items.filter(item => item.value !== 'all').map(item => item.value).sort());
+  assert.deepEqual(options, topics, 'Every catalog topic is discoverable');
+  for (const topic of topics) {
+    await page.locator('#topicFilter').selectOption(topic);
+    const actual = await page.locator('#moduleList button[data-module-id]').evaluateAll(buttons => buttons.map(button => button.dataset.moduleId).sort());
+    const expected = await page.evaluate(tag => MathLab.modules.filter(module => module.tag === tag).map(module => module.id).sort(), topic);
+    assert.deepEqual(actual, expected, `Topic filter ${topic} includes all matching modules`);
+    assert.match(await page.locator('#filterCount').innerText(), new RegExp(`${expected.length}\\s*/\\s*${expectedModules}`));
   }
-  await filters.nth(1).selectOption('all');
-  await filters.nth(2).selectOption('all');
-  assert.equal(await page.locator('.exam-question').count(), 20, 'Question list initially renders one page');
-  await page.locator('.exam-load-more').click();
-  assert.equal(await page.locator('.exam-question').count(), 40, 'Load more renders the next twenty questions');
-  const linked = page.locator('.exam-question .exam-links button').first();
-  const title = await linked.textContent();
-  await linked.click();
-  assert.equal(await page.evaluate(() => `探索：${MathLab.getCurrentModule().short}`), title, 'Exam exploration button must select its module');
-  record('exam index, valid module links and traceable sources', {count: data.questions, documents: data.documents, researchSources: data.researchSources, officialSources: data.officialSources});
+  await page.locator('#clearFilters').click();
+  assert.equal(await page.locator('#moduleList button[data-module-id]').count(), expectedModules);
+  record('unified catalog, complete topic filters and removal of legacy UI', {count: topics.length, topics});
 }
 
 async function learningChecks(page, context, baseURL) {
@@ -332,18 +306,17 @@ async function learningChecks(page, context, baseURL) {
   assert.equal(await page.locator('#moduleList button[data-module-id]').count(), expectedModules);
   record('search and clear filters', {count: 3});
 
-  for (const course of ['common', 'A', 'advanced', 'enrichment']) {
-    await page.locator('#courseFilter').selectOption(course);
-    const actual = await page.locator('#moduleList button[data-module-id]').evaluateAll(buttons => buttons.map(button => button.dataset.moduleId).sort());
-    const expected = await page.evaluate(course => MathLab.modules.filter(module => {
-      if (course === 'A') return module.course === 'common' || module.course === 'A';
-      if (course === 'advanced') return ['common', 'A', 'advanced'].includes(module.course);
-      return module.course === course;
-    }).map(module => module.id).sort(), course);
-    assert.deepEqual(actual, expected, `Cumulative course filter ${course}`);
-  }
+  // The catalog combines every module; selecting a topic and a search term
+  // must compose rather than reintroducing a historical release boundary.
+  const topic = await page.evaluate(() => MathLab.getCurrentModule().tag);
+  await page.locator('#topicFilter').selectOption(topic);
+  await page.locator('#moduleSearch').fill('極坐標');
+  const combined = await page.locator('#moduleList button[data-module-id]').evaluateAll(buttons => buttons.map(button => button.dataset.moduleId));
+  assert(combined.includes('polar-sector-sweep'), 'Combined search and topic retains the current matching module');
+  const topicIds = await page.evaluate(tag => MathLab.modules.filter(module => module.tag === tag).map(module => module.id), topic);
+  assert(combined.every(id => topicIds.includes(id)), 'Combined search cannot include a module from a different topic');
   await page.locator('#clearFilters').click();
-  record('cumulative course scope filters', {count: 4});
+  record('composable topic and search filters', {count: 2});
 
   await page.locator('#favoriteBtn').click();
   assert.equal(await page.locator('#favoriteBtn').getAttribute('aria-pressed'), 'true');

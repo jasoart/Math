@@ -5,7 +5,6 @@
   if (!lab) return;
   const $ = id => document.getElementById(id);
   const storageKey = "mathlab.learning.v1";
-  const courses = {common: "共同必修", A: "數學 A", advanced: "數學甲", enrichment: "延伸探索"};
   const moduleById = new Map(lab.modules.map(module => [module.id, module]));
   const forbidden = new Set(["__proto__", "prototype", "constructor"]);
   let records = Object.create(null);
@@ -88,7 +87,7 @@
       if (text.length > 4 * 1024 * 1024) throw new Error("紀錄檔過大");
       const saved = JSON.parse(text);
       assertKeys(saved, ["version", "records"], "本機紀錄");
-      if (saved.version !== 1) throw new Error("紀錄版本不支援");
+      if (saved.version !== 1) throw new Error("紀錄格式不支援");
       records = validateRecords(saved.records);
     } catch {
       storageAvailable = false;
@@ -105,24 +104,19 @@
 
   function filteredModules() {
     const query = $("moduleSearch").value.trim().toLocaleLowerCase();
-    const course = $("courseFilter").value;
     const topic = $("topicFilter").value;
     return lab.modules.filter(module => {
       const searchText = module.searchText || [module.title, module.short, module.tag, module.examSignal, module.prompt].join(" ").toLocaleLowerCase();
       return (!query || searchText.includes(query)) &&
-        (course === "all" || module.course === course || module.courses?.includes(course)) &&
         (topic === "all" || module.tag === topic) &&
-        (!$("expansionOnly").checked || module.release === '2.3') &&
         (!$("favoritesOnly").checked || getRecord(module.id).favorite);
     });
   }
 
   function resetFilters() {
     $("moduleSearch").value = "";
-    $("courseFilter").value = "all";
     $("topicFilter").value = "all";
     $("favoritesOnly").checked = false;
-    $("expansionOnly").checked = false;
     renderNavigation();
   }
 
@@ -160,11 +154,9 @@
       const mark = document.createElement("span");
       mark.className = "module-mark";
       const record = getRecord(module.id);
-      mark.textContent = [module.release === '2.3' ? '新增' : '', record.favorite ? "★ 收藏" : "", record.practiced ? "✓ 已練習" : ""].filter(Boolean).join(" · ");
+      mark.textContent = [record.favorite ? "★ 收藏" : "", record.practiced ? "✓ 已探索" : ""].filter(Boolean).join(" · ");
       badges.append(topic, mark);
-      const course = document.createElement("span");
-      course.textContent = courses[module.course] || "教學探索";
-      button.append(title, badges, course);
+      button.append(title, badges);
       button.addEventListener("click", () => {
         if (saveTimer) persist();
         lab.selectModule(module.id);
@@ -187,7 +179,6 @@
     $("practicedCheck").checked = record.practiced;
     $("favoriteBtn").setAttribute("aria-pressed", String(record.favorite));
     $("favoriteBtn").textContent = record.favorite ? "★ 已收藏" : "☆ 收藏";
-    $("currentCourse").textContent = courses[module.course] || "教學探索";
     if (storageAvailable) $("noteStatus").textContent = record.note ? "筆記已儲存到這個瀏覽器。" : "筆記只儲存在這個瀏覽器。";
     if ($("teacherMode").checked) setFormulaVisibility(false);
     renderCounters();
@@ -207,7 +198,7 @@
     document.body.classList.toggle("teacher-mode", enabled);
     setFormulaVisibility(enabled ? false : previousFormulaVisibility);
     window.dispatchEvent(new Event("resize"));
-    notify(enabled ? "已開啟課堂投影模式。先讓學生預測，再揭示公式。" : "已回到一般探索模式。");
+    notify(enabled ? "已開啟投影模式。先預測結果，再揭示公式。" : "已回到一般探索模式。");
   }
 
   function exportBackup() {
@@ -222,12 +213,12 @@
     link.download = `mathlab-learning-${date}.json`;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    notify("已匯出學習紀錄，包含所有筆記、收藏、練習標記與目前實驗參數。");
+    notify("已匯出筆記、收藏、探索進度與目前實驗參數。");
   }
 
   function validateBackup(value) {
     assertKeys(value, ["version", "moduleId", "parameters", "records"], "匯入紀錄");
-    if (value.version !== 1 || typeof value.moduleId !== "string" || !moduleById.has(value.moduleId)) throw new Error("版本或模組不支援");
+    if (value.version !== 1 || typeof value.moduleId !== "string" || !moduleById.has(value.moduleId)) throw new Error("格式或模組不支援");
     if (!plainObject(value.parameters)) throw new Error("參數格式錯誤");
     for (const key of Object.keys(value.parameters)) if (forbidden.has(key)) throw new Error("參數含有不支援的欄位");
     const parameters = lab.validateParameters(moduleById.get(value.moduleId), value.parameters);
@@ -269,62 +260,6 @@
     $("shareBtn").focus();
   }
 
-  function safeLink(raw) {
-    try {
-      const url = new URL(raw, location.href);
-      return ["https:", "http:"].includes(url.protocol) ? url.href : null;
-    } catch { return null; }
-  }
-
-  function renderSources() {
-    const evidence = window.MathLabEvidence;
-    if (!evidence) return;
-    const curriculum = evidence.curriculum;
-    const allSources = Array.isArray(evidence.sources) ? evidence.sources : [];
-    const officialSources = allSources.filter(source => source.type?.startsWith("official-"));
-    const baselineSources = Array.isArray(curriculum) ? curriculum : curriculum?.sources || [];
-    const curriculumSources = baselineSources.map(source => officialSources.find(item => item.id === source.id) || source);
-    for (const source of officialSources) if (!curriculumSources.some(item => item.id === source.id)) curriculumSources.push(source);
-    const research = allSources.filter(source => !source.type?.startsWith("official-"));
-    const sourceTypes = {"journal-paper": "學術論文", preprint: "預印本", "technical-report": "技術報告", "engineering-document": "工程文件", "official-curriculum": "官方課綱來源", "official-exam": "官方考試來源", "official-exam-scope": "官方考試範圍"};
-    for (const [hostId, sources, label] of [["curriculumSources", curriculumSources, "課綱與考試"], ["researchSources", research, "技術研究"]]) {
-      const host = $(hostId);
-      host.replaceChildren();
-      if (hostId === "curriculumSources" && curriculum?.freshness) {
-        const caution = document.createElement("p");
-        caution.className = "evidence-caution curriculum-caution";
-        caution.textContent = curriculum.freshness;
-        host.append(caution);
-      }
-      for (const source of sources) {
-        const card = document.createElement("article");
-        card.className = "source-card";
-        const kind = document.createElement("span");
-        kind.className = "source-kind";
-        kind.textContent = `${sourceTypes[source.type] || label}${source.year ? ` / ${source.year}` : ""}${source.status === "pending-network" ? " / 待原站核對" : ""}`;
-        const title = document.createElement("h3");
-        const url = safeLink(source.url);
-        if (url) {
-          const link = document.createElement("a");
-          link.href = url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.textContent = `${source.title || source.label || source.id} ↗`;
-          title.append(link);
-        } else title.textContent = source.title || source.label || source.id || "研究來源";
-        card.append(kind, title);
-        const affiliation = [source.authors, source.affiliation].filter(Boolean).join(" · ");
-        for (const text of [affiliation, source.application || source.description, source.limitation ? `限制：${source.limitation}` : ""]) {
-          if (!text) continue;
-          const paragraph = document.createElement("p");
-          paragraph.textContent = text;
-          card.append(paragraph);
-        }
-        host.append(card);
-      }
-    }
-  }
-
   const topics = [...new Set(lab.modules.map(module => module.tag))].sort((a, b) => a.localeCompare(b, "zh-Hant"));
   for (const topic of topics) {
     const option = document.createElement("option");
@@ -337,7 +272,7 @@
   lab.notify = notify;
   lab.learning = {storageKey, validateBackup, importBackup};
   $("moduleSearch").addEventListener("input", renderNavigation);
-  for (const id of ["courseFilter", "topicFilter", "favoritesOnly", "expansionOnly"]) $(id).addEventListener("change", renderNavigation);
+  for (const id of ["topicFilter", "favoritesOnly"]) $(id).addEventListener("change", renderNavigation);
   $("clearFilters").addEventListener("click", resetFilters);
   $("favoriteBtn").addEventListener("click", () => {
     const id = lab.getCurrentModule().id;
@@ -384,5 +319,4 @@
   window.addEventListener("pagehide", () => { if (saveTimer) persist(); });
   renderCurrentLearning();
   renderNavigation();
-  renderSources();
 })();

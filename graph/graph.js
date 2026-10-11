@@ -274,7 +274,7 @@
     for(const letter of text){if(line&&ctx.measureText(line+letter).width>maxWidth){lines.push(line);line='';}line+=letter;}if(line)lines.push(line);return lines;
   }
   function footerLines(){
-    const content=[{text:'MATH LAB · 智慧繪圖 Pro',font:'600 14px system-ui',color:'#172b42'},...state.rows.filter(r=>r.visible).map(r=>({text:(r.label?r.label+' · ':'')+r.text,font:'12px monospace',color:r.color})),{text:'弧度 · '+keys.map(k=>k+'='+state.paramText[k]).join(', ')+' · 數值取樣圖形',font:'11px system-ui',color:'#52677c'}];
+    const content=[{text:'MATH LAB · 平面繪圖',font:'600 14px system-ui',color:'#172b42'},...state.rows.filter(r=>r.visible).map(r=>({text:(r.label?r.label+' · ':'')+r.text,font:'12px monospace',color:r.color})),{text:'弧度 · '+keys.map(k=>k+'='+state.paramText[k]).join(', ')+' · 數值取樣圖形',font:'11px system-ui',color:'#52677c'}];
     return content.flatMap(record=>wrapped(record.text,width-36,record.font).map(text=>({...record,text})));
   }
   function footer(target,lines){target.save();target.fillStyle='#fff';target.fillRect(0,height,width,28+lines.length*22);target.textAlign='left';target.textBaseline='alphabetic';lines.forEach((line,i)=>{target.font=line.font;target.fillStyle=line.color;target.fillText(line.text,18,height+24+i*22);});target.restore();}
