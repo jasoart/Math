@@ -26,7 +26,10 @@ let server,browser;
     const colored=await page.locator('#graphCanvas').evaluate(c=>{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let n=0;for(let i=0;i<d.length;i+=4)if(Math.max(d[i],d[i+1],d[i+2])-Math.min(d[i],d[i+1],d[i+2])>80)n++;return n;});
     assert.ok(colored>100,`${example}: rendered colored curves`);
   }
-  await page.locator('#exampleSelect').selectOption('parametric');await page.locator('#tMax').fill('-1');await page.locator('#tMax').press('Tab');assert.ok(Number(await page.locator('#tMax').inputValue())>0);
+  await page.locator('#exampleSelect').selectOption('parametric');await page.locator('#tMax').fill('-1');await page.locator('#tMax').press('Tab');
+  assert.equal(await page.locator('#tMax').inputValue(),'2π','invalid t range restores the preserved symbolic source');
+  const restoredT=await page.locator('#tMax').evaluate(input=>window.MathExact.scalar(input.value).value);
+  assert.ok(Math.abs(restoredT-2*Math.PI)<1e-12,'restored symbolic range evaluates to 2π');
   await page.locator('#exampleSelect').selectOption('quadratic');await page.locator('#param-a').fill('2.5');await page.locator('#param-a').press('Tab');
   await page.locator('#shareGraph').click();const share=await page.locator('#graphShareURL').inputValue();assert.match(share,/#g=/);
   await page.getByRole('button',{name:'關閉',exact:true}).click();

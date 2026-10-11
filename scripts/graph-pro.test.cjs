@@ -29,6 +29,11 @@ const base=S.defaults(),migrated=S.validate({...base,version:1,params:{a:1,b:2,c
 assert.equal(migrated.version,3);assert.equal(migrated.params.d,1);checks++;
 assert.deepEqual(S.validate(JSON.parse(JSON.stringify(base))),base);checks++;
 for(const changed of [{version:4},{rows:[]},{rows:Array(13).fill(base.rows[0])},{params:{a:Infinity,b:1,c:1}},{view:{x:0,y:0,span:0}},{ranges:{a:[2,1,.1]}},{ranges:{a:[0,1,0]}},{rows:[{text:'x',visible:true,color:'url(bad)'}]},{t:[1,0]}]){assert.throws(()=>S.validate({...base,...changed}));checks++;}
+const named={...base,rows:[{...base.rows[0],label:'頂點 <A> & B'}],display:{labels:'all',quality:'precise',legend:false}};
+assert.deepEqual(S.validate(JSON.parse(JSON.stringify(named))),named);checks++;
+const oldDocument={...base};delete oldDocument.display;oldDocument.rows=oldDocument.rows.map(({label,...row})=>row);
+assert.equal(S.validate(oldDocument).display.labels,'smart');assert.equal(S.validate(oldDocument).rows[0].label,'');checks+=2;
+for(const change of [{display:{labels:'bad',quality:'precise',legend:true}},{display:{labels:'all',quality:'bad',legend:true}},{rows:[{...base.rows[0],label:'x'.repeat(61)}]},{rows:[{...base.rows[0],label:42}]}]){assert.throws(()=>S.validate({...base,...change}));checks++;}
 const hist=new S.History(base),next={...base,grid:false};hist.commit(next);hist.commit(next);assert.equal(hist.items.length,2);assert.equal(hist.undo().grid,true);assert.ok(hist.canRedo);assert.equal(hist.redo().grid,false);hist.undo();hist.commit({...base,t:[0,1]});assert.ok(!hist.canRedo);checks+=4;
 const svg=new SVG(100,100);svg.fillText('<script>&"',2,3);svg.save();svg.beginPath();svg.rect(0,0,100,100);svg.clip();svg.restore();const xml=svg.toString();assert.ok(!xml.includes('<script>'));assert.ok(xml.includes('&lt;script&gt;&amp;&quot;'));assert.equal((xml.match(/<g /g)||[]).length,(xml.match(/<\/g>/g)||[]).length);checks+=3;
 console.log(`PASS ${checks} Pro math, integration, document and history checks`);

@@ -20,6 +20,11 @@
 .expression-input { font:500 .94rem ui-monospace,SFMono-Regular,Consolas,monospace;border:0;background:transparent;width:100%;min-width:0;padding:.35rem .15rem; }
 .expression-input[aria-invalid=true] { color:var(--danger); }
 .expression-error { color:var(--danger);font-size:.72rem;margin:.25rem 0 0; }
+.curve-label-input { width:100%;min-width:0;font-size:.75rem;color:#52677c;padding:.3rem .4rem;border:1px solid #e2e9f2;border-radius:6px;background:white;margin-top:.3rem; }
+.display-panel select { width:100%;margin-bottom:.7rem; }.display-panel .checkbox-label{display:flex;gap:.4rem;align-items:center}
+.graph-legend { display:flex;flex-wrap:wrap;gap:.35rem .9rem;padding:.55rem 1rem;border-bottom:1px solid #e9eef4;background:#fcfdff;max-height:100px;overflow:auto;font-size:.72rem; }
+.graph-legend[hidden],.graph-legend:empty { display:none; }.graph-legend>span{display:flex;align-items:center;gap:.4rem;max-width:100%;min-width:0}.graph-legend i{width:16px;height:3px;flex-shrink:0;border-radius:3px}.graph-legend>span>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#labelReadout { width:100%;font-size:.66rem; }
 .add-expression { width:100%;border-style:dashed;color:var(--accent);margin:.15rem 0 1.2rem; }
 .graph-panel select { font-size:.83rem; }
 .graph-panel .small-label { font-size:.7rem;margin:.5rem 0 0; }

@@ -4519,7 +4519,7 @@ function renderControls(module) {
     wrap.appendChild(input);
     if(control.type !== 'select'){
       const row=document.createElement('div');row.className='symbol-input-row';
-      symbolic=document.createElement('input');symbolic.type='text';symbolic.className='symbol-input';symbolic.id=`symbol-${control.key}`;symbolic.value=control.exact??String(control.value);symbolic.dataset.mathInput='true';symbolic.dataset.mathScalar='true';symbolic.dataset.mathUnit=control.mathUnit;symbolic.maxLength=240;
+      symbolic=document.createElement('input');symbolic.type='text';symbolic.className='symbol-input';symbolic.id=`symbol-${control.key}`;symbolic.value=control.exact??String(control.value);symbolic.dataset.mathInput='true';symbolic.dataset.mathScalar='true';symbolic.dataset.mathUnit=control.mathUnit;symbolic.dataset.mathMin=String(control.min);symbolic.dataset.mathMax=String(control.max);symbolic.dataset.mathInteger=String(!!control.integer);symbolic.maxLength=240;
       symbolic.setAttribute('aria-label',`${control.label} 精確算式`);
       const key=document.createElement('button');key.type='button';key.textContent='⌨ 符號';key.setAttribute('aria-label',`開啟 ${control.label} 數學鍵盤`);key.onclick=()=>{symbolic.focus();window.MathKeyboard.open(symbolic);};row.append(symbolic,key);wrap.append(row);
       const hint=document.createElement('p');hint.className='symbol-input-hint';hint.textContent=`${control.integer?'整數結果':'可輸入 √2、π/3、1/2'} · 範圍 ${control.min}～${control.max}${control.unit??''}${control.mathUnit==='deg'?' · π/3 rad = 60°':''}`;wrap.append(hint);

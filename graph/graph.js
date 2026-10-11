@@ -1,15 +1,18 @@
 /* Standalone graph studio; no remote services or runtime dependencies. */
 (() => {
   'use strict';
-  const $ = id => document.getElementById(id), M = window.GraphMath, S = window.GraphState;
+  const $ = id => document.getElementById(id), M = window.GraphMath, S = window.GraphState, R = window.GraphRender;
   const colors=S.colors, keys=S.keys, X=window.MathExact, K=window.MathKeyboard;
   const numeric=el=>K.numeric(el);
   const names={function:'函數 y=f(x)',implicit:'隱函數',inequality:'不等式區域',parametric:'參數曲線',polar:'極座標',point:'座標點'};
   const examples={quadratic:['y=a(x-b)^2+c','y=x+2'],circle:['x^2+y^2=9','x^2/16+y^2/4=1'],trig:['y=a sin(b x)+c','y=cos(x)'],rational:['y=1/x','y=(x^2-1)/(x-1)'],parametric:['(3sin(a t),3sin(b t))'],polar:['r=a cos(b t)'],points:['(1,2)','(-2,-1)','y=x+1'],piecewise:['y=if(x<0,-x,x^2)','y=sqrt(x) {0<=x<=4}'],inequality:['x^2+y^2<=9','y>x+1'],integral:['y=x^3-x','y=0'],vt:['y=a+b*x {0<=x<=6}']};
   const defaultState=S.defaults, validState=S.validate;
+  Object.assign(examples,{wave:['y=sin(20x)','y=0.5cos(35x)'],saddle:['x*y=0.25','x*y=-0.25'],annotations:['(0,0)','(3,0)','(1,2)','(3t,0)','(t,2t)','(3-2t,2t)']});
   const canvas=$('graphCanvas');let ctx=canvas.getContext('2d');
   let state=defaultState(), compiled=[], width=800,height=500, points=[], frame=0, analysisTimer=0, noticeTimer=0, saveTimer=0;
   let history=null, historyTimer=0, animation=null, integral=null, tableData=null, analysisGeneration=0;
+  let labelItems=[],labelObstacles=[],curveObstacles=[],renderStats={},exporting=false,interactionUntil=0,detailTimer=0,frameQuality=null;
+  const curveCache=new Map();
   const storageKey='mathlab-graph-v1'; // Preserve the existing user's saved workspace.
   const finite=n=>Number.isFinite(n), clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   const fmt=n=>!finite(n)?'未定義':n===0?'0':Math.abs(n)>=1e5||Math.abs(n)<1e-4?Number(n).toExponential(4):String(Number(n.toFixed(6)));
@@ -32,7 +35,7 @@
   function save() { clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try {localStorage.setItem(storageKey,JSON.stringify(state));}catch{if(!storageWarned){notice('瀏覽器無法儲存，請使用分享網址保留圖形。');storageWarned=true;document.querySelector('.local-badge').textContent='此瀏覽器無法自動儲存';}}},250); }
   function parseRows() {
     compiled=state.rows.map((r,i)=>{
-      try {return {...M.parse(r.text),index:i,color:r.color||colors[i],visible:r.visible,text:r.text};}
+      try {return {...M.parse(r.text),index:i,color:r.color||colors[i],visible:r.visible,text:r.text,label:r.label||''};}
       catch(error){return {index:i,error:error.message,visible:r.visible,text:r.text};}
     });
     compiled.forEach((c,i)=>{
@@ -52,18 +55,19 @@
       for(const c of compiled.filter(c=>!c.error&&c.visible&&c.kind==='function')) {const o=document.createElement('option');o.value=c.index;o.textContent=`${c.index+1}. ${c.text}`;select.append(o);}
       if([...select.options].some(o=>o.value===prior))select.value=prior;
     }
-    update();
+    rebuildLegend();update();
   }
   function rebuild() {
     stopAnimation();K.close();K.enhanceNumbers();
     $('expressions').replaceChildren();
     state.rows.forEach((r,i)=>{
       const row=document.createElement('div');row.className='expression-row';row.style.setProperty('--curve',r.color||colors[i]);
-      row.innerHTML='<div class="expression-top"><label><input type="checkbox"><span></span></label><input type="color"><span class="expression-kind"></span><button type="button" class="expression-duplicate" title="複製算式">⧉</button><button type="button" class="expression-delete">×</button></div><input class="expression-input" type="text" maxlength="480" autocomplete="off" spellcheck="false"><p class="expression-error" role="status" hidden></p>';
+      row.innerHTML='<div class="expression-top"><label><input type="checkbox"><span></span></label><input type="color"><span class="expression-kind"></span><button type="button" class="expression-duplicate" title="複製算式">⧉</button><button type="button" class="expression-delete">×</button></div><input class="expression-input" type="text" maxlength="480" autocomplete="off" spellcheck="false"><input class="curve-label-input" type="text" maxlength="60" placeholder="圖形名稱（選填）"><p class="expression-error" role="status" hidden></p>';
       const check=row.querySelector('input[type=checkbox]');check.checked=r.visible;check.setAttribute('aria-label',`顯示圖形 ${i+1}`);check.onchange=()=>{r.visible=check.checked;parseRows();};
       row.querySelector('label span').textContent=`圖形 ${i+1}`;
       const input=row.querySelector('.expression-input');input.value=r.text;input.setAttribute('aria-label',`算式 ${i+1}`);input.setAttribute('aria-describedby',`expression-error-${i}`);row.querySelector('.expression-error').id=`expression-error-${i}`;
       let timer;input.addEventListener('input',()=>{r.text=input.value;clearTimeout(timer);timer=setTimeout(parseRows,220);});input.addEventListener('change',()=>{clearTimeout(timer);parseRows();});
+      const label=row.querySelector('.curve-label-input');label.value=r.label||'';label.setAttribute('aria-label',`圖形 ${i+1} 名稱`);label.onfocus=()=>K.close();label.oninput=()=>{r.label=label.value;parseRows();};
       const color=row.querySelector('input[type=color]');color.value=r.color||colors[i];color.setAttribute('aria-label',`圖形 ${i+1} 顏色`);color.oninput=()=>{r.color=color.value;row.style.setProperty('--curve',r.color);parseRows();};
       const duplicate=row.querySelector('.expression-duplicate');duplicate.setAttribute('aria-label',`複製圖形 ${i+1}`);duplicate.disabled=state.rows.length>=12;duplicate.onclick=()=>{flushHistory();state.rows.splice(i+1,0,{...r,color:colors[state.rows.length]});rebuild();};
       const del=row.querySelector('.expression-delete');del.setAttribute('aria-label',`刪除圖形 ${i+1}`);del.onclick=()=>{flushHistory();if(state.rows.length===1){r.text='';}else state.rows.splice(i,1);rebuild();};
@@ -86,7 +90,8 @@
       });
       row.querySelector('.animate-param').onclick=()=>toggleAnimation(key);$('parameters').append(row);
     }
-    $('tMin').value=state.tText[0];$('tMax').value=state.tText[1];$('showGrid').checked=state.grid;K.enhanceNumbers();parseRows();
+    $('labelMode').value=state.display.labels;$('renderQuality').value=state.display.quality;$('showLegend').checked=state.display.legend;rebuildLegend();
+    $('tMin').value=state.tText[0];$('tMax').value=state.tText[1];$('tableCount').dataset.mathInteger='true';$('showGrid').checked=state.grid;K.enhanceNumbers();parseRows();
   }
   const scale=()=>width/state.view.span;
   const sx=x=>width/2+(x-state.view.x)*scale(),sy=y=>height/2-(y-state.view.y)*scale();
@@ -105,56 +110,68 @@
     const raw=90/scale(),p=10**Math.floor(Math.log10(raw)),step=[1,2,5,10].find(v=>v*p>=raw)*p;
     ctx.font='11px ui-monospace,monospace';ctx.lineWidth=1;
     const xAxis=sy(0),yAxis=sx(0);
-    for(let x=Math.ceil(wx(0)/step)*step;x<=wx(width)+step*.001;x+=step){const px=sx(x);if(state.grid){ctx.strokeStyle='#e7edf5';ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,height);ctx.stroke();}ctx.fillStyle='#718297';ctx.textAlign='center';ctx.fillText(fmt(x),px,clamp(xAxis+17,18,height-8));}
-    for(let y=Math.ceil(wy(height)/step)*step;y<=wy(0)+step*.001;y+=step){const py=sy(y);if(state.grid){ctx.strokeStyle='#e7edf5';ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(width,py);ctx.stroke();}if(Math.abs(y)>step*.001){ctx.fillStyle='#718297';ctx.textAlign='left';ctx.fillText(fmt(y),clamp(yAxis+8,8,width-65),py-5);}}
+    for(let x=Math.ceil(wx(0)/step)*step;x<=wx(width)+step*.001;x+=step){const px=sx(x);if(state.grid){ctx.strokeStyle='#e7edf5';ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,height);ctx.stroke();}ctx.fillStyle='#718297';ctx.textAlign='center';const y=clamp(xAxis+17,18,height-8),text=fmt(x);ctx.fillText(text,px,y);labelObstacles.push({x:px-ctx.measureText(text).width/2-2,y:y-12,width:ctx.measureText(text).width+4,height:15});}
+    for(let y=Math.ceil(wy(height)/step)*step;y<=wy(0)+step*.001;y+=step){const py=sy(y);if(state.grid){ctx.strokeStyle='#e7edf5';ctx.beginPath();ctx.moveTo(0,py);ctx.lineTo(width,py);ctx.stroke();}if(Math.abs(y)>step*.001){ctx.fillStyle='#718297';ctx.textAlign='left';const x=clamp(yAxis+8,8,width-65),text=fmt(y);ctx.fillText(text,x,py-5);labelObstacles.push({x:x-2,y:py-17,width:ctx.measureText(text).width+4,height:15});}}
     ctx.strokeStyle='#8c9cb1';ctx.lineWidth=1.3;ctx.beginPath();if(xAxis>=0&&xAxis<=height){ctx.moveTo(0,xAxis);ctx.lineTo(width,xAxis);}if(yAxis>=0&&yAxis<=width){ctx.moveTo(yAxis,0);ctx.lineTo(yAxis,height);}ctx.stroke();
     ctx.fillStyle='#52677c';ctx.font='italic 13px serif';ctx.fillText('x',width-16,clamp(xAxis-8,15,height-10));ctx.fillText('y',clamp(yAxis+9,10,width-15),17);
   }
-  function dot(x,y,color,label){if(!finite(x)||!finite(y)||sx(x)<-10||sx(x)>width+10||sy(y)<-10||sy(y)>height+10)return;ctx.beginPath();ctx.arc(sx(x),sy(y),4,0,2*Math.PI);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.stroke();if(label){ctx.font='12px system-ui';ctx.fillStyle=color;ctx.fillText(label,sx(x)+8,sy(y)-8);}}
-  // Midpoint subdivision breaks non-finite paths and unresolved jumps at poles.
-  function curve(c){
-    const explicit=c.kind==='function',start=explicit?wx(0):state.t[0],end=explicit?wx(width):state.t[1];
-    const count=explicit?Math.ceil(width/4):900;let budget=35000;
-    const at=t=>{const v=evaluate(c,t);return explicit?[t,v]:v;};
-    ctx.beginPath();ctx.strokeStyle=c.color;ctx.lineWidth=2.2;ctx.lineJoin='round';
-    function segment(t0,p0,t1,p1,depth){
-      if(--budget<0)return;const tm=(t0+t1)/2,pm=at(tm);
-      if(!p0.every(finite)||!p1.every(finite)||!pm.every(finite)){if(depth<7&&(p0.every(finite)||p1.every(finite)||pm.every(finite))){segment(t0,p0,tm,pm,depth+1);segment(tm,pm,t1,p1,depth+1);}return;}
-      const error=Math.hypot(sx(pm[0])-(sx(p0[0])+sx(p1[0]))/2,sy(pm[1])-(sy(p0[1])+sy(p1[1]))/2);
-      const distance=Math.hypot(sx(p1[0])-sx(p0[0]),sy(p1[1])-sy(p0[1]));
-      if(error>1.2||distance>height*.4){if(depth<7){segment(t0,p0,tm,pm,depth+1);segment(tm,pm,t1,p1,depth+1);}return;}
-      if(Math.max(Math.abs(sx(p0[0])),Math.abs(sy(p0[1])),Math.abs(sx(p1[0])),Math.abs(sy(p1[1])))>1e7)return;
-      ctx.moveTo(sx(p0[0]),sy(p0[1]));ctx.lineTo(sx(p1[0]),sy(p1[1]));
-    }
-    let p0=at(start);for(let i=1;i<=count;i++){const t0=start+(end-start)*(i-1)/count,t1=start+(end-start)*i/count,p1=at(t1);segment(t0,p0,t1,p1,0);p0=p1;}ctx.stroke();
+  const viewport=()=>({xmin:wx(0),xmax:wx(width),ymin:wy(height),ymax:wy(0),width,height});
+  const quality=()=>frameQuality||(exporting?'precise':animation||pointers.size||performance.now()<interactionUntil?'interactive':state.display.quality);
+  function interact(){interactionUntil=performance.now()+150;clearTimeout(detailTimer);detailTimer=setTimeout(scheduleDraw,170);}
+  function shortText(text,maxWidth){const letters=Array.from(text);if(ctx.measureText(text).width<=maxWidth)return text;while(letters.length>1&&ctx.measureText(letters.join('')+'…').width>maxWidth)letters.pop();return letters.join('')+'…';}
+  function queueLabel(x,y,color,text,id,priority=1){
+    if(state.display.labels==='none'||!finite(x)||!finite(y)||x<0||x>width||y<0||y>height)return;
+    ctx.font='12px system-ui';const value=shortText(text,Math.min(width-28,260));
+    labelItems.push({id,text:value,anchor:[x,y],width:ctx.measureText(value).width+14,height:25,color,priority});
   }
+  function dot(x,y,color,label,id='point',priority=5){if(!finite(x)||!finite(y)||sx(x)<0||sx(x)>width||sy(y)<0||sy(y)>height)return;ctx.beginPath();ctx.arc(sx(x),sy(y),4,0,2*Math.PI);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.stroke();labelObstacles.push({x:sx(x)-6,y:sy(y)-6,width:12,height:12});if(label)queueLabel(sx(x),sy(y),color,label,id,priority);}
+  function drawSegments(result,color){
+    ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=2.2;ctx.lineJoin='round';
+    const total=result.segments.reduce((n,line)=>n+line.length-1,0),stride=Math.max(1,Math.ceil(total/400));let serial=0;
+    for(const line of result.segments){if(!line.length)continue;ctx.moveTo(sx(line[0][0]),sy(line[0][1]));for(let i=1;i<line.length;i++){
+      ctx.lineTo(sx(line[i][0]),sy(line[i][1]));
+      if(serial++%stride===0)curveObstacles.push({x1:sx(line[i-1][0]),y1:sy(line[i-1][1]),x2:sx(line[i][0]),y2:sy(line[i][1]),radius:2});
+    }}ctx.stroke();
+    renderStats.evaluations=(renderStats.evaluations||0)+result.stats.evaluations;renderStats.segments=(renderStats.segments||0)+result.segments.length;
+    if(result.stats.budgetExhausted)renderStats.limited=true;
+  }
+  function sampled(c){
+    const q=quality(),key=JSON.stringify([c.text,c.kind,state.params,state.view,state.t,width,height,q]);
+    if(c.text&&curveCache.has(key))return curveCache.get(key);
+    const options={quality:q};
+    const result=c.kind==='function'?R.sampleFunction(t=>evaluate(c,t),viewport(),options):c.kind==='implicit'||c.kind==='inequality'?R.contourImplicit((x,y)=>evaluate(c,x,y),viewport(),options):R.sampleParametric(t=>evaluate(c,t),state.t[0],state.t[1],viewport(),options);
+    if(c.text){if(curveCache.size>=36)curveCache.delete(curveCache.keys().next().value);curveCache.set(key,result);}return result;
+  }
+  function curve(c){drawSegments(sampled(c),c.color);}
   function implicit(c){
-    const cell=animation?14:8,nx=Math.ceil(width/cell),ny=Math.ceil(height/cell),values=[];
-    for(let j=0;j<=ny;j++){const row=[];for(let i=0;i<=nx;i++)row.push(evaluate(c,wx(i*cell),wy(j*cell)));values.push(row);}
-    if(c.kind==='inequality') {
-      ctx.save();ctx.fillStyle=c.color;ctx.globalAlpha=.13;
-      for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-        const corners=[values[j][i],values[j][i+1],values[j+1][i],values[j+1][i+1]],inside=corners.map(c.contains);
-        if(inside.every(Boolean))ctx.fillRect(i*cell,j*cell,cell,cell);
-        else if(inside.some(Boolean)) {for(let dy=0;dy<cell;dy+=2)for(let dx=0;dx<cell;dx+=2)if(c.contains(evaluate(c,wx(i*cell+dx+1),wy(j*cell+dy+1))))ctx.fillRect(i*cell+dx,j*cell+dy,2,2);}
-        else if(c.contains(evaluate(c,wx((i+.5)*cell),wy((j+.5)*cell))))ctx.fillRect(i*cell,j*cell,cell,cell);
-      }ctx.restore();
+    // Shading and its boundary share the same finite predicate; strict bounds use dashes.
+    if(c.kind==='inequality'){
+      const cell=quality()==='interactive'?12:6;ctx.save();ctx.fillStyle=c.color;ctx.globalAlpha=.13;
+      for(let y=0;y<height;y+=cell)for(let x=0;x<width;x+=cell){const px=x+Math.min(cell,width-x)/2,py=y+Math.min(cell,height-y)/2;if(c.contains(evaluate(c,wx(px),wy(py))))ctx.fillRect(x,y,Math.min(cell,width-x),Math.min(cell,height-y));}
+      ctx.restore();
     }
-    ctx.save();ctx.setLineDash(c.kind==='inequality'&&['<','>'].includes(c.relation)?[6,5]:[]);
-    ctx.beginPath();ctx.strokeStyle=c.color;ctx.lineWidth=2;
-    function crossing(a,b,fa,fb){
-      if(!finite(fa)||!finite(fb)||((fa>0)===(fb>0))||fa===fb)return null;
-      let l=a,r=b,fl=fa;
-      for(let k=0;k<20;k++){const m=[(l[0]+r[0])/2,(l[1]+r[1])/2],fm=evaluate(c,wx(m[0]),wy(m[1]));if(!finite(fm))return null;if((fl>0)===(fm>0)){l=m;fl=fm;}else r=m;}
-      const p=[(l[0]+r[0])/2,(l[1]+r[1])/2],v=evaluate(c,wx(p[0]),wy(p[1]));
-      return finite(v)&&Math.abs(v)<1e-4*Math.max(1,Math.min(Math.abs(fa),Math.abs(fb)))?p:null;
-    }
-    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-      const p=[[i*cell,j*cell],[(i+1)*cell,j*cell],[(i+1)*cell,(j+1)*cell],[i*cell,(j+1)*cell]],v=[values[j][i],values[j][i+1],values[j+1][i+1],values[j+1][i]],hits=[];
-      for(let e=0;e<4;e++){const h=crossing(p[e],p[(e+1)%4],v[e],v[(e+1)%4]);if(h)hits.push({edge:e,p:h});}
-      if(hits.length===2){ctx.moveTo(...hits[0].p);ctx.lineTo(...hits[1].p);}
-      else if(hits.length===4){const center=evaluate(c,wx((i+.5)*cell),wy((j+.5)*cell));const pairs=(center>0)===(v[0]>0)?[[0,1],[2,3]]:[[0,3],[1,2]];for(const [a,b]of pairs){ctx.moveTo(...hits[a].p);ctx.lineTo(...hits[b].p);}}
-    }ctx.stroke();ctx.restore();
+    ctx.save();ctx.setLineDash(c.kind==='inequality'&&['<','>'].includes(c.relation)?[6,5]:[]);drawSegments(sampled(c),c.color);ctx.restore();
+  }
+  function curveName(c,result){
+    if(!c.label||!result?.segments.length)return;
+    const line=result.segments.reduce((best,line)=>line.length>best.length?line:best,[]),p=line[Math.floor(line.length*.65)];
+    if(p)queueLabel(sx(p[0]),sy(p[1]),c.color,c.label,'curve-'+c.index,2);
+  }
+  function drawLabels(){
+    const candidates=state.display.labels==='smart'?[...labelItems].sort((a,b)=>b.priority-a.priority).slice(0,width<500?12:26):labelItems;
+    const layout=R.placeLabels(candidates,{width,height},{obstacles:[...labelObstacles,...curveObstacles],padding:8,gap:4});
+    ctx.save();ctx.font='12px system-ui';ctx.textAlign='left';ctx.textBaseline='middle';
+    for(const l of layout.labels){if(l.leader){ctx.beginPath();ctx.strokeStyle=l.color;ctx.lineWidth=.9;ctx.setLineDash([]);ctx.moveTo(...l.leader[0]);ctx.lineTo(...l.leader[1]);ctx.stroke();}
+      ctx.fillStyle='#ffffff';ctx.globalAlpha=.94;ctx.fillRect(l.x,l.y,l.width,l.height);ctx.globalAlpha=1;ctx.fillStyle=l.color;ctx.fillText(l.text,l.x+7,l.y+l.height/2);
+    }ctx.restore();
+    renderStats.labels=layout.labels.map(l=>({id:l.id,x:l.x,y:l.y,width:l.width,height:l.height,text:l.text}));renderStats.suppressed=labelItems.length-layout.labels.length;
+    $('labelReadout').textContent=state.display.labels==='none'?'標註已隱藏':`標註 ${layout.labels.length}/${labelItems.length}`+(renderStats.suppressed?' · 密集處請查看智慧分析':'');
+    if(renderStats.limited)$('labelReadout').textContent+=' · 密集圖形請縮小觀察範圍以取得更多細節';
+    canvas.dataset.labelCount=String(layout.labels.length);canvas.dataset.quality=quality();
+  }
+  function rebuildLegend(){
+    const host=$('graphLegend');host.replaceChildren();host.hidden=!state.display.legend;
+    for(const c of compiled.filter(c=>!c.error&&c.visible)){const item=document.createElement('span'),swatch=document.createElement('i'),text=document.createElement('span');swatch.style.background=c.color;text.textContent=`${c.index+1}. ${c.label||c.text}`;item.title=c.text;item.append(swatch,text);host.append(item);}
   }
   function probe(){
     const c=compiled[Number($('probeCurve').value)],x=numeric($('probeX'));
@@ -162,15 +179,18 @@
     const f=x=>evaluate(c,x),y=f(x),slope=M.slope(f,x),differentiable=finite(slope);
     $('probeResult').textContent=`f(${$('probeX').value}) ≈ ${fmt(y)}；斜率 ≈ ${differentiable?fmt(slope):'無法判定'}`;
     if($('showDerivative').checked){ctx.save();ctx.setLineDash([4,4]);curve({kind:'function',color:c.color,at:t=>M.slope(f,t)});ctx.restore();}
-    if($('traceCurve').checked&&finite(y)){ctx.save();ctx.setLineDash([3,5]);ctx.strokeStyle='#9aaabd';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),height);ctx.stroke();ctx.restore();dot(x,y,c.color,`(${fmt(x)}, ${fmt(y)})`);}
+    if($('traceCurve').checked&&finite(y)){ctx.save();ctx.setLineDash([3,5]);ctx.strokeStyle='#9aaabd';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),height);ctx.stroke();ctx.restore();dot(x,y,c.color,`觀察 (${fmt(x)}, ${fmt(y)})`,'probe',20);}
     if($('showTangent').checked&&finite(y)&&differentiable){ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=c.color;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,sy(y+slope*(wx(0)-x)));ctx.lineTo(width,sy(y+slope*(wx(width)-x)));ctx.stroke();ctx.restore();dot(x,y,c.color);}
   }
   function draw(){
+    frameQuality=quality();try{
+    labelItems=[];labelObstacles=[{x:8,y:8,width:Math.min(270,width-16),height:30},{x:width-100,y:height-32,width:92,height:24}];curveObstacles=[];renderStats={quality:quality(),evaluations:0,segments:0};
     ctx.clearRect(0,0,width,height);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);grid();ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();shadeArea();
-    for(const c of compiled.filter(c=>!c.error&&c.visible)){if(c.kind==='point'){const p=evaluate(c,0);dot(...p,c.color,`(${fmt(p[0])}, ${fmt(p[1])})`);}else if(c.kind==='implicit'||c.kind==='inequality')implicit(c);else curve(c);}
-    if($('showAnalysis').checked)for(const p of points)dot(p.x,p.y,p.color);
-    probe();ctx.restore();$('viewReadout').textContent=`x ∈ [${fmt(wx(0))}, ${fmt(wx(width))}]`;
+    for(const c of compiled.filter(c=>!c.error&&c.visible)){if(c.kind==='point'){const p=evaluate(c,0);dot(...p,c.color,`${c.label?c.label+' ':''}(${fmt(p[0])}, ${fmt(p[1])})`,'point-'+c.index,10);}else if(c.kind==='implicit'||c.kind==='inequality')implicit(c);else curve(c);if(c.kind!=='point')curveName(c,sampled(c));}
+    if($('showAnalysis').checked)for(const [i,p] of points.entries())dot(p.x,p.y,p.color,`${p.label.split(' · ').at(-1)} (${fmt(p.x)}, ${fmt(p.y)})`,'analysis-'+i,p.label.includes('交點')?9:6);
+    probe();drawLabels();ctx.restore();$('viewReadout').textContent=`x ∈ [${fmt(wx(0))}, ${fmt(wx(width))}]`;
     for(const [id,key]of [['viewX','x'],['viewY','y'],['viewSpan','span']])if(document.activeElement!==$(id))$(id).value=state.viewText[key];
+    }finally{frameQuality=null;}
   }
   async function analyze(){
     const ticket=analysisGeneration,params={...state.params},xmin=wx(0),xmax=wx(width),ymin=wy(height),ymax=wy(0);
@@ -203,7 +223,7 @@
   function fit(){
     let samples=[],hasImplicit=false;
     for(const c of compiled.filter(c=>!c.error&&c.visible)){
-      if(c.kind==='implicit'||c.kind==='inequality'){hasImplicit=true;continue;}
+      if(c.kind==='implicit'||c.kind==='inequality'){hasImplicit=true;for(const line of sampled(c).segments)samples.push(...line);continue;}
       if(c.kind==='point'){samples.push(evaluate(c,0));continue;}
       const explicit=c.kind==='function',a=explicit?-10:state.t[0],b=explicit?10:state.t[1];
       for(let i=0;i<=400;i++){const t=a+(b-a)*i/400,v=evaluate(c,t);samples.push(explicit?[t,v]:v);}
@@ -212,44 +232,57 @@
     if(!samples.length){state.view={x:0,y:0,span:14};notice(hasImplicit?'隱函數使用原點視窗，請拖曳或縮放尋找其他區域。':'未取得有限座標，已回到原點。');update();return;}
     const xs=samples.map(p=>p[0]).sort((a,b)=>a-b),ys=samples.map(p=>p[1]).sort((a,b)=>a-b);
     const trim=samples.length>100?.025:0,x0=xs[0],x1=xs.at(-1),y0=ys[Math.floor(ys.length*trim)],y1=ys[Math.min(ys.length-1,Math.floor(ys.length*(1-trim)))];
-    state.view={x:(x0+x1)/2,y:(y0+y1)/2,span:clamp(Math.max(x1-x0,(y1-y0)*width/height,2)*1.2,.001,1e6)};boundView();update();notice('已依 x ∈ [−10,10] 或 t 範圍取景；極端值與隱函數可能需手動調整。');
+    state.view={x:(x0+x1)/2,y:(y0+y1)/2,span:clamp(Math.max(x1-x0,(y1-y0)*width/height,2)*1.2,.001,1e6)};boundView();update();notice('已依 x ∈ [−10,10]、t 範圍與視窗內隱函數輪廓取景；視窗外分支與極端值仍可能需手動調整。');
   }
   const pointers=new Map();let gesture=null,tap=null;
   const position=e=>{const r=canvas.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];};
   function rebaseGesture(){const p=[...pointers.values()];gesture=p.length===1?{p:p[0],view:{...state.view}}:p.length>=2?{p:[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2],distance:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]),view:{...state.view}}:null;}
-  canvas.addEventListener('pointerdown',e=>{canvas.focus({preventScroll:true});stopAnimation();tap={p:position(e),moved:false};pointers.set(e.pointerId,position(e));canvas.setPointerCapture(e.pointerId);rebaseGesture();});
+  canvas.addEventListener('pointerdown',e=>{K.close();interact();canvas.focus({preventScroll:true});stopAnimation();tap={p:position(e),moved:false};pointers.set(e.pointerId,position(e));canvas.setPointerCapture(e.pointerId);rebaseGesture();});
   canvas.addEventListener('pointermove',e=>{
     const p=position(e);$('coordinateReadout').textContent=`x ${fmt(wx(p[0]))}   y ${fmt(wy(p[1]))}`;
     if(tap&&Math.hypot(p[0]-tap.p[0],p[1]-tap.p[1])>5)tap.moved=true;
     if($('traceCurve').checked&&!pointers.size){$('probeX').value=Number(wx(p[0]).toPrecision(8));scheduleDraw();}
-    if(!pointers.has(e.pointerId)||!gesture)return;pointers.set(e.pointerId,p);const ps=[...pointers.values()];
+    if(!pointers.has(e.pointerId)||!gesture)return;interact();pointers.set(e.pointerId,p);const ps=[...pointers.values()];
     const center=ps.length>1?[(ps[0][0]+ps[1][0])/2,(ps[0][1]+ps[1][1])/2]:p;
     const distance=ps.length>1?Math.hypot(ps[0][0]-ps[1][0],ps[0][1]-ps[1][1]):0;
     const span=gesture.distance&&distance?clamp(gesture.view.span*gesture.distance/distance,.001,1e6):gesture.view.span;
     state.view.span=span;state.view.x=gesture.view.x+(gesture.p[0]-width/2)*gesture.view.span/width-(center[0]-width/2)*span/width;state.view.y=gesture.view.y-(gesture.p[1]-height/2)*gesture.view.span/width+(center[1]-height/2)*span/width;boundView();update();
   });
-  for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,e=>{if(event==='pointerup'&&tap&&!tap.moved&&pointers.size===1&&$('traceCurve').checked){$('probeX').value=Number(wx(position(e)[0]).toPrecision(8));scheduleDraw();}if(pointers.size>1&&tap)tap.moved=true;pointers.delete(e.pointerId);rebaseGesture();if(!pointers.size)tap=null;});
-  canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(Math.exp(clamp(e.deltaY,-100,100)*.002),...position(e));},{passive:false});
+  for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,e=>{if(event==='pointerup'&&tap&&!tap.moved&&pointers.size===1&&$('traceCurve').checked){$('probeX').value=Number(wx(position(e)[0]).toPrecision(8));scheduleDraw();}if(pointers.size>1&&tap)tap.moved=true;pointers.delete(e.pointerId);rebaseGesture();if(!pointers.size){tap=null;interact();scheduleDraw();}});
+  canvas.addEventListener('wheel',e=>{e.preventDefault();interact();zoom(Math.exp(clamp(e.deltaY,-100,100)*.002),...position(e));},{passive:false});
   canvas.addEventListener('keydown',e=>{const step=state.view.span*.06;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','0'].includes(e.key))e.preventDefault();else return;if(e.key==='ArrowLeft')state.view.x-=step;if(e.key==='ArrowRight')state.view.x+=step;if(e.key==='ArrowUp')state.view.y+=step;if(e.key==='ArrowDown')state.view.y-=step;if(e.key==='+'||e.key==='=')zoom(.8);if(e.key==='-')zoom(1.25);if(e.key==='0')state.view={x:0,y:0,span:14};boundView();update();});
   $('addExpression').onclick=()=>{if(state.rows.length<12){flushHistory();state.rows.push({text:'',visible:true,color:colors[state.rows.length]});rebuild();$('expressions').lastElementChild.querySelector('.expression-input').focus();}};
   $('exampleSelect').onchange=e=>{
     const name=e.target.value;if(!examples[name])return;stopAnimation();flushHistory();state=defaultState();
     state.rows=examples[name].map((text,i)=>({text,visible:true,color:colors[i]}));
+    if(name==='annotations'){['A','B','C','AB','AC','BC'].forEach((label,i)=>state.rows[i].label=label);state.view={x:1.5,y:1,span:6};state.t=[0,1];state.tText=['0','1'];}
+    if(name==='wave')state.view={x:0,y:0,span:4};
     if(name==='parametric')Object.assign(state.params,{a:3,b:2});if(name==='polar')Object.assign(state.params,{a:4,b:3});
     if(name==='vt'){Object.assign(state.params,{a:2,b:1});state.view={x:3,y:4,span:12};}
     keys.forEach(k=>state.paramText[k]=String(state.params[k]));for(const k of ['x','y','span'])state.viewText[k]=String(state.view[k]);e.target.value='';K.close();rebuild();
     if(name==='integral'||name==='vt'){$('integralA').value=name==='vt'?0:-1;$('integralB').value=name==='vt'?4:2;$('integralCurve').value='';calculateIntegral();}
   };
   $('zoomIn').onclick=()=>zoom(.8);$('zoomOut').onclick=()=>zoom(1.25);$('homeView').onclick=()=>{state.view={x:0,y:0,span:14};update();};$('fitView').onclick=fit;
+  for(const id of ['labelMode','renderQuality','showLegend'])$(id).onchange=()=>{state.display={labels:$('labelMode').value,quality:$('renderQuality').value,legend:$('showLegend').checked};rebuildLegend();update();};
   $('showGrid').onchange=()=>{state.grid=$('showGrid').checked;update();};$('showAnalysis').onchange=scheduleDraw;
   for(const id of ['probeCurve','probeX','showTangent','showDerivative','traceCurve'])$(id).addEventListener('input',scheduleDraw);
   for(const id of ['tMin','tMax'])$(id).addEventListener('change',()=>{const a=numeric($('tMin')),b=numeric($('tMax'));if(!finite(a)||!finite(b)||a>=b||Math.max(Math.abs(a),Math.abs(b))>1e5){notice('t 起點需小於終點，且介於 −100000 到 100000。');$('tMin').value=state.tText[0];$('tMax').value=state.tText[1];return;}state.t=[a,b];state.tText=[$('tMin').value,$('tMax').value];update();});
   $('shareGraph').onclick=()=>{stopAnimation();const url=new URL(location.href);url.hash='g='+encodeURIComponent(JSON.stringify(state));$('graphShareURL').value=url.href;$('graphShareDialog').showModal();$('graphShareURL').select();};
   $('copyGraphURL').onclick=async()=>{try{await navigator.clipboard.writeText($('graphShareURL').value);notice('圖形網址已複製。');}catch{$('graphShareURL').select();notice('請長按或按 Ctrl/Cmd+C 複製網址。');}};
+  function wrapped(text,maxWidth,font){
+    ctx.font=font;const lines=[];let line='';
+    for(const letter of text){if(line&&ctx.measureText(line+letter).width>maxWidth){lines.push(line);line='';}line+=letter;}if(line)lines.push(line);return lines;
+  }
+  function footerLines(){
+    const content=[{text:'MATH LAB · 智慧繪圖 Pro',font:'600 14px system-ui',color:'#172b42'},...state.rows.filter(r=>r.visible).map(r=>({text:(r.label?r.label+' · ':'')+r.text,font:'12px monospace',color:r.color})),{text:'弧度 · '+keys.map(k=>k+'='+state.paramText[k]).join(', ')+' · 數值取樣圖形',font:'11px system-ui',color:'#52677c'}];
+    return content.flatMap(record=>wrapped(record.text,width-36,record.font).map(text=>({...record,text})));
+  }
+  function footer(target,lines){target.save();target.fillStyle='#fff';target.fillRect(0,height,width,28+lines.length*22);target.textAlign='left';target.textBaseline='alphabetic';lines.forEach((line,i)=>{target.font=line.font;target.fillStyle=line.color;target.fillText(line.text,18,height+24+i*22);});target.restore();}
   $('exportGraph').onclick=()=>{
-    stopAnimation();
-    draw();const ratio=canvas.width/width,out=document.createElement('canvas');out.width=canvas.width;const lines=state.rows.map((r,i)=>r.visible?`${i+1}. ${r.text}`:null).filter(Boolean);out.height=canvas.height+Math.ceil((70+lines.length*22)*ratio);const c=out.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,out.width,out.height);c.drawImage(canvas,0,0);c.scale(ratio,ratio);c.fillStyle='#172b42';c.font='600 14px system-ui';c.fillText('MATH LAB · 智慧繪圖',18,height+24);c.font='12px monospace';lines.forEach((line,i)=>c.fillText(line,18,height+48+i*22,width-36));c.fillStyle='#52677c';c.font='10px system-ui';c.fillText(`弧度 · ${keys.map(k=>k+'='+state.paramText[k]).join(', ')} · 數值取樣圖形`,18,height+52+lines.length*22,width-36);
-    out.toBlob(blob=>{if(!blob){notice('無法匯出圖形，請稍後再試。');return;}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mathlab-graph.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);notice('PNG 已匯出，包含目前算式與參數。');},'image/png');
+    stopAnimation();exporting=true;
+    try{draw();const ratio=canvas.width/width,lines=footerLines(),out=document.createElement('canvas');out.width=canvas.width;out.height=canvas.height+Math.ceil((28+lines.length*22)*ratio);const c=out.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,out.width,out.height);c.drawImage(canvas,0,0);c.scale(ratio,ratio);footer(c,lines);
+      out.toBlob(blob=>{if(!blob){notice('無法匯出圖形，請稍後再試。');return;}download(blob,'mathlab-graph.png');notice('PNG 已匯出，包含標註、完整算式與參數。');},'image/png');
+    }finally{exporting=false;scheduleDraw();}
   };
   function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}
   function stopAnimation(){
@@ -289,9 +322,11 @@
     catch(error){notice('匯入失敗：'+error.message);}finally{e.target.value='';}
   };
   $('exportSVG').onclick=()=>{
-    stopAnimation();const previous=ctx,lines=state.rows.filter(r=>r.visible),footer=80+lines.length*22,svg=new window.GraphSVG(width,height+footer);
-    try{ctx=svg;draw();ctx.fillStyle='#fff';ctx.fillRect(0,height,width,footer);ctx.textAlign='left';ctx.fillStyle='#172b42';ctx.font='600 14px sans-serif';ctx.fillText('MATH LAB · 智慧繪圖 Pro',18,height+24);ctx.font='12px monospace';lines.forEach((r,i)=>{ctx.fillStyle=r.color;ctx.fillText(r.text.length>Math.floor((width-36)/8)?r.text.slice(0,Math.max(8,Math.floor((width-36)/8)-1))+'…':r.text,18,height+48+i*22);});ctx.fillStyle='#52677c';ctx.font='10px sans-serif';ctx.fillText('弧度 · '+keys.map(k=>k+'='+state.paramText[k]).join(', ')+' · 數值取樣圖形',18,height+56+lines.length*22);download(new Blob([svg.toString()],{type:'image/svg+xml'}),'mathlab-graph.svg');notice('已匯出可縮放的向量 SVG。');}
-    catch{notice('SVG 匯出失敗，請改用 PNG。');}finally{ctx=previous;scheduleDraw();}
+    stopAnimation();const previous=ctx;exporting=true;
+    try{
+      const lines=footerLines(),svg=new window.GraphSVG(width,height+28+lines.length*22,(text,font)=>{previous.save();previous.font=font;const measured=previous.measureText(text);previous.restore();return measured;});
+      ctx=svg;draw();footer(svg,lines);download(new Blob([svg.toString()],{type:'image/svg+xml'}),'mathlab-graph.svg');notice('已匯出向量 SVG，標註與完整算式會自動排版。');
+    }catch(error){notice('SVG 匯出失敗，請改用 PNG。');}finally{ctx=previous;exporting=false;scheduleDraw();}
   };
   function selectedFunction(id='probeCurve'){const value=$(id).value,c=compiled[Number(value)];return value!==''&&c?.kind==='function'&&!c.error&&c.visible?c:null;}
   function calculateIntegral(){
@@ -326,5 +361,6 @@
   for(const id of ['tableStart','tableStep','tableCount'])$(id).addEventListener('input',()=>{tableData=null;$('valueTable').textContent='範圍已變更，請重新產生數值表。';});
   $('exportCSV').onclick=()=>{if(!buildTable())return;const quote=v=>'"'+String(v).replace(/"/g,'""')+'"',csv=[tableData.headers,...tableData.rows.map(row=>row.map(v=>finite(v)?v:'未定義'))].map(row=>row.map(quote).join(',')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'mathlab-values.csv');};
   window.addEventListener('hashchange',load);window.addEventListener('pagehide',()=>{try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}});
+  window.GraphStudio={getRenderReport:()=>JSON.parse(JSON.stringify(renderStats))};
   load();new ResizeObserver(resize).observe(canvas);
 })();

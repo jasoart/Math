@@ -21,7 +21,7 @@ const input=(id,v)=>{const el=typeof id==='string'?$(id):id;el.value=v;el.dispat
 const click=id=>$(id).click();
 const example=name=>input('exampleSelect',name);
 (async()=>{
- for(const file of ['math.js','exact.js','../math-keyboard.js','state.js','svg.js','graph.js'])w.eval(fs.readFileSync(path.join(root,'graph',file),'utf8'));
+ for(const file of ['math.js','exact.js','../math-keyboard.js','state.js','svg.js','render.js','graph.js'])w.eval(fs.readFileSync(path.join(root,'graph',file),'utf8'));
  await wait(550);assert.equal($('tMax').value,'2π');assert.equal(d.querySelectorAll('.expression-row').length,2);assert.match($('analysisResults').textContent,/交點/);assert.ok(frames>0&&operations>100);
  for(const name of ['circle','trig','rational','parametric','polar','points','piecewise','inequality','integral','vt']){example(name);await wait(260);assert.equal(d.querySelectorAll('[aria-invalid=true]').length,0,name);}
  assert.match($('integralResult').textContent,/16/);

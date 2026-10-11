@@ -4,7 +4,7 @@
   const X=typeof module!=='undefined'&&module.exports?require('./exact.js'):root.MathExact;
   const colors=['#2166d1','#db6b28','#098675','#9b4cc2','#c03967','#74721a','#307f9b','#755b49','#7953db','#bd3745','#057a9c','#596a31'];
   const keys=['a','b','c','d','h','k'];
-  const defaults=()=>({version:3,paramText:{a:"1",b:"1",c:"0",d:"1",h:"0",k:"0"},tText:["0","2π"],viewText:{x:"0",y:"0",span:"14"},rangeText:Object.fromEntries(keys.map(k=>[k,["-10","10","0.1"]])),rows:[{text:'y=x^2-2',visible:true,color:colors[0]},{text:'y=x+1',visible:true,color:colors[1]}],params:{a:1,b:1,c:0,d:1,h:0,k:0},ranges:Object.fromEntries(keys.map(k=>[k,[-10,10,.1]])),view:{x:0,y:0,span:14},t:[0,2*Math.PI],grid:true});
+  const defaults=()=>({version:3,paramText:{a:"1",b:"1",c:"0",d:"1",h:"0",k:"0"},tText:["0","2π"],viewText:{x:"0",y:"0",span:"14"},rangeText:Object.fromEntries(keys.map(k=>[k,["-10","10","0.1"]])),rows:[{text:'y=x^2-2',visible:true,color:colors[0],label:''},{text:'y=x+1',visible:true,color:colors[1],label:''}],params:{a:1,b:1,c:0,d:1,h:0,k:0},ranges:Object.fromEntries(keys.map(k=>[k,[-10,10,.1]])),view:{x:0,y:0,span:14},t:[0,2*Math.PI],grid:true,display:{labels:'smart',quality:'balanced',legend:true}});
   const finite=Number.isFinite;
   function validate(s){
     if(!s||![1,2,3].includes(s.version)||!Array.isArray(s.rows)||s.rows.length<1||s.rows.length>12)throw Error('圖形資料格式無效。');
@@ -24,7 +24,10 @@
     const t=s.t.map((v,i)=>numericText(s.tText?.[i],v,{min:-100000,max:100000}));if(t[1].value<=t[0].value)throw Error('參數範圍無效。');
     d.t=t.map(v=>v.value);d.tText=t.map(v=>v.source);
     for(const k of ['x','y','span']){const v=numericText(s.viewText?.[k],s.view[k],{min:k==='span'?.001:-1e9,max:k==='span'?1e6:1e9});d.view[k]=v.value;d.viewText[k]=v.source;}
-    return {...d,rows:s.rows.map((r,i)=>({text:r.text,visible:r.visible,color:r.color||colors[i]})),grid:s.grid!==false};
+    const display=s.display??{labels:'smart',quality:'balanced',legend:true};
+    if(!display||!['smart','all','none'].includes(display.labels)||!['balanced','precise'].includes(display.quality)||typeof display.legend!=='boolean')throw Error('標註或繪圖品質設定無效。');
+    if(s.rows.some(r=>r.label!==undefined&&(typeof r.label!=='string'||r.label.length>60)))throw Error('圖形名稱不可超過 60 字。');
+    return {...d,rows:s.rows.map((r,i)=>({label:r.label||'',color:r.color||colors[i],text:r.text,visible:r.visible})),display:{labels:display.labels,quality:display.quality,legend:display.legend},grid:s.grid!==false};
   }
   class History{
     constructor(state){this.items=[JSON.stringify(state)];this.index=0;}
