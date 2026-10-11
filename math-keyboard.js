@@ -48,7 +48,11 @@
         options.integer=active.dataset.mathInteger==='true';
         const result=X.scalar(source,options);status='valid';message='有效常數 · 數值約 '+Number(result.value.toPrecision(12));
       }else{
-        if(active.dataset.mathSurface==='true'){
+        if(active.dataset.mathUv==='true'&&window.SpatialGeometry){
+          window.SpatialGeometry.make('parametricSurface',{expressions:[source,'0','0']});
+        }else if(active.dataset.mathGeometry==='true'&&window.SpatialGeometry){
+          window.SpatialGeometry.parse(source);
+        }else if(active.dataset.mathSurface==='true'){
           const compiled=M.compile(source.replace(/^z\s*=\s*/i,''));
           if(compiled.variables.some(variable=>!['x','y'].includes(variable)))throw Error('曲面算式僅支援 x、y 變數。');
         }else M.parse(source);
@@ -60,7 +64,7 @@
   function preview(){
     if(!active||!panel)return;
     $('mathKeyboardTarget').textContent=active.getAttribute('aria-label')||active.labels?.[0]?.textContent?.trim()||'數學算式';
-    $('mathKeyboardPreview').innerHTML=X.markup(active.value);
+    $('mathKeyboardPreview').innerHTML=window.MathTypeset?window.MathTypeset.expressionHTML(active.value):X.markup(active.value);
     const s=state(active),slot=currentSlot(s),index=s.slots.indexOf(slot);
     $('mathKeyboardSlots').textContent=s.slots.length?`範本空格 ${index<0?'—':index+1}／${s.slots.length} · Tab 下一格，Shift+Tab 上一格`:'選取文字後按範本，可將選取內容放入第一格。';
     $('mathKeyboardHint').textContent=active.dataset.mathUnit==='deg'?'角度欄以度計。60°、π/3 rad 皆可；原式會保留。':scalar(active)?'常數算式：√2、π/3、1/2。Ctrl/⌘+Z 復原；Ctrl/⌘+Shift+Z 重做。':'Tab 移動範本空格；Enter 完成、Esc 收起。Ctrl/⌘+Z 復原。';
@@ -70,7 +74,8 @@
   }
   function renderKeys(){
     const host=$('mathKeyboardKeys');host.replaceChildren();
-    for(const [label,template]of groups[tab]){
+    const geometryKeys=active.dataset.mathUv==='true'&&tab==='variables'?[['u','u'],['v','v']]:active.dataset.mathGeometry==='true'?(tab==='variables'?[['z','z'],['u','u'],['v','v']]:tab==='relations'?[['空間點','A=(▯,▯,▯)'],['空間向量','v=(▯,▯,▯)'],['空間直線','(x,y,z)=(▯,▯,▯)+t(▯,▯,▯)'],['平面','▯x+▯y+▯z=▯'],['球面','(x-(▯))^2+(y-(▯))^2+(z-(▯))^2=(▯)^2']]:[]):[];
+    for(const [label,template]of [...groups[tab],...geometryKeys]){
       const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.insert=template;b.setAttribute('aria-label','輸入 '+label);
       b.disabled=scalar(active)&&(['x','y','t','θ','a','b','c','d','h','k'].includes(template)||['{▯}','(▯,▯)','y=▯','r=▯','(cos(t),sin(t))','▯ {▯}'].includes(template));
       if(active.dataset.mathSurface==='true'&&['t','θ','a','b','c','d','h','k','{▯}','(▯,▯)','y=▯','r=▯','(cos(t),sin(t))','▯ {▯}'].includes(template))b.disabled=true;
@@ -126,10 +131,10 @@
     window.addEventListener('resize',viewport);window.visualViewport?.addEventListener('resize',viewport);window.visualViewport?.addEventListener('scroll',viewport);
   }
   function open(input){
-    if(!eligible(input))return;ensure();active=input;const s=state(input);if(s.value!==input.value){s.slots=[];s.selected=null;remember(input,s);}capture();panel.hidden=false;document.body.classList.add('math-keyboard-open');input.inputMode=system?'text':'none';renderKeys();preview();
+    if(!eligible(input))return;ensure();const container=input.closest('dialog[open]')||document.body;if(panel.parentElement!==container)container.append(panel);active=input;const s=state(input);if(s.value!==input.value){s.slots=[];s.selected=null;remember(input,s);}capture();panel.hidden=false;document.body.classList.add('math-keyboard-open');input.inputMode=system?'text':'none';renderKeys();preview();
     requestAnimationFrame(()=>{if(panel.hidden||active!==input)return;viewport();const r=input.getBoundingClientRect(),top=panel.getBoundingClientRect().top;if(r.bottom>top-16)input.scrollIntoView({block:'center',behavior:'smooth'});});
   }
-  function close(){if(!panel)return;panel.hidden=true;document.body.classList.remove('math-keyboard-open');document.documentElement.style.removeProperty('--math-keyboard-height');}
+  function close(){if(!panel)return;panel.hidden=true;if(panel.parentElement!==document.body)document.body.append(panel);document.body.classList.remove('math-keyboard-open');document.documentElement.style.removeProperty('--math-keyboard-height');}
   // Rows often enhance their empty numeric fields before assigning exact defaults.
   // Establish undo history on first focus, after that initialization has finished.
   function enhance(input){if(input.dataset.mathReady)return;input.dataset.mathReady='true';input.dataset.mathInput='true';input.autocomplete='off';input.spellcheck=false;input.inputMode='none';input.maxLength=input.maxLength>0?input.maxLength:input.matches('.expression-input')?480:240;}

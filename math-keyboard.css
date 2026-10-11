@@ -2,43 +2,43 @@
 .math-keyboard-open { padding-bottom: calc(var(--math-keyboard-height) + 24px) !important; }
 .math-keyboard-open.graph-focused .graph-stage { bottom: var(--math-keyboard-height); }
 .math-keyboard-open [data-math-input="true"] { scroll-margin-bottom: calc(var(--math-keyboard-height) + 32px); }
-#mathKeyboard { position: fixed; bottom: 0; left: 50%; z-index: 150; width: min(860px, 100%); max-height: min(490px, calc(var(--math-keyboard-viewport-height, 100dvh) * .67)); padding: 14px 18px max(12px, env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #cbd8cb; border-radius: 18px 18px 0 0; background: #f1f5ee; color: var(--ink, #172d3a); box-shadow: 0 -10px 45px #172d3a1a; font-family: inherit; transform: translateX(-50%); scrollbar-width: thin; }
+#mathKeyboard { position: fixed; bottom: 0; left: 50%; z-index: 150; width: min(920px, 100%); max-height: min(490px, calc(var(--math-keyboard-viewport-height, 100dvh) * .67)); padding: 14px 18px max(12px, env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #cbd8cb; border-radius: 22px 22px 0 0; background: #f4f7ef; color: var(--ink, #172d3a); box-shadow: 0 -12px 60px #172d3a22; font-family: inherit; transform: translateX(-50%); scrollbar-width: thin; }
 #mathKeyboard[hidden] { display: none; }
 .math-keyboard-head { display: flex; align-items: center; gap: 8px; }
 .math-keyboard-head > div { flex: 1; min-width: 0; }
-.math-keyboard-head b { font-size: .85rem; font-weight: 650; }
-.math-keyboard-head span { margin-left: 10px; color: var(--muted, #63737b); font-size: .69rem; }
-.math-keyboard-head button { min-height: 36px; padding: .4rem .65rem; border-color: #d5e0d4; background: transparent; font-size: .71rem; }
-.math-preview { min-height: 40px; max-height: 65px; margin: 9px 0; padding: 7px 11px; overflow: auto; border: 1px solid #d7e2d5; border-radius: 8px; background: #fff; font-size: 1.2rem; white-space: nowrap; }
+.math-keyboard-head b { font-size: .95rem; font-weight: 650; }
+.math-keyboard-head span { margin-left: 10px; color: var(--muted, #63737b); font-size: 0.75rem; }
+.math-keyboard-head button { min-height: 36px; padding: .4rem .65rem; border-color: #d5e0d4; background: transparent; font-size: 0.75rem; }
+.math-preview { min-height: 48px; max-height: 76px; margin: 12px 0; padding: 10px 14px; overflow: auto; border: 1px solid #d7e2d5; border-radius: 8px; background: #fff; font-size: 1.2rem; white-space: nowrap; }
 .math-preview math { font-size: 1.2rem; }
 .math-keyboard-tabs { display: flex; gap: 6px; margin-bottom: 9px; }
-.math-keyboard-tabs button { min-height: 34px; padding: 5px 16px; border: 0; border-radius: 7px; background: transparent; color: #63766b; font-size: .74rem; }
+.math-keyboard-tabs button { min-height: 38px; padding: 6px 18px; border: 0; border-radius: 7px; background: transparent; color: #63766b; font-size: 0.75rem; }
 .math-keyboard-tabs button[aria-pressed="true"] { background: #dcebe0; color: #086759; }
 .math-keyboard-keys { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
-.math-keyboard-keys button { height: 41px; min-height: 0; min-width: 0; padding: 4px; border: 1px solid #d3dfd1; border-radius: 7px; background: #fff; box-shadow: 0 2px 0 #d6dfd233; font: 500 .94rem system-ui, sans-serif; }
+.math-keyboard-keys button { height: 46px; min-height: 0; min-width: 0; padding: 4px; border: 1px solid #d3dfd1; border-radius: 9px; background: #fff; box-shadow: 0 2px 0 #d6dfd233; font: 500 1.05rem system-ui, sans-serif; }
 .math-keyboard-keys button:hover { background: #f7fbf4; border-color: #99b99f; }
 .math-keyboard-keys button:active { transform: translateY(1px); background: #dcebe0; }
 #mathKeyboard button:disabled { opacity: .4; }
 #mathKeyboard button:focus-visible { outline: 3px solid #4a9988; outline-offset: 1px; }
 .math-keyboard-edit { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) .6fr .6fr .7fr 1fr 1.7fr; gap: 6px; margin-top: 10px; }
-.math-keyboard-edit button { min-height: 38px; min-width: 0; padding: 5px; font-size: .71rem; }
+.math-keyboard-edit button { min-height: 42px; min-width: 0; padding: 5px; font-size: 0.75rem; }
 .math-keyboard-edit button.primary { border-color: var(--accent, #087f73); background: var(--accent, #087f73); color: #fff; }
-#mathKeyboardHint, #mathKeyboardSlots, #mathKeyboardDiagnostic { margin: 6px 0 0; color: #61766a; font-size: .67rem; line-height: 1.55; }
+#mathKeyboardHint, #mathKeyboardSlots, #mathKeyboardDiagnostic { margin: 6px 0 0; color: #61766a; font-size: 0.75rem; line-height: 1.55; }
 #mathKeyboardDiagnostic { min-height: 1em; margin: 0 0 6px; }
 #mathKeyboardDiagnostic[data-status="error"] { color: #a44032; }
 #mathKeyboardDiagnostic[data-status="valid"] { color: #236446; }
 #mathKeyboardDiagnostic[data-status="incomplete"] { color: #836123; }
-.symbol-input { width: 100%; min-width: 0; min-height: 40px; padding: .5rem .65rem; border: 1px solid #cfdbce; border-radius: 7px; background: #fff; color: #245f50; font: 500 16px/1.5 ui-monospace, monospace; }
+.symbol-input { width: 100%; min-width: 0; min-height: 44px; padding: .55rem .75rem; border: 1px solid #cfdbce; border-radius: 7px; background: #fff; color: #245f50; font: 500 16px/1.5 ui-monospace, monospace; }
 .symbol-input[aria-invalid="true"] { border-color: #ca7a66; background: #fff7f3; }
 .symbol-input:focus { outline: 3px solid #b7d5c3; outline-offset: 1px; }
 .symbol-input-row { display: flex; gap: .45rem; margin-top: .45rem; }
 .symbol-input-row input { flex: 1; }
-.symbol-input-row button { flex-shrink: 0; min-height: 38px; padding: .4rem .55rem; color: var(--accent, #087f73); font-size: .72rem; }
-.symbol-input-hint { margin: .4rem 0 0; color: #6c7d73; font-size: .66rem; line-height: 1.6; }
-.symbol-input-error { margin: .4rem 0 0; color: #a44032; font-size: .71rem; }
-.exact-parameters { margin: .8rem 0; padding: .8rem .9rem; border: 1px solid #cddfcf; border-radius: 9px; background: #eef6ee; color: #285e4b; }
-.exact-parameters p { margin: .3rem 0; font-size: .7rem; }
-.exact-parameters .exact-entry { display: inline-flex; align-items: center; gap: .35rem; margin: .25rem .8rem .25rem 0; font-size: .9rem; }
+.symbol-input-row button { flex-shrink: 0; min-height: 42px; padding: .45rem .7rem; color: var(--accent, #087f73); font-size: 0.75rem; }
+.symbol-input-hint { margin: .4rem 0 0; color: #6c7d73; font-size: 0.75rem; line-height: 1.6; }
+.symbol-input-error { margin: .4rem 0 0; color: #a44032; font-size: 0.75rem; }
+.exact-parameters { margin: 1rem 0; padding: 1rem 1.1rem; border: 1px solid #cddfcf; border-radius: 13px; background: #f3f8ee; color: #285e4b; }
+.exact-parameters p { margin: .4rem 0; font-size: .82rem; }
+.exact-parameters .exact-entry { display: inline-flex; align-items: center; gap: .35rem; margin: .25rem .8rem .25rem 0; font-size: 0.9rem; }
 .exact-parameters math { font-size: 1.05rem; }
 .graph-app .parameter-label input.symbol-input { width: 115px; }
 .graph-app .symbol-input { padding: .4rem .55rem; }
@@ -46,23 +46,23 @@
 @media (max-width: 600px) {
   #mathKeyboard { padding: 10px 8px max(9px, env(safe-area-inset-bottom)); border-radius: 14px 14px 0 0; }
   .math-keyboard-head { gap: 6px; }
-  .math-keyboard-head b { font-size: .78rem; }
-  .math-keyboard-head span { display: block; max-width: 150px; margin: 1px 0 0; overflow: hidden; font-size: .63rem; text-overflow: ellipsis; white-space: nowrap; }
-  .math-keyboard-head button { padding: .35rem .5rem; font-size: .67rem; }
+  .math-keyboard-head b { font-size: 0.78rem; }
+  .math-keyboard-head span { display: block; max-width: 150px; margin: 1px 0 0; overflow: hidden; font-size: 0.75rem; text-overflow: ellipsis; white-space: nowrap; }
+  .math-keyboard-head button { padding: .35rem .5rem; font-size: 0.75rem; }
   .math-keyboard-keys { gap: 4px; }
-  .math-keyboard-keys button { height: 40px; font-size: .84rem; }
+  .math-keyboard-keys button { height: 42px; font-size: .94rem; }
   .math-keyboard-tabs { gap: 4px; margin-bottom: 7px; }
   .math-keyboard-tabs button { padding: 4px 14px; }
   .math-keyboard-edit { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin-top: 8px; }
-  .math-keyboard-edit button { min-height: 36px; font-size: .7rem; }
+  .math-keyboard-edit button { min-height: 40px; font-size: .75rem; }
   .math-keyboard-edit button:last-child { grid-column: 1 / -1; }
-  #mathKeyboardHint, #mathKeyboardSlots, #mathKeyboardDiagnostic { font-size: .64rem; }
-  .symbol-input-row button { padding: .35rem .45rem; font-size: .69rem; }
+  #mathKeyboardHint, #mathKeyboardSlots, #mathKeyboardDiagnostic { font-size: 0.75rem; }
+  .symbol-input-row button { padding: .35rem .45rem; font-size: 0.75rem; }
 }
 @media (max-height: 520px) and (min-width: 600px) {
   #mathKeyboard { max-height: calc(var(--math-keyboard-viewport-height, 100dvh) * .56); padding: 5px 10px max(5px, env(safe-area-inset-bottom)); border-radius: 12px 12px 0 0; }
   .math-keyboard-keys { grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px; }
-  .math-keyboard-keys button { height: 32px; font-size: .73rem; }
+  .math-keyboard-keys button { height: 32px; font-size: 0.75rem; }
   .math-keyboard-tabs { margin: 3px 0; }
   .math-keyboard-tabs button { min-height: 26px; padding: 2px 12px; }
   .math-preview { min-height: 26px; max-height: 35px; margin: 3px 0; padding: 3px 8px; font-size: 1rem; }
@@ -70,8 +70,8 @@
   .math-keyboard-edit { margin-top: 4px; }
   .math-keyboard-edit button { min-height: 30px; }
   #mathKeyboardHint { display: none; }
-  #mathKeyboardSlots, #mathKeyboardDiagnostic { margin: 2px 0; font-size: .63rem; }
-  .math-keyboard-head b { font-size: .8rem; }
+  #mathKeyboardSlots, #mathKeyboardDiagnostic { margin: 2px 0; font-size: 0.75rem; }
+  .math-keyboard-head b { font-size: 0.8rem; }
   .math-keyboard-head button { min-height: 28px; padding: 3px 8px; }
 }
 @media (prefers-reduced-motion: reduce) { #mathKeyboard * { scroll-behavior: auto; } }

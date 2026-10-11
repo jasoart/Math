@@ -1,0 +1,16 @@
+/* Installation and connectivity belong to the workspace, without covering it. */
+.pwa-controls { display:flex; align-items:center; justify-content:flex-end; gap:12px; flex-wrap:wrap; }
+.pwa-status { font-size:12px; color:#536862; line-height:1.5; }
+.pwa-status[data-state="offline"] { color:#087f73; }
+.pwa-status[data-state="error"] { color:#81542b; }
+.pwa-install { min-height:42px; border:1px solid #a8c3b7; border-radius:11px; padding:9px 14px; background:#fff; color:#075e54; font:inherit; font-size:13px; font-weight:650; cursor:pointer; }
+.pwa-install:disabled { cursor:default; opacity:.65; }
+.pwa-install:focus-visible,.pwa-notice button:focus-visible { outline:3px solid #087f73; outline-offset:3px; }
+.pwa-notice { position:fixed; z-index:80; right:max(20px,env(safe-area-inset-right)); bottom:max(20px,env(safe-area-inset-bottom)); width:min(380px,calc(100vw - 40px)); padding:18px; border:1px solid #b9cec5; border-radius:18px; background:#fcfdf9; color:#17352d; box-shadow:0 12px 45px #15352a26; }
+.pwa-notice[hidden],.pwa-install[hidden] { display:none; }
+.pwa-notice p { margin:0 0 12px; font-size:14px; line-height:1.65; }
+.pwa-notice .pwa-notice-actions { display:flex; gap:10px; justify-content:flex-end; }
+.pwa-notice button { min-height:42px; padding:8px 14px; border:1px solid #b9cec5; border-radius:10px; background:#fff; font:inherit; font-size:13px; cursor:pointer; }
+.pwa-notice [data-pwa-update] { background:#087f73; border-color:#087f73; color:#fff; }
+body:has(#mathKeyboard:not([hidden])) .pwa-notice { bottom:auto; top:20px; }
+@media (max-width:650px) { .pwa-controls { justify-content:center; width:100%; } .pwa-notice { right:16px; bottom:max(16px,env(safe-area-inset-bottom)); width:calc(100vw - 32px); } }

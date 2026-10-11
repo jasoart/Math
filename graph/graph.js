@@ -44,6 +44,7 @@
       row.querySelector('.expression-error').textContent=c.error||'';
       row.querySelector('.expression-error').hidden=!c.error;
       row.querySelector('.expression-input').setAttribute('aria-invalid',String(!!c.error));
+      row.querySelector('.expression-preview').innerHTML=window.MathTypeset?window.MathTypeset.expressionHTML(state.rows[i].text):X.markup(state.rows[i].text);
     });
     const vars=new Set(compiled.filter(c=>!c.error).flatMap(c=>c.variables));
     $('parameterPanel').hidden=!keys.some(k=>vars.has(k));
@@ -62,7 +63,7 @@
     $('expressions').replaceChildren();
     state.rows.forEach((r,i)=>{
       const row=document.createElement('div');row.className='expression-row';row.style.setProperty('--curve',r.color||colors[i]);
-      row.innerHTML='<div class="expression-top"><label><input type="checkbox"><span></span></label><input type="color"><span class="expression-kind"></span><button type="button" class="expression-duplicate" title="複製算式">⧉</button><button type="button" class="expression-delete">×</button></div><input class="expression-input" type="text" maxlength="480" autocomplete="off" spellcheck="false"><input class="curve-label-input" type="text" maxlength="60" placeholder="圖形名稱（選填）"><p class="expression-error" role="status" hidden></p>';
+      row.innerHTML='<div class="expression-top"><label><input type="checkbox"><span></span></label><input type="color"><span class="expression-kind"></span><button type="button" class="expression-duplicate" title="複製算式">⧉</button><button type="button" class="expression-delete">×</button></div><input class="expression-input" type="text" maxlength="480" autocomplete="off" spellcheck="false"><div class="expression-preview" aria-label="公式預覽"></div><input class="curve-label-input" type="text" maxlength="60" placeholder="圖形名稱（選填）"><p class="expression-error" role="status" hidden></p>';
       const check=row.querySelector('input[type=checkbox]');check.checked=r.visible;check.setAttribute('aria-label',`顯示圖形 ${i+1}`);check.onchange=()=>{r.visible=check.checked;parseRows();};
       row.querySelector('label span').textContent=`圖形 ${i+1}`;
       const input=row.querySelector('.expression-input');input.value=r.text;input.setAttribute('aria-label',`算式 ${i+1}`);input.setAttribute('aria-describedby',`expression-error-${i}`);row.querySelector('.expression-error').id=`expression-error-${i}`;
@@ -103,7 +104,18 @@
     analysisGeneration++;points=[];
     if(integral&&integral.key!==functionKey())invalidateCalculation();
     if(tableData&&tableData.key!==functionKey()){tableData=null;$('valueTable').textContent='函數已變更，請重新產生數值表。';}
-    scheduleDraw();clearTimeout(analysisTimer);analysisTimer=setTimeout(analyze,180);save();remember();
+    updateFormulaInsight();scheduleDraw();clearTimeout(analysisTimer);analysisTimer=setTimeout(analyze,180);save();remember();
+  }
+  function updateFormulaInsight(){
+    const host=$('graphFormulaInsight');if(!host||!window.GraphInsight)return;
+    host.replaceChildren();
+    for(const c of compiled.filter(c=>!c.error&&c.visible)){
+      const info=window.GraphInsight.describe(c,state.params),card=document.createElement('article'),heading=document.createElement('h3');
+      heading.textContent=`${c.index+1}. ${info.title}`;card.append(heading);
+      const formula=document.createElement('div');if(window.MathTypeset)formula.innerHTML=window.MathTypeset.linesHTML(info.lines||[]);else formula.textContent=(info.lines||[]).join('；');card.append(formula);
+      for(const text of [...(info.domain?[`定義域：${info.domain}`]:[]),...(info.notes||[])]){const p=document.createElement('p');p.textContent=text;card.append(p);}
+      host.append(card);
+    }
   }
   function resize(){const r=canvas.getBoundingClientRect();if(r.width<1||r.height<1)return;width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);update();}
   function grid(){
@@ -176,9 +188,9 @@
   function probe(){
     const c=compiled[Number($('probeCurve').value)],x=numeric($('probeX'));
     if(!c||c.kind!=='function'||!c.visible||!finite(x)||$('probeCurve').value===''){ $('probeResult').textContent='加入 y=f(x) 即可觀察數值。';return; }
-    const f=x=>evaluate(c,x),y=f(x),slope=M.slope(f,x),differentiable=finite(slope);
+    const f=x=>evaluate(c,x),y=f(x),slope=c.derivative?c.derivative(x,state.params):M.slope(f,x),differentiable=finite(slope);
     $('probeResult').textContent=`f(${$('probeX').value}) ≈ ${fmt(y)}；斜率 ≈ ${differentiable?fmt(slope):'無法判定'}`;
-    if($('showDerivative').checked){ctx.save();ctx.setLineDash([4,4]);curve({kind:'function',color:c.color,at:t=>M.slope(f,t)});ctx.restore();}
+    if($('showDerivative').checked){ctx.save();ctx.setLineDash([4,4]);curve({kind:'function',color:c.color,at:t=>c.derivative?c.derivative(t,state.params):M.slope(f,t)});ctx.restore();}
     if($('traceCurve').checked&&finite(y)){ctx.save();ctx.setLineDash([3,5]);ctx.strokeStyle='#9aaabd';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),height);ctx.stroke();ctx.restore();dot(x,y,c.color,`觀察 (${fmt(x)}, ${fmt(y)})`,'probe',20);}
     if($('showTangent').checked&&finite(y)&&differentiable){ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=c.color;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,sy(y+slope*(wx(0)-x)));ctx.lineTo(width,sy(y+slope*(wx(width)-x)));ctx.stroke();ctx.restore();dot(x,y,c.color);}
   }
@@ -201,7 +213,9 @@
     for(const c of functions){
       if(!await yieldWork())return;
       if(/\b(floor|ceil|round|sign)\s*\(/.test(c.text)){messages.push(`圖形 ${c.index+1} 含跳躍函數，略過特殊點分析。`);continue;}
-      const f=x=>at(c,x),result=M.analyze(f,xmin,xmax);
+      const f=x=>at(c,x);
+      if(c.derivative)f.derivative=x=>c.derivative(x,params);
+      const result=M.analyze(f,xmin,xmax);
       for(const x of result.zeros)add(x,0,c.color,`圖形 ${c.index+1} · 零點`);
       for(const x of result.extrema)add(x,f(x),c.color,`圖形 ${c.index+1} · 局部極值`);
       if(result.allZero)messages.push(`圖形 ${c.index+1} 在取樣點皆為 0，未列孤立零點。`);
@@ -209,7 +223,9 @@
     for(let i=0;i<functions.length;i++)for(let j=i+1;j<functions.length;j++){
       if(!await yieldWork())return;
       const a=functions[i],b=functions[j];if(/\b(floor|ceil|round|sign)\s*\(/.test(a.text+b.text))continue;
-      const result=M.analyze(x=>at(a,x)-at(b,x),xmin,xmax);
+      const difference=x=>at(a,x)-at(b,x);
+      if(a.derivative&&b.derivative)difference.derivative=x=>a.derivative(x,params)-b.derivative(x,params);
+      const result=M.analyze(difference,xmin,xmax);
       if(result.allZero){messages.push(`圖形 ${a.index+1}、${b.index+1} 在取樣點重合。`);continue;}
       for(const x of result.zeros)add(x,at(a,x),'#172b42',`圖形 ${a.index+1} × ${b.index+1} · 交點`);
     }

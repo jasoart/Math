@@ -253,6 +253,7 @@
   function placeLabels(items, view, options) {
     if (!view || !finite(view.width) || !finite(view.height) || view.width <= 0 || view.height <= 0) throw new RangeError('A finite label viewport is required.');
     const supplied = options || {}, padding = number(supplied.padding, 5, 0, 100), gap = number(supplied.gap, 10, 0, 100), clearance = number(supplied.clearance, 3, 0, 40), labelGap = number(supplied.labelGap, 4, 0, 40);
+    const searchOffsets = Array.isArray(supplied.searchOffsets) && supplied.searchOffsets.length ? supplied.searchOffsets.slice(0, 12).filter(finite).map(value => clamp(value, 0, Math.max(view.width, view.height))) : [gap, gap + 14, gap + 30, gap + 50];
     const labels = [], stats = { placed: 0, suppressed: 0, candidates: 0, obstacleChecks: 0 }, buckets = new Map(), broad = [], cell = Math.max(64, view.width / 256, view.height / 256);
     const obstacles = Array.isArray(supplied.obstacles) ? supplied.obstacles : [];
     const obstacleBounds = o => finite(o.x1) && finite(o.y1) && finite(o.x2) && finite(o.y2) ? { x: Math.min(o.x1, o.x2) - (o.radius || 0), y: Math.min(o.y1, o.y2) - (o.radius || 0), width: Math.abs(o.x2 - o.x1) + 2 * (o.radius || 0), height: Math.abs(o.y2 - o.y1) + 2 * (o.radius || 0) } : finite(o.radius) ? { x: o.x - o.radius, y: o.y - o.radius, width: o.radius * 2, height: o.radius * 2 } : o;
@@ -287,15 +288,19 @@
       const preferred = typeof item.preferred === 'string' ? [item.preferred] : Array.isArray(item.preferred) ? item.preferred : [];
       const order = [...new Set(preferred.concat(directions))].filter(direction => directions.includes(direction));
       let chosen = null;
-      for (const offset of [gap, gap + 14, gap + 30, gap + 50]) {
+      for (const offset of searchOffsets) {
         for (const direction of order) {
           const horizontal = direction.includes('e') ? offset : direction.includes('w') ? -offset - width : -width / 2;
           const vertical = direction.includes('s') ? offset : direction.includes('n') ? -offset - height : -height / 2;
           const box = { x: anchor[0] + horizontal, y: anchor[1] + vertical, width, height };
+          if (supplied.clampToViewport === true && width <= view.width - padding * 2 && height <= view.height - padding * 2) {
+            box.x = clamp(box.x, padding, view.width - padding - width);
+            box.y = clamp(box.y, padding, view.height - padding - height);
+          }
           stats.candidates++;
           if (box.x < padding || box.y < padding || box.x + width > view.width - padding || box.y + height > view.height - padding || blocked(box)) continue;
           const endpoint = [clamp(anchor[0], box.x, box.x + width), clamp(anchor[1], box.y, box.y + height)];
-          const leader = Math.hypot(endpoint[0] - anchor[0], endpoint[1] - anchor[1]) > number(supplied.leaderThreshold, 18, 0, 100) || item.leader === true ? [[anchor[0], anchor[1]], endpoint] : null;
+          const leader = item.leader !== false && (Math.hypot(endpoint[0] - anchor[0], endpoint[1] - anchor[1]) > number(supplied.leaderThreshold, 18, 0, 100) || item.leader === true) ? [[anchor[0], anchor[1]], endpoint] : null;
           if (leader && labels.some(label => segmentHitsBox(leader[0], leader[1], label, 1))) continue;
           chosen = { ...item, ...box, anchorX: anchor[0], anchorY: anchor[1], leader, placement: direction }; break;
         }

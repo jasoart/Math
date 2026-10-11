@@ -1,0 +1,17 @@
+/* Local mathematical typography, shared by every workspace. */
+.math-expression,.math-formula{color:inherit;min-width:0;max-width:100%;line-height:1.75;font-variant-numeric:lining-nums tabular-nums;text-transform:none;letter-spacing:normal}
+.math-expression{display:block;overflow-x:auto;overflow-y:hidden;padding:.3rem .1rem;scrollbar-width:thin;overscroll-behavior-inline:contain}
+.math-expression.is-plain{font-family:var(--font-mono,"SFMono-Regular",Consolas,monospace);font-size:.86em;overflow-wrap:anywhere;white-space:pre-wrap}
+.math-formula{display:block;font-family:inherit;font-size:.93rem;overflow-x:auto;overflow-y:hidden;padding:.8rem 0;scrollbar-width:thin;overscroll-behavior-inline:contain;white-space:normal}
+.math-formula+.math-formula{border-top:1px solid color-mix(in srgb,currentColor 10%,transparent)}
+.math-formula.is-plain{white-space:pre-wrap;overflow-wrap:anywhere}
+.math-prose{font-family:var(--font-sans,inherit);font-size:.9em;line-height:1.9}
+.math-expression .katex,.math-formula .katex{font-size:1.12em;color:inherit;text-rendering:auto}
+.math-expression .katex-display{margin:.35rem 0;text-align:left}
+.math-formula .katex{display:inline-block;margin:.06rem .03rem;vertical-align:baseline}
+.math-formula .katex .mord.text{font-family:inherit}
+.math-preview{min-width:0;max-width:100%;padding:.55rem .7rem;background:color-mix(in srgb,var(--accent,#087f73) 5%,transparent);border:1px solid color-mix(in srgb,var(--accent,#087f73) 12%,transparent);border-radius:10px;color:var(--ink,#172d3a)}
+.math-preview:empty{display:none}
+.math-preview .math-expression{font-size:.94rem}
+@media(max-width:600px){.math-formula{font-size:.86rem;padding:.7rem 0}.math-expression .katex,.math-formula .katex{font-size:1.06em}.math-preview{padding:.4rem .55rem}}
+@media print{.math-expression,.math-formula{overflow:visible}.math-formula{break-inside:avoid}}

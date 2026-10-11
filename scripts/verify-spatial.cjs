@@ -19,7 +19,7 @@ async function dimensions(page) { assert.ok(await page.evaluate(() => document.d
   browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox', '--disable-dev-shm-usage'] });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1050 }, deviceScaleFactor: 1, acceptDownloads: true });
   context.on('page', page => { page.on('pageerror', err => errors.push(err.message)); page.on('response', response => { if (response.status() >= 400) failed.push(response.url()); }); });
-  const page = await context.newPage(); await page.goto(base + '/spatial.html'); await ready(page); await dimensions(page);
+  const page = await context.newPage(); await page.goto(base + '/spatial.html'); await page.locator('#surfaceWorkspaceTab').click(); await ready(page); await dimensions(page);
   assert.equal(await page.locator('.brand').innerText(), 'MATH LAB\n數學工作室');
   assert.equal(await page.locator('[aria-current="page"]').getAttribute('href'), 'spatial.html');
   const initial = await state(page), canvas = page.locator('#spatialCanvas');
@@ -65,6 +65,27 @@ async function dimensions(page) { assert.ok(await page.evaluate(() => document.d
     await ready(page); assert.ok((await state(page)).camera.zoom > zoom, 'Two-pointer pinch zoom');
     if (width === 390) { await page.locator('[data-view="home"]').click(); await ready(page); await page.screenshot({ path: '/tmp/mathlab-spatial-mobile.png', fullPage: true }); }
   }
+  await page.locator('[data-preset="saddle"]').click(); await ready(page);
+  await page.locator('#probeX').fill('1'); await page.locator('#probeY').fill('2'); await page.locator('#inspectSurface').click(); await ready(page);
+  let measured = await page.evaluate(() => SpatialStudio.getRenderReport().probe);
+  assert.equal(measured.status, 'regular'); assert.equal(measured.point[2], -.75); assert.deepEqual(measured.gradient, { x: .5, y: -1 });
+  assert.ok(await page.locator('#surfaceProbeResult math').count() >= 3, 'Height, gradient and tangent plane have accessible math typesetting');
+  assert.ok(await page.locator('#surfacePreview .katex').count() > 0, 'Surface formula has live fraction preview');
+  const tangentImage = await canvas.screenshot(); await page.locator('#showTangent').uncheck(); await ready(page);
+  assert.equal((await state(page)).probe.tangent, false); assert.notDeepEqual(await canvas.screenshot(), tangentImage, 'Tangent overlay changes actual pixels');
+  await page.locator('#probeX').fill('20'); await page.locator('#inspectSurface').click(); assert.equal((await state(page)).probe.x, 1, 'Out of domain probe cannot replace valid observation');
+  await page.locator('#surfaceExpression').fill('abs(x)'); await page.keyboard.press('Enter'); await ready(page);
+  await page.locator('#probeX').fill('0'); await page.locator('#probeY').fill('0'); await page.locator('#inspectSurface').click(); await ready(page);
+  measured = await page.evaluate(() => SpatialStudio.getRenderReport().probe); assert.equal(measured.status, 'non-differentiable'); assert.equal(measured.normal, null); assert.deepEqual(measured.tangent, []);
+  await page.locator('#heightLimit').fill('20'); await page.locator('#surfaceExpression').fill('10'); await page.locator('#drawSurface').click(); await ready(page);
+  await page.locator('#fitSurface').click(); await ready(page); assert.equal((await state(page)).fit.centerZ, 5); assert.equal((await state(page)).camera.zoom, 1);
+  const fittedState = await state(page); await page.locator('#shareSurface').click(); const probeURL = await page.locator('#spatialShareURL').inputValue(); await page.getByRole('button', { name: '關閉分享視窗' }).click();
+  await sharedPage.goto(probeURL); await ready(sharedPage); assert.deepEqual(await state(sharedPage), fittedState, 'Share restores observation and complete framing');
+  await dimensions(page); await page.locator('[data-view="home"]').click(); await ready(page); assert.equal((await state(page)).fit, undefined, 'Home returns original framing');
+  await page.locator('[data-preset="gaussian"]').click(); await ready(page);
+  await page.locator('#probeX').fill('0'); await page.locator('#probeY').fill('0'); await page.locator('#showTangent').check(); await page.locator('#inspectSurface').click(); await ready(page);
+  await page.screenshot({ path: '/tmp/mathlab-spatial-probe-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1050 }); await ready(page); await page.screenshot({ path: '/tmp/mathlab-spatial-probe-desktop.png', fullPage: true });
   await sharedPage.goto(base + '/spatial.html#scene=%7B%22expression%22%3A%22%3Cscript%3E%22%7D'); await ready(sharedPage); assert.equal((await state(sharedPage)).expression, initial.expression, 'Malformed shared state falls back safely');
   assert.deepEqual(errors, [], 'No runtime errors'); assert.deepEqual(failed, [], 'All assets resolve');
   console.log('Spatial browser: desktop/mobile layouts, all presets, real orbit pixels, keyboard/wheel/pinch, bounds/errors, sharing/persistence and PNG passed.');

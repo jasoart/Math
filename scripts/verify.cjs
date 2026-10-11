@@ -14,7 +14,7 @@ const {chromium} = require('playwright');
 
 const root = path.resolve(__dirname, '..');
 const executablePath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
-const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 148);
+const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 196);
 const reportPath = path.resolve(process.env.MATHLAB_TEST_REPORT || '/tmp/mathlab-verification-report.json');
 const legacyCopy = /本次新增|這次新增|新增\s*50|歷屆|考試|考場|課綱|參考專案|GRAPH STUDIO\s+2\.4|\bv2\.[0-9]+(?:\.[0-9]+)?\b/i;
 const report = {startedAt: new Date().toISOString(), expectedModules, checks: [], errors: []};
@@ -92,8 +92,11 @@ async function main() {
   const catalog = await page.evaluate(() => MathLab.modules.map(module => ({id: module.id, controls: module.controls.map(control => ({key: control.key, type: control.type || 'range', min: control.min, max: control.max, options: control.options?.map(option => option.value)}))})));
   assert.equal(catalog.length, expectedModules, 'Complete module catalog must load');
   assert.equal(new Set(catalog.map(module => module.id)).size, catalog.length, 'Module IDs must be unique');
-  assert.equal(catalog.reduce((count, module) => count + module.controls.filter(control => control.type !== 'select').length, 0), 433, 'All 433 symbolic parameter fields remain available');
-  record('complete unified module catalog', {count: catalog.length, symbolicFields: 433});
+  const legacyCatalog = catalog.filter(module => !module.id.startsWith('studio-'));
+  assert.equal(legacyCatalog.length, 148, 'All original modules remain available');
+  assert.equal(legacyCatalog.reduce((count, module) => count + module.controls.filter(control => control.type !== 'select').length, 0), 433, 'All original symbolic fields remain available');
+  assert.equal(catalog.reduce((count, module) => count + module.controls.filter(control => control.type !== 'select').length, 0), 556, 'All 556 symbolic parameter fields remain available');
+  record('complete unified module catalog', {count: catalog.length, symbolicFields: 556, legacyModules: 148, legacyFields: 433});
 
   // Every boundary starts from defaults, so one control's singularity cannot
   // hide a different control's failure. Changes use real input events.

@@ -49,7 +49,7 @@
     const starts=t=>t&&['number','name','('].includes(t.type);
     for(const token of raw) {if(ends(tokens.at(-1))&&starts(token)) tokens.push({type:'*'});tokens.push(token);}
     tokens.push({type:'end'});
-    let pos=0,depth=0;const variables=new Set();
+    let pos=0,depth=0;const variables=new Set(),grouped=new WeakSet();
     const expect=type=>{if(tokens[pos]?.type!==type) throw Error(`缺少 ${type===')'?'右括號 )':type}。`);pos++;};
     const precedence={'||':1,'&&':2,'<':5,'>':5,'<=':5,'>=':5,'=':5,'==':5,'!=':5,'+':10,'-':10,'*':20,'/':20,'^':30};
     function expression(min=0) {
@@ -58,7 +58,7 @@
       if(!token) throw Error('算式不完整。');
       if(token.type==='number') node={kind:'number',value:token.value};
       else if(token.type==='+'||token.type==='-') node={kind:'unary',op:token.type,child:expression(25)};
-      else if(token.type==='(') {node=expression();expect(')');}
+      else if(token.type==='(') {node=expression();expect(')');grouped.add(node);}
       else if(token.type==='name') {
         if(functions[token.value]) {
           expect('(');const args=[expression()];
@@ -73,7 +73,7 @@
       while(precedence[tokens[pos]?.type]>=min) {
         const op=tokens[pos++].type,p=precedence[op],right=expression(op==='^'?p:p+1);
         if(p===5) {
-          if(node.kind==='comparison') {node.ops.push(op);node.args.push(right);}
+          if(node.kind==='comparison'&&!grouped.has(node)) {node.ops.push(op);node.args.push(right);}
           else node={kind:'comparison',ops:[op],args:[node,right]};
         } else node={kind:'binary',op,left:node,right};
       }
@@ -104,7 +104,144 @@
       const r=evaluate(n.right,scope);
       return n.op==='+'?l+r:n.op==='-'?l-r:n.op==='*'?l*r:n.op==='/'?l/r:l**r;
     }
-    return {tree,variables:[...variables],evaluate:scope=>evaluate(tree,scope)};
+    // Forward-mode automatic differentiation on the same bounded syntax tree.
+    // Track continuity separately from differentiability: abs(x) has a cusp at
+    // zero, but abs(x) < 1 is still a stable condition there. No finite differences
+    // are used here, and a non-finite/undefined derivative is always reported as NaN.
+    function differential(scope, names) {
+      const zeros=()=>names.map(()=>0), flags=value=>names.map(()=>value);
+      function dual(value,d,depends,continuous,truth) {
+        if(!finite(value))return {value,d:flags(NaN),depends,continuous:flags(false),truth:flags(false)};
+        d=d.map(v=>finite(v)?v:NaN);
+        continuous=continuous||d.map(finite);
+        return {value,d,depends,continuous,truth:truth||continuous.map((ok,i)=>ok&&(value!==0||!depends[i]))};
+      }
+      const merged=(a,b)=>a.depends.map((v,i)=>v||b.depends[i]);
+      function walk(n) {
+        if(n.kind==='number'||n.kind==='constant')return dual(n.value,zeros(),flags(false));
+        if(n.kind==='variable') {
+          const depends=names.map(name=>name===n.name);
+          const value=scope[n.name];
+          return dual(finite(value)?value:NaN,depends.map(v=>Number(v)),depends);
+        }
+        if(n.kind==='degree'||n.kind==='unary') {
+          const a=walk(n.child),factor=n.kind==='degree'?Math.PI/180:n.op==='-'?-1:1;
+          return dual(a.value*factor,a.d.map(v=>v*factor),a.depends,a.continuous,a.truth);
+        }
+        if(n.kind==='comparison') {
+          let left=walk(n.args[0]),depends=left.depends.slice(),stable=flags(true),value=1;
+          for(let j=0;j<n.ops.length;j++) {
+            const right=walk(n.args[j+1]);
+            stable=stable.map((ok,i)=>ok&&left.continuous[i]&&right.continuous[i]&&
+              (left.value!==right.value||(!left.depends[i]&&!right.depends[i])));
+            depends=depends.map((v,i)=>v||right.depends[i]);
+            value=compare(n.ops[j],left.value,right.value);
+            if(value!==1)break;
+            left=right;
+          }
+          return dual(value,stable.map(ok=>ok?0:NaN),depends,stable,stable);
+        }
+        if(n.kind==='call'&&n.name==='if') {
+          const condition=walk(n.args[0]);
+          if(!finite(condition.value))return dual(NaN,zeros(),condition.depends);
+          // Evaluate only the selected branch, just like the scalar interpreter.
+          const a=walk(n.args[condition.value?1:2]);
+          return dual(a.value,a.d.map((v,i)=>condition.truth[i]?v:NaN),merged(condition,a),
+            a.continuous.map((ok,i)=>ok&&condition.truth[i]),a.truth.map((ok,i)=>ok&&condition.truth[i]));
+        }
+        if(n.kind==='call') {
+          const args=n.args.map(walk),a=args[0],x=a.value,name=n.name;
+          const value=functions[name][0](...args.map(arg=>arg.value));
+          if(args.some(arg=>!finite(arg.value)))return dual(value,flags(NaN),
+            args.reduce((depends,arg)=>depends.map((v,i)=>v||arg.depends[i]),flags(false)),flags(false));
+          if(name==='min'||name==='max') {
+            const b=args[1],selected=name==='min'?(x<b.value?a:b):(x>b.value?a:b),tie=x===b.value;
+            const continuous=a.continuous.map((ok,i)=>ok&&b.continuous[i]);
+            return dual(value,a.d.map((v,i)=>!continuous[i]?NaN:tie?(v===b.d[i]?v:NaN):selected.d[i]),merged(a,b),continuous,
+              continuous.map((ok,i)=>ok&&(tie?a.truth[i]&&b.truth[i]:selected.truth[i])));
+          }
+          const d=a.d.map((v,i)=>{
+            if(!a.depends[i])return 0;
+            if(!finite(v))return NaN;
+            switch(name) {
+              case 'sin':return Math.cos(x)*v;
+              case 'cos':return -Math.sin(x)*v;
+              case 'tan': {const c=Math.cos(x);return Math.abs(c)>4*Number.EPSILON?v/c/c:NaN;}
+              case 'asin':return Math.abs(x)<1?v/Math.sqrt((1-x)*(1+x)):NaN;
+              case 'acos':return Math.abs(x)<1?-v/Math.sqrt((1-x)*(1+x)):NaN;
+              case 'atan':return Math.abs(x)<=1?v/(1+x*x):(v/x)/(x+1/x);
+              case 'sqrt':return x>0?v/value/2:NaN;
+              case 'cbrt':return x!==0?(v/value)/value/3:NaN;
+              case 'abs':return x!==0?Math.sign(x)*v:NaN;
+              case 'exp':return value*v;
+              case 'ln':return x>0?v/x:NaN;
+              case 'log':return x>0?(v/x)/Math.LN10:NaN;
+              case 'floor':case 'ceil':return Number.isInteger(x)?NaN:0;
+              case 'round':return x-Math.floor(x)===.5?NaN:0;
+              case 'sign':return x===0?NaN:0;
+              case 'sinh':return Math.cosh(x)*v;
+              case 'cosh':return Math.sinh(x)*v;
+              case 'tanh': {const e=Math.exp(-2*Math.abs(x));return 4*e/(1+e)**2*v;}
+              case 'sec': {const c=Math.cos(x);return Math.abs(c)>4*Number.EPSILON?Math.sin(x)/c/c*v:NaN;}
+              case 'csc': {const s=Math.sin(x);return Math.abs(s)>4*Number.EPSILON?-Math.cos(x)/s/s*v:NaN;}
+              case 'cot': {const s=Math.sin(x);return Math.abs(s)>4*Number.EPSILON?-v/s/s:NaN;}
+              default:return NaN;
+            }
+          });
+          // These two functions remain continuous at a cusp or vertical tangent.
+          const continuous=name==='abs'||name==='cbrt'?a.continuous:undefined;
+          const step=['floor','ceil','round','sign'].includes(name);
+          return dual(value,d,a.depends,continuous,step?d.map(finite):undefined);
+        }
+        const a=walk(n.left);
+        if(n.op==='&&'||n.op==='||') {
+          if(!finite(a.value))return dual(NaN,zeros(),a.depends);
+          if((n.op==='&&'&&!a.value)||(n.op==='||'&&a.value)) {
+            return dual(Number(!!a.value),a.truth.map(ok=>ok?0:NaN),a.depends,a.truth,a.truth);
+          }
+          const b=walk(n.right),stable=a.truth.map((ok,i)=>ok&&b.truth[i]);
+          return dual(finite(b.value)?Number(!!b.value):NaN,stable.map(ok=>ok?0:NaN),merged(a,b),stable,stable);
+        }
+        const b=walk(n.right),l=a.value,r=b.value,depends=merged(a,b);
+        const value=n.op==='+'?l+r:n.op==='-'?l-r:n.op==='*'?l*r:n.op==='/'?l/r:l**r;
+        const d=a.d.map((dl,i)=>{
+          const dr=b.d[i];
+          if(!finite(dl)||!finite(dr))return NaN;
+          if(n.op==='+')return dl+dr;
+          if(n.op==='-')return dl-dr;
+          if(n.op==='*')return dl*r+l*dr;
+          // Avoid squaring the denominator, which can overflow for large values.
+          if(n.op==='/')return dl/r-(l/r)*(dr/r);
+          if(!depends[i])return 0;
+          if(!b.depends[i]) {
+            // Integer powers extend smoothly through negative bases and zero.
+            if(l<=0&&!Number.isInteger(r))return NaN;
+            if(l===0&&r<0)return NaN;
+            return r===0||dl===0?0:r*l**(r-1)*dl;
+          }
+          // An identically zero base is constant for every positive exponent.
+          // A base varying on another gradient axis is still a domain boundary.
+          if(l===0&&r>0&&!a.depends.some(Boolean))return 0;
+          // Otherwise a variable real exponent needs a positive base nearby.
+          if(l<=0)return NaN;
+          return (dl===0?0:r*l**(r-1)*dl)+(dr===0?0:value*Math.log(l)*dr);
+        });
+        const continuous=a.continuous.map((ok,i)=>ok&&b.continuous[i]&&
+          (n.op!=='/'||r!==0)&&(n.op!=='^'||l>0||(l===0&&r>0&&!a.depends.some(Boolean))||
+          (!b.depends[i]&&Number.isInteger(r)&&!(l===0&&r<0))));
+        return dual(value,d,depends,continuous);
+      }
+      return walk(tree);
+    }
+    function gradient(scope={},names=['x','y']) {
+      if(!Array.isArray(names)||names.some(name=>!['x','y','t',...PARAMETERS].includes(name)))throw Error('微分變數必須是 x、y、t 或參數名稱。');
+      const result=differential(scope||{},names);
+      return Object.fromEntries(names.map((name,i)=>[name,result.d[i]]));
+    }
+    return {tree,variables:[...variables],evaluate:scope=>evaluate(tree,scope),gradient,
+      derivative:(scope={},variable='x')=>gradient(scope,[variable])[variable],
+      // Used by domain-restricted functions to reject their boundary itself.
+      conditionStable:(scope={},variable='x')=>differential(scope||{},[variable]).truth[0]};
   }
   function pair(s) {
     if(!s.startsWith('(')||!s.endsWith(')'))return null;
@@ -143,12 +280,28 @@
       if(kind==='polar')return [v*Math.cos(x),v*Math.sin(x)];
       return v;
     };
-    return {kind,variables,at,relation,restricted:!!condition,contains:v=>finite(v)&&compare(relation,v,0)===1};
+    const differentiate=(x,params={})=>{
+      if(kind!=='function'||!finite(x))return NaN;
+      const scope={...params,x,y:0,t:x};
+      if(condition) {
+        const valid=condition.evaluate(scope);
+        if(!finite(valid)||!valid||!condition.conditionStable(scope,'x'))return NaN;
+      }
+      return parts[0].derivative(scope,'x');
+    };
+    return {kind,source,trees:parts.map(part=>part.tree),variables,at,relation,restricted:!!condition,derivative:differentiate,contains:v=>finite(v)&&compare(relation,v,0)===1};
   }
-  function derivative(f,x) {const h=1e-5*Math.max(1,Math.abs(x));return (f(x+h)-f(x-h))/(2*h);}
+  function derivative(f,x) {
+    // Parsed callers can attach their AD slope; existing function callers keep
+    // the numerical fallback. An undefined AD result must never fall back across
+    // a cusp or a domain boundary.
+    if(typeof f.derivative==='function') {const d=f.derivative(x);return finite(d)?d:NaN;}
+    const h=1e-5*Math.max(1,Math.abs(x));return (f(x+h)-f(x-h))/(2*h);
+  }
   // Reject cusps, holes and divergent finite differences before drawing a tangent.
   function slope(f,x) {
     const y=f(x);if(!finite(y))return NaN;
+    if(typeof f.derivative==='function')return derivative(f,x);
     const h=1e-4*Math.max(1,Math.abs(x));
     const l=(y-f(x-h))/h,r=(f(x+h)-y)/h,d=derivative(f,x);
     return [l,r,d].every(finite)&&Math.abs(l-r)<.002*Math.max(1,Math.abs(d))?d:NaN;
@@ -183,7 +336,12 @@
   }
   function analyze(f,min,max) {
     const extrema=roots(x=>derivative(f,x),min,max).filter(x=>{
-      const h=(max-min)*1e-4,y=f(x),left=f(x-h),right=f(x+h);
+      const h=(max-min)*1e-4,y=f(x);
+      if(typeof f.derivative==='function') {
+        const left=derivative(f,x-h),right=derivative(f,x+h);
+        return [y,left,right].every(finite)&&((left<0&&right>0)||(left>0&&right<0));
+      }
+      const left=f(x-h),right=f(x+h);
       return [y,left,right].every(finite)&&((y<left&&y<right)||(y>left&&y>right));
     });
     const allZero=Array.from({length:37},(_,i)=>f(min+(max-min)*i/36)).every(y=>y===0);

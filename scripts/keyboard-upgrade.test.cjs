@@ -6,7 +6,7 @@ const dom=new JSDOM('<!doctype html><html><body><button id="outside">其他操�
 const w=dom.window,d=w.document;
 w.HTMLElement.prototype.scrollIntoView=()=>{};
 w.ResizeObserver=class{constructor(cb){this.cb=cb;}observe(){this.cb();}};
-for(const file of ['graph/math.js','graph/exact.js','math-keyboard.js'])new vm.Script(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),{filename:file}).runInContext(dom.getInternalVMContext());
+for(const file of ['graph/math.js','graph/exact.js','vendor/katex/katex.min.js','engine/typeset.js','math-keyboard.js'])new vm.Script(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),{filename:file}).runInContext(dom.getInternalVMContext());
 let checks=0;
 const equal=(a,b)=>{assert.equal(a,b);checks++;};
 function field(value='',attributes={}){const el=d.createElement('input');el.type='text';el.value=value;el.className='expression-input';for(const [name,value]of Object.entries(attributes))el.setAttribute(name,value);d.body.prepend(el);w.MathKeyboard.enhance(el);el.focus();return el;}

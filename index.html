@@ -14,13 +14,27 @@
   <link rel="stylesheet" href="./styles.css" />
   <script src="./graph/math.js" defer></script>
   <script src="./graph/exact.js" defer></script>
+  <script src="./vendor/katex/katex.min.js" defer></script>
+  <script src="./engine/typeset.js" defer></script>
+  <script src="./graph/render.js" defer></script>
+  <script src="./engine/canvas.js" defer></script>
   <script src="./math-keyboard.js" defer></script>
   <script src="./extension-modules.js" defer></script>
   <script src="./exam-modules.js" defer></script>
   <script src="./expansion-modules.js" defer></script>
+  <script src="./studio-modules.js" defer></script>
   <script src="./app.js" defer></script>
   <script src="./learning.js" defer></script>
+  <script src="./engine/workspace.js" defer></script>
+  <script src="./spatial/geometry.js" defer></script><script src="./engine/spatial-bridge.js" defer></script>
 <link rel="stylesheet" href="./math-keyboard.css">
+  <link rel="stylesheet" href="./vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="./engine/typeset.css">
+  <link rel="stylesheet" href="engine/pwa.css">
+  <script defer src="engine/pwa.js"></script>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="assets/studio-icon.png">
 </head>
 <body>
   <a class="skip-link" href="#experiment">跳至互動實驗</a>
@@ -36,7 +50,7 @@
   </section>
   <div class="app-header studio-intro">
     <div class="brand-copy"><p class="eyebrow">YOUR MATHEMATICAL WORKSPACE</p><h2>好奇心，是最好的起點。</h2><p class="subtitle">選一個主題，調整參數，讓圖像帶你發現規律。</p></div>
-    <div class="header-side"><div class="lab-summary" aria-label="探索概況"><div><strong id="moduleCount">148</strong><span>互動模組</span></div><div><strong id="practiceCount">0</strong><span>已探索</span></div><div><strong id="favoriteCount">0</strong><span>已收藏</span></div></div></div>
+    <div class="header-side"><div class="lab-summary" aria-label="探索概況"><div><strong id="moduleCount">196</strong><span>互動模組</span></div><div><strong id="practiceCount">0</strong><span>已探索</span></div><div><strong id="favoriteCount">0</strong><span>已收藏</span></div></div></div>
   </div>
   <main class="app-shell">
     <aside class="sidebar" aria-labelledby="browseTitle">
@@ -53,6 +67,7 @@
       <section class="teacher-card"><h2>一次實驗，三個步驟</h2><ol class="experiment-steps"><li>預測參數改變後的結果。</li><li>操作圖形，比較預測與觀察。</li><li>揭示公式，用自己的話解釋。</li></ol></section>
     </aside>
     <div class="workspace">
+      <nav id="workspaceTabs" class="workspace-tabs" aria-label="實驗工作區"><a href="#experiment" aria-current="location">圖形</a><a href="#parameterSection">參數</a><a href="#insightSection">解析</a><a href="#notebook">筆記</a><button id="focusWorkspace" type="button" aria-pressed="false">專注工作區 <span aria-hidden="true">↗</span></button></nav>
       <section id="experiment" class="canvas-card" aria-labelledby="moduleTitle" tabindex="-1">
         <div class="canvas-toolbar"><div><p id="moduleTag" class="pill">互動實驗</p><h2 id="moduleTitle" tabindex="-1">載入中</h2></div><div class="canvas-actions"><button id="favoriteBtn" type="button" aria-pressed="false" class="favorite-button">☆ 收藏</button><button id="resetBtn" type="button">重設</button><button id="shareBtn" type="button">分享</button><button id="exportBtn" type="button" class="primary">匯出 PNG</button></div></div>
         <div class="experiment-options"><label class="checkbox-label"><input id="teacherMode" type="checkbox" />投影模式</label></div>
@@ -60,8 +75,8 @@
         <div class="canvas-caption"><p id="canvasHint">用下方滑桿或方向鍵微調參數；數值與公式會同步更新。</p><div id="liveStatus" class="live-status" role="status" aria-live="polite" aria-atomic="true"></div></div>
       </section>
       <section class="control-card" aria-labelledby="controlsTitle">
-        <div><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或點選「符號」輸入 √、π、分數</span></div><div id="controls" class="controls"></div></div>
-        <div class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>觀察重點</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><section id="moduleTrapWrap" class="module-trap" hidden><h2>常見陷阱</h2><p id="moduleTrap"></p></section><h2>進階挑戰</h2><p id="challengeBox"></p><details id="challengeSolution" class="challenge-solution" hidden><summary>先自己作答，再展開解答</summary><p id="challengeAnswer"></p></details></div>
+        <div id="parameterSection"><div class="section-heading"><div><p class="eyebrow">01 / 操作</p><h2 id="controlsTitle">互動參數</h2></div><span class="small-label">拖曳或點選「符號」輸入 √、π、分數</span></div><div id="controls" class="controls"></div></div>
+        <div id="insightSection" class="insight-panel"><p class="eyebrow">02 / 思考</p><h2>觀察重點</h2><p id="examSignal"></p><h2>引導問題</h2><p id="promptBox"></p><div class="formula-heading"><h2>即時公式</h2><button id="formulaToggle" class="text-button" type="button" aria-expanded="true" aria-controls="formulaBox">先隱藏公式</button></div><p id="formulaHiddenHint" class="formula-hidden-hint" hidden>先預測結果，再按「揭示公式」驗證你的推理。</p><div id="formulaBox" class="formula-box"></div><section id="moduleTrapWrap" class="module-trap" hidden><h2>常見陷阱</h2><p id="moduleTrap"></p></section><h2>進階挑戰</h2><p id="challengeBox"></p><details id="challengeSolution" class="challenge-solution" hidden><summary>先自己作答，再展開解答</summary><p id="challengeAnswer"></p></details></div>
       </section>
       <section id="notebook" class="notebook-card" aria-labelledby="notebookTitle">
         <div class="section-heading"><div><p class="eyebrow">03 / 記錄</p><h2 id="notebookTitle">我的實驗筆記</h2></div><label class="checkbox-label practiced-label"><input id="practicedCheck" type="checkbox" />標記為已探索</label></div>

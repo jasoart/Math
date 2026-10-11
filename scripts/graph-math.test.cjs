@@ -8,6 +8,9 @@ close(value('2x+1'),5);close(value('x(x+1)'),6);close(value('-x^2'),-4);close(va
 close(value('2^3^2'),512);close(value('2^-2'),.25);close(value('sin(pi/2)'),1);close(value('cos(π)'),-1);
 close(value('x²−2×x+1'),1);close(value('ln(e)'),1);close(value('log(100)'),2);close(value('sqrt(9)'),3);
 close(value('1e-3x'),.002);close(value('max(x,3)'),3);close(value('min(x,3)'),2);close(value('abs(-3)'),3);
+close(M.compile('(x<y)<1').evaluate({x:2,y:1}),1);close(M.compile('x<y<1').evaluate({x:2,y:1}),0);
+close(M.compile('(x<y)=0').evaluate({x:2,y:1}),1);close(M.compile('x<(y<1)').evaluate({x:0,y:2}),0);
+assert.equal(M.compile('(x<y)<1').tree.args[0].kind,'comparison');checks++;
 close(value('y=a(x-b)^2+c'),5);close(value('exp(0)'),1);close(value('sin(x)^2+cos(x)^2'),1);
 close(M.parse('xy=6').at(2,3),0);close(M.parse('x^2+y^2=9').at(0,3),0);close(M.parse('x=2').at(2,9),0);
 assert.deepEqual(M.parse('(2,3)').at(0),[2,3]);checks++;

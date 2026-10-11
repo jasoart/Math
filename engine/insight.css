@@ -1,0 +1,8 @@
+.formula-insight{display:grid;gap:.8rem;padding:1.2rem;border:1px solid #dce5df;border-radius:16px;background:#fbfdfa;min-width:0}
+.formula-insight[hidden]{display:none}
+.formula-insight h3{margin:0;color:#233f35;font-size:1.08rem;letter-spacing:-.02em}
+.formula-insight .insight-domain{margin:0;padding:.65rem .8rem;border-radius:9px;background:#eef4eb;color:#3f584c;font-size:.88rem;line-height:1.7;overflow-wrap:anywhere}
+.formula-insight .insight-formulas{display:grid;gap:.5rem;min-width:0}
+.formula-insight .insight-notes{margin:0;padding-left:1.25rem;color:#5d6e65;font-size:.86rem;line-height:1.8}
+.formula-insight .math-formula{max-width:100%;overflow-x:auto}
+@media(max-width:600px){.formula-insight{padding:1rem;border-radius:12px}}

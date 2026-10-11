@@ -2,7 +2,7 @@
   'use strict';
   const S = window.SpatialMath, $ = id => document.getElementById(id), canvas = $('spatialCanvas'), ctx = canvas.getContext('2d');
   const STORAGE = 'mathlab-spatial', pointers = new Map();
-  let state = S.clone(S.DEFAULT), mesh, frame = 0, width = 0, height = 0, report = {}, saveTimer, noticeTimer, previousDistance = 0;
+  let state = S.clone(S.DEFAULT), mesh, observation, frame = 0, width = 0, height = 0, report = {}, saveTimer, noticeTimer, previousDistance = 0;
   function notice(text) { $('spatialNotice').textContent = text; $('spatialNotice').hidden = false; clearTimeout(noticeTimer); noticeTimer = setTimeout(() => { $('spatialNotice').hidden = true; }, 5000); }
   function save() { try { localStorage.setItem(STORAGE, JSON.stringify(state)); } catch { /* The scene remains usable when browser storage is unavailable. */ } }
   function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 250); }
@@ -19,6 +19,11 @@
     $('surfaceExpression').value = state.expression;
     ['xMin', 'xMax', 'yMin', 'yMax'].forEach((id, i) => { $(id).value = state.domain[i]; });
     $('heightLimit').value = state.height;
+    $('surfacePreview').innerHTML = window.MathTypeset?.expressionHTML('z=' + state.expression.replace(/^z\s*=\s*/i, '')) || '';
+    $('probeX').min = state.domain[0]; $('probeX').max = state.domain[1]; $('probeY').min = state.domain[2]; $('probeY').max = state.domain[3];
+    $('probeX').value = state.probe?.x ?? (state.domain[0] + state.domain[1]) / 2;
+    $('probeY').value = state.probe?.y ?? (state.domain[2] + state.domain[3]) / 2;
+    $('showTangent').checked = state.probe?.tangent ?? true;
     $('surfaceMode').setAttribute('aria-pressed', String(state.mode === 'surface'));
     $('wireMode').setAttribute('aria-pressed', String(state.mode === 'wire'));
     const selected = preset();
@@ -39,18 +44,42 @@
     });
     $('surfaceCaption').textContent = mesh.faces.length ? `z ≈ ${format(mesh.min)} 至 ${format(mesh.max)} · ${mesh.faces.length.toLocaleString()} 個曲面片段${mesh.skipped ? ' · 留白處不顯示' : ''}` : '此範圍沒有可顯示的實數曲面。請調整算式或高度範圍。';
     canvas.setAttribute('aria-label', `${preset()?.name || '自訂曲面'}，z = ${state.expression}。方向鍵旋轉，加減鍵縮放，Home 重設視角。`);
-    requestDraw();
+    updateObservation(); requestDraw();
   }
   function format(value) { return Number(value.toPrecision(4)).toString().replace('-', '−'); }
+  function updateObservation() {
+    observation = state.probe ? S.probe(state) : null;
+    const target = $('surfaceProbeResult');
+    if (!observation) { target.textContent = '選取座標，探索高度、梯度與切平面。'; return; }
+    const messages = { 'outside-domain': '觀察點須位於目前座標範圍內。', undefined: '此點沒有有限的實數高度。', 'outside-height': '此點超出高度顯示範圍，請調整範圍。', 'non-differentiable': '此點的高度存在，但無法建立有限梯度與切平面。' };
+    if (observation.status !== 'regular') { target.textContent = messages[observation.status]; return; }
+    const [x, y, z] = observation.point, { x: dx, y: dy } = observation.gradient;
+    const lines = [`f(${format(x)},${format(y)})=${format(z)}`, `∇f=(${format(dx)},${format(dy)})`, `z=${format(z)}+(${format(dx)})(x-(${format(x)}))+(${format(dy)})(y-(${format(y)}))`];
+    if (window.MathTypeset) target.innerHTML = window.MathTypeset.linesHTML(lines);
+    else target.textContent = lines.join('；');
+  }
+  function inspect(event) {
+    event?.preventDefault();
+    try {
+      const x = $('probeX').value.trim() === '' ? NaN : Number($('probeX').value), y = $('probeY').value.trim() === '' ? NaN : Number($('probeY').value);
+      state = S.validate({ ...state, probe: { x, y, tangent: $('showTangent').checked } });
+      $('probeX').removeAttribute('aria-invalid'); $('probeY').removeAttribute('aria-invalid'); updateObservation(); requestDraw(); save();
+    } catch (e) { $('surfaceProbeResult').textContent = e.message; $('probeX').setAttribute('aria-invalid', 'true'); $('probeY').setAttribute('aria-invalid', 'true'); }
+  }
+  function surfaceCandidate(expression, domain, height) {
+    const candidate = { ...state, expression, domain, height }; delete candidate.fit;
+    if (candidate.probe) candidate.probe = { ...candidate.probe, x: S.clamp(candidate.probe.x, domain[0], domain[1]), y: S.clamp(candidate.probe.y, domain[2], domain[3]) };
+    return S.validate(candidate);
+  }
   function applyForm(event) {
     event?.preventDefault();
     try {
-      const candidate = S.validate({ ...state, expression: $('surfaceExpression').value.trim(), domain: ['xMin', 'xMax', 'yMin', 'yMax'].map(id => $(id).value.trim() === '' ? NaN : Number($(id).value)), height: $('heightLimit').value.trim() === '' ? NaN : Number($('heightLimit').value) });
+      const candidate = surfaceCandidate($('surfaceExpression').value.trim(), ['xMin', 'xMax', 'yMin', 'yMax'].map(id => $(id).value.trim() === '' ? NaN : Number($(id).value)), $('heightLimit').value.trim() === '' ? NaN : Number($('heightLimit').value));
       state = candidate; error(''); window.MathKeyboard?.close(); updateFields(); rebuild(); save();
     } catch (e) { error(e.message); }
   }
   function requestDraw() { if (!frame) frame = requestAnimationFrame(draw); }
-  function project(point) { return S.project(point, state.camera, state.domain, width, height); }
+  function project(point) { return S.project(point, state.camera, state.domain, width, height, state.fit); }
   function path(points, close = false) { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); if (close) ctx.closePath(); }
   function line(a, b, color, lineWidth = 1) { path([project(a), project(b)]); ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.stroke(); }
   function label(text, point, color, offset = [0, 0]) {
@@ -86,18 +115,28 @@
       ctx.lineWidth = .45; ctx.strokeStyle = '#254f423d';
       for (const face of faces) if (face.ids[0] % 4 === 0) { path(face.ids.slice(0, 2).map(i => projected[i])); ctx.stroke(); }
     }
+    if (observation?.point) {
+      if (state.probe.tangent && observation.status === 'regular') {
+        if (observation.tangent.length >= 3) { path(observation.tangent.map(project), true); ctx.fillStyle = '#efc67835'; ctx.fill(); ctx.strokeStyle = '#efc678d9'; ctx.lineWidth = 1.3; ctx.stroke(); }
+        const length = Math.min(xmax - xmin, ymax - ymin) * .16;
+        const tip = observation.point.map((v, i) => v + observation.normal[i] * length);
+        line(observation.point, tip, '#ffe3a2', 2); label('n', tip, '#ffe3a2', [8, -6]);
+      }
+      const p = project(observation.point); ctx.beginPath(); ctx.arc(p[0], p[1], 5, 0, Math.PI * 2); ctx.fillStyle = '#ffdfa0'; ctx.fill(); ctx.strokeStyle = '#163a31'; ctx.lineWidth = 2; ctx.stroke();
+      label('P', observation.point, '#ffdfa0', [10, -10]);
+    }
     const zextent = Math.min(state.height, span * .38);
     line([xmin, ymin, 0], [xmin, ymin, zextent], '#c6d7b978', .8);
     label('x', [xmax, yorigin, 0], '#ddc798', [12, 4]); label('y', [xorigin, ymax, 0], '#a5d6c1', [9, 4]); label('z', [xmin, ymin, zextent], '#d7e5c7', [-4, -10]);
     xticks.filter((v, i) => i % 2 === 0).forEach(v => label(format(v), [v, ymin, 0], '#8ca493', [-4, 20]));
     yticks.filter((v, i) => i % 2 === 0).forEach(v => label(format(v), [xmax, v, 0], '#8ca493', [11, 9]));
     if (!mesh.faces.length) { ctx.textAlign = 'center'; ctx.fillStyle = '#bdd1be'; ctx.font = '14px sans-serif'; ctx.fillText('這裡還沒有可顯示的曲面', width / 2, height * .44); ctx.textAlign = 'left'; }
-    report = { faces: mesh.faces.length, evaluations: mesh.evaluations, skipped: mesh.skipped, resolution: mesh.resolution, width, height, camera: { ...state.camera }, mode: state.mode, expression: state.expression, min: mesh.min, max: mesh.max };
+    report = { faces: mesh.faces.length, evaluations: mesh.evaluations, skipped: mesh.skipped, resolution: mesh.resolution, width, height, camera: { ...state.camera }, mode: state.mode, expression: state.expression, min: mesh.min, max: mesh.max, probe: observation, fit: state.fit || null };
     canvas.dataset.faces = String(mesh.faces.length);
   }
   function resize() { const rect = canvas.getBoundingClientRect(); width = rect.width; height = rect.height; const dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr); requestDraw(); }
   function zoom(factor) { state.camera.zoom = S.clamp(state.camera.zoom * factor, .35, 3); requestDraw(); scheduleSave(); }
-  function view(name) { state.camera = name === 'top' ? { yaw: 0, pitch: Math.PI / 2, zoom: state.camera.zoom } : name === 'front' ? { yaw: 0, pitch: 0, zoom: state.camera.zoom } : S.clone(S.DEFAULT.camera); requestDraw(); save(); }
+  function view(name) { if (name === 'home') delete state.fit; state.camera = name === 'top' ? { yaw: 0, pitch: Math.PI / 2, zoom: state.camera.zoom } : name === 'front' ? { yaw: 0, pitch: 0, zoom: state.camera.zoom } : S.clone(S.DEFAULT.camera); requestDraw(); save(); }
   function pointerDistance() { const [a, b] = [...pointers.values()]; return a && b ? Math.hypot(a.x - b.x, a.y - b.y) : 0; }
   canvas.addEventListener('pointerdown', event => { if (event.pointerType === 'mouse' && event.button !== 0) return; window.MathKeyboard?.close(); canvas.focus({ preventScroll: true }); canvas.setPointerCapture(event.pointerId); pointers.set(event.pointerId, { x: event.clientX, y: event.clientY }); previousDistance = pointerDistance(); });
   canvas.addEventListener('pointermove', event => {
@@ -118,10 +157,13 @@
   S.PRESETS.forEach((item, i) => {
     const button = document.createElement('button'); button.type = 'button'; button.dataset.preset = item.id;
     button.innerHTML = `<svg viewBox="0 0 28 28" aria-hidden="true"><path d="${presetPaths[i]}" fill="none" stroke="currentColor" stroke-width="1.1"/></svg><span></span>`; button.querySelector('span').textContent = item.name;
-    button.addEventListener('click', () => { state = S.validate({ ...state, expression: item.expression, domain: item.domain, height: item.height }); error(''); window.MathKeyboard?.close(); updateFields(); rebuild(); save(); });
+    button.addEventListener('click', () => { state = surfaceCandidate(item.expression, item.domain, item.height); error(''); window.MathKeyboard?.close(); updateFields(); rebuild(); save(); });
     $('surfacePresets').append(button);
   });
   $('surfaceForm').addEventListener('submit', applyForm);
+  $('probeForm').addEventListener('submit', inspect);
+  $('showTangent').addEventListener('change', () => { if (state.probe) inspect(); });
+  $('fitSurface').addEventListener('click', () => { state.fit = S.fitSurface(state, mesh); state.camera.zoom = 1; requestDraw(); save(); });
   $('surfaceExpression').addEventListener('change', applyForm);
   ['surface', 'wire'].forEach(mode => { $(mode + 'Mode').addEventListener('click', () => { state.mode = mode; $(mode + 'Mode').setAttribute('aria-pressed', 'true'); $(mode === 'surface' ? 'wireMode' : 'surfaceMode').setAttribute('aria-pressed', 'false'); requestDraw(); save(); }); });
   document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => view(button.dataset.view)));

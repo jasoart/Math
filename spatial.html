@@ -2,11 +2,20 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="在 MATH LAB 數學工作室，自由旋轉、探索並分享立體數學曲面。輸入雙變數函數，讓空間中的關係清晰可見。">
+  <meta name="description" content="建立點、向量、直線、平面與完整球面，探索距離、投影、交線、截面及旋轉體。MATH LAB 3D 空間幾何實驗室。">
   <meta name="theme-color" content="#f5f3ee"><title>立體繪圖｜MATH LAB 數學工作室</title>
   <link rel="icon" href="assets/studio-icon.png" type="image/png"><link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="math-keyboard.css"><link rel="stylesheet" href="spatial/spatial.css">
-  <script defer src="graph/math.js"></script><script defer src="graph/exact.js"></script><script defer src="math-keyboard.js"></script><script defer src="spatial/core.js"></script><script defer src="spatial/spatial.js"></script>
+  <script defer src="graph/math.js"></script><script defer src="graph/exact.js"></script><script defer src="vendor/katex/katex.min.js"></script><script defer src="engine/typeset.js"></script><script defer src="math-keyboard.js"></script><script defer src="spatial/core.js"></script><script defer src="spatial/spatial.js"></script>
+  <link rel="stylesheet" href="./vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="./engine/typeset.css">
+  <link rel="stylesheet" href="spatial/geometry-studio.css">
+  <script defer src="spatial/geometry.js"></script><script defer src="spatial/geometry-render.js"></script><script defer src="spatial/geometry-studio.js"></script>
+  <link rel="stylesheet" href="engine/pwa.css">
+  <script defer src="engine/pwa.js"></script>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="assets/studio-icon.png">
 </head>
 <body class="spatial-page">
   <a class="skip-link" href="#spatialCanvas">跳至立體畫布</a>
@@ -16,24 +25,59 @@
     <a class="brandbar-action" href="graph.html">回到平面 <span aria-hidden="true">↗</span></a>
   </header>
   <main class="spatial-shell">
-    <section class="spatial-intro" aria-labelledby="spatialTitle"><div><p class="eyebrow">FORM / SPACE / PERSPECTIVE</p><h1 id="spatialTitle">換個角度，<em>看見數學。</em></h1><p>把平面的算式，展開成可以旋轉的立體風景。</p></div><div class="spatial-intro-detail"><svg class="spatial-orbit-symbol" viewBox="0 0 64 64" width="60" height="60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="32" cy="32" rx="26" ry="10"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(120 32 32)"/></g><circle cx="32" cy="32" r="3" fill="currentColor"/></svg><span>從一個函數出發<br>探索無數種視角</span></div></section>
-    <div class="spatial-workspace">
+    <section class="spatial-intro" aria-labelledby="spatialTitle"><div><p class="eyebrow">THINK IN THREE DIMENSIONS</p><h1 id="spatialTitle">空間幾何，<em>親手看懂。</em></h1><p>從條件建立圖形，讓點、線、面與算式一起變動。</p></div><div class="spatial-intro-detail"><svg class="spatial-orbit-symbol" viewBox="0 0 64 64" width="60" height="60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="32" cy="32" rx="26" ry="10"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(120 32 32)"/></g><circle cx="32" cy="32" r="3" fill="currentColor"/></svg><span>3D 空間幾何實驗室<br>建模 · 操作 · 理解</span></div></section>
+    <div class="geometry-workspace-switch" role="group" aria-label="立體工作區"><button id="geometryWorkspaceTab" type="button" aria-pressed="true">空間幾何實驗室</button><button id="surfaceWorkspaceTab" type="button" aria-pressed="false">進階函數曲面</button></div>
+    <section id="geometryWorkspace" class="geometry-layout" aria-label="3D 空間幾何實驗室">
+      <aside class="geometry-sidebar">
+        <div class="geometry-panel-heading"><span class="eyebrow">BUILD YOUR IDEA</span><h2>把條件變成圖形</h2></div>
+        <div class="geometry-input-tabs" role="group" aria-label="輸入模式"><button data-geometry-input="template" aria-pressed="true">圖形模板</button><button data-geometry-input="expression" aria-pressed="false">算式輸入</button><button data-geometry-input="question" aria-pressed="false">題目敘述</button></div>
+        <form id="geometryTemplateForm" novalidate>
+          <label for="geometryTemplate">選擇圖形</label><select id="geometryTemplate"><option value="sphere">球面</option><option value="point">空間點</option><option value="vector">空間向量</option><option value="line">空間直線</option><option value="line-two-points">兩點決定直線</option><option value="plane">平面</option><option value="plane-three-points">三點決定平面</option><option value="cylinder">圓柱面</option><option value="cone">圓錐面</option><option value="tetrahedron">三角錐</option><option value="box">長方體</option><option value="parallelepiped">平行六面體</option><option value="revolution">旋轉體</option><option value="parametric">參數曲線</option><option value="parametricSurface">參數曲面</option></select>
+          <div id="geometryTemplateFields" class="geometry-fields"></div><button class="spatial-primary" type="submit">加入工作區 <span aria-hidden="true">+</span></button>
+        </form>
+        <form id="geometryExpressionForm" hidden novalidate><label for="geometryExpression">座標、方程式或參數式</label><textarea id="geometryExpression" class="expression-input" data-math-geometry="true" rows="3" maxlength="480" spellcheck="false">(x-1)^2+(y+2)^2+(z-3)^2=25</textarea><div id="geometryExpressionPreview" class="expression-preview"></div><p class="spatial-help">例：A=(1,2,3)、2x-y+z=4，或 x=cos(t), y=sin(t), z=t。</p><button type="submit" class="spatial-primary">辨識並建立 <span aria-hidden="true">+</span></button></form>
+        <form id="geometryQuestionForm" hidden novalidate><label for="geometryQuestion">貼上含明確座標或算式的條件</label><textarea id="geometryQuestion" rows="5" maxlength="4000" placeholder="已知點 A=(1,2,3)，平面 2x-y+z=4，求點到平面的距離。"></textarea><p class="spatial-help">辨識文字中的座標與算式；加入前請核對。複雜敘述請先轉成算式。</p><button type="submit" class="spatial-primary">整理條件並核對 <span aria-hidden="true">↗</span></button></form>
+        <p id="geometryError" class="spatial-error" role="alert" hidden></p>
+        <div class="geometry-objects-heading"><h3>已建立物件</h3><span id="geometryObjectCount">0 / 24</span></div><div id="geometryObjects" class="geometry-objects"></div>
+        <div class="geometry-history"><button id="geometryUndo" type="button">復原</button><button id="geometryRedo" type="button">重做</button><button id="geometryClear" type="button">清空工作區</button></div>
+        <details class="spatial-guide"><summary>表示法與顯示精度</summary><p>支援幾何物件、顯式曲面、參數曲線與隱式曲面。球面使用完整封閉網格；一般隱式曲面使用有限等值面取樣。狹窄特徵仍可能超出網格解析度。</p><p>拖曳旋轉，滾輪或雙指縮放；方向鍵旋轉、+ / − 縮放、Home 完整取景。物件與教學設定保存在此裝置。</p></details>
+      </aside>
+      <div class="geometry-main">
+        <div class="spatial-stage-toolbar"><div><span class="spatial-live-dot" aria-hidden="true"></span><span>3D 空間幾何工作區</span></div><div class="spatial-mode"><button id="geometryFit" type="button">完整取景</button><button id="geometryWire" type="button" aria-pressed="false">線框</button></div></div>
+        <div class="spatial-stage geometry-stage"><canvas id="geometryCanvas" tabindex="0" role="img" aria-label="可操作的空間幾何圖形。方向鍵旋轉，加減鍵縮放，Home 完整取景。" aria-describedby="geometryCaption"></canvas><div class="spatial-stage-corner" aria-hidden="true">MATH LAB<br><span>GEOMETRY STUDIO</span></div><div class="spatial-view-controls" role="group" aria-label="空間視角"><button data-geometry-view="home" aria-label="完整取景">↺</button><button data-geometry-view="perspective">立體</button><button data-geometry-view="top">俯視</button><button data-geometry-view="front">正視</button><button data-geometry-view="side">側視</button></div><p class="spatial-gesture-hint">拖曳旋轉 <span>·</span> 點選物件後進行量測</p></div>
+        <div class="spatial-stage-footer"><p id="geometryCaption" role="status"></p><div><button id="geometryShare" type="button">分享工作區 ↗</button><button id="geometryExport" type="button">下載 PNG ↓</button><button id="geometrySaveFile" type="button">儲存場景</button><label class="geometry-import">開啟場景<input id="geometryImport" type="file" accept=".json,application/json" hidden></label></div></div>
+        <section class="geometry-operations" aria-labelledby="geometryOperationsTitle"><div class="geometry-section-heading"><h2 id="geometryOperationsTitle">把關係算清楚</h2><label><input id="geometryExplore" type="checkbox"> 探索模式 · 隱藏答案</label></div><div class="geometry-operation-fields"><label>第一個物件<select id="geometryObjectA"></select></label><label>第二個物件<select id="geometryObjectB"></select></label><label>操作<select id="geometryOperation"><option value="auto">自動判斷關係</option><option value="distance">距離與垂足</option><option value="angle">夾角</option><option value="intersection">交點／交線</option><option value="projection">正射影</option><option value="dot">向量內積</option><option value="cross">向量外積</option><option value="add">向量相加</option><option value="subtract">向量相減</option><option value="midpoint">兩點中點</option><option value="volume">體積與積分</option><option value="threePlanes">三平面聯立</option></select></label><button id="geometryMeasure" type="button" class="spatial-primary">顯示幾何關係</button></div><p id="geometryRelationStatus" role="status">選取物件，探索它們之間的幾何關係。</p><div id="geometryResult" class="geometry-result" aria-live="polite"></div><button id="geometryAuxiliary" type="button" aria-pressed="true">顯示輔助圖形</button></section>
+        <section class="geometry-section-panel" aria-labelledby="geometrySectionTitle"><h3 id="geometrySectionTitle">移動截面，觀察變化</h3><div class="geometry-section-input"><label for="geometrySectionAxis">截平面</label><select id="geometrySectionAxis"><option value="z">xy · z = k</option><option value="x">yz · x = k</option><option value="y">xz · y = k</option></select><input id="geometrySectionRange" type="range" min="-10" max="10" step="0.05" value="4" aria-label="移動截平面"><input id="geometrySectionValue" type="number" step="any" value="4" aria-label="截平面位置"><button id="geometrySectionShow" type="button" aria-pressed="false">顯示截面</button></div><p id="geometrySectionResult" role="status">選擇球面、多面體或旋轉體，觀察與座標平面的截面。</p></section>
+        <details id="geometryLesson" class="geometry-lesson" open><summary>教學資訊 · 從圖形走到算式</summary><div class="geometry-lesson-tabs" role="group" aria-label="教學資訊"><button data-lesson="concept" aria-pressed="true">觀念</button><button data-lesson="formula" aria-pressed="false">公式</button><button data-lesson="steps" aria-pressed="false">推導</button><button data-lesson="pitfalls" aria-pressed="false">提醒</button><button data-lesson="practice" aria-pressed="false">練習</button></div><div id="geometryLessonContent"></div><button id="geometryShowStep" type="button">顯示這一步 · 輔助圖形</button><div id="geometryPractice" hidden><label for="geometryPracticeAnswer">輸入你的距離或體積答案</label><input id="geometryPracticeAnswer" type="text" class="symbol-input" data-math-scalar="true" data-math-input="true" autocomplete="off"><button id="geometryCheckAnswer" type="button">檢查答案</button><p id="geometryPracticeStatus" role="status"></p></div></details>
+      </div>
+    </section>
+    <div class="spatial-workspace" id="surfaceWorkspace" hidden>
       <aside class="spatial-controls" aria-label="曲面設定">
         <div class="spatial-panel-title"><span class="eyebrow">YOUR SURFACE</span><span class="spatial-small-badge">z = f(x, y)</span></div>
         <h2>描繪你的曲面</h2>
         <form id="surfaceForm" novalidate>
           <label for="surfaceExpression">曲面算式</label><div class="spatial-expression-wrap"><span aria-hidden="true">z =</span><input id="surfaceExpression" class="expression-input" data-math-surface="true" aria-label="曲面算式" value="(x^2-y^2)/4" maxlength="480" autocomplete="off" spellcheck="false" aria-describedby="surfaceError expressionHelp"></div>
+          <div id="surfacePreview" class="expression-preview" aria-label="曲面公式預覽"></div>
           <p id="expressionHelp" class="spatial-help">使用 x、y 與 sin、cos、sqrt、exp 等函數。</p>
           <p id="surfaceError" class="spatial-error" role="alert" hidden></p>
           <fieldset class="spatial-domain"><legend>座標範圍</legend><div class="spatial-range"><label for="xMin">x 下限</label><input id="xMin" type="number" min="-100" max="100" step="any" value="-4"><label for="xMax">x 上限</label><input id="xMax" type="number" min="-100" max="100" step="any" value="4"></div><div class="spatial-range"><label for="yMin">y 下限</label><input id="yMin" type="number" min="-100" max="100" step="any" value="-4"><label for="yMax">y 上限</label><input id="yMax" type="number" min="-100" max="100" step="any" value="4"></div><label class="spatial-height" for="heightLimit"><span>高度顯示範圍 <small>−z 至 +z</small></span><input id="heightLimit" type="number" min="0.1" max="100" step="any" value="6"></label></fieldset>
           <button type="submit" class="spatial-primary" id="drawSurface">繪製曲面 <span aria-hidden="true">↗</span></button>
         </form>
+        <section class="spatial-probe" aria-labelledby="probeTitle">
+          <h3 id="probeTitle">在曲面上，讀懂一點</h3>
+          <form id="probeForm" novalidate>
+            <div class="spatial-field-grid"><label for="probeX">觀察點 x<input id="probeX" type="number" step="any" value="1"></label><label for="probeY">觀察點 y<input id="probeY" type="number" step="any" value="1"></label></div>
+            <label class="spatial-probe-toggle"><input id="showTangent" type="checkbox" checked> 顯示切平面與法向量</label>
+            <button id="inspectSurface" class="spatial-primary" type="submit">探索這一點 <span aria-hidden="true">↗</span></button>
+          </form>
+          <div id="surfaceProbeResult" class="spatial-probe-result" role="status" aria-live="polite">選取座標，探索高度、梯度與切平面。</div>
+        </section>
         <div class="spatial-presets-head"><h3>從一個形狀開始</h3><span>精選曲面</span></div><div id="surfacePresets" class="spatial-presets"></div>
         <p id="presetDescription" class="spatial-preset-note"></p>
         <details class="spatial-guide"><summary>操作與顯示說明</summary><p>拖曳旋轉、滾輪或雙指縮放。選取畫布後，也可用方向鍵旋轉，+ / − 縮放，Home 回到起始視角。</p><p>曲面以有限網格近似。未定義、超出高度範圍或偵測到不連續的位置會留白；極窄的不連續可能未被取樣捕捉。</p><p>各軸使用相同尺度。曲面設定保存在這個瀏覽器中。</p></details>
       </aside>
       <section class="spatial-stage-section" aria-label="立體曲面預覽">
-        <div class="spatial-stage-toolbar"><div><span class="spatial-live-dot" aria-hidden="true"></span><span id="surfaceName">馬鞍曲面</span></div><div class="spatial-mode" role="group" aria-label="曲面顯示模式"><button id="surfaceMode" type="button" aria-pressed="true">曲面</button><button id="wireMode" type="button" aria-pressed="false">線框</button></div></div>
+        <div class="spatial-stage-toolbar"><div><span class="spatial-live-dot" aria-hidden="true"></span><span id="surfaceName">馬鞍曲面</span></div><div class="spatial-mode" role="group" aria-label="曲面顯示模式"><button id="fitSurface" type="button">完整取景</button><button id="surfaceMode" type="button" aria-pressed="true">曲面</button><button id="wireMode" type="button" aria-pressed="false">線框</button></div></div>
         <div class="spatial-stage" id="spatialStage"><canvas id="spatialCanvas" tabindex="0" role="img" aria-label="立體數學曲面。方向鍵旋轉，加減鍵縮放，Home 重設視角。" aria-describedby="surfaceCaption">您的瀏覽器需要支援 Canvas 才能顯示立體曲面。</canvas><div class="spatial-stage-corner" aria-hidden="true">MATH LAB<br><span>SPATIAL STUDIO</span></div><div class="spatial-view-controls" role="group" aria-label="視角"><button type="button" data-view="home" title="起始視角" aria-label="起始視角">↺</button><button type="button" data-view="top">俯視</button><button type="button" data-view="front">正視</button><span></span><button type="button" id="zoomIn" aria-label="放大曲面">+</button><button type="button" id="zoomOut" aria-label="縮小曲面">−</button></div><p class="spatial-gesture-hint">拖曳旋轉 <span>·</span> 滾輪或雙指縮放</p></div>
         <div class="spatial-stage-footer"><p id="surfaceCaption" role="status" aria-live="polite"></p><div><button type="button" id="shareSurface">分享視角 <span aria-hidden="true">↗</span></button><button type="button" id="exportSurface">下載 PNG <span aria-hidden="true">↓</span></button></div></div>
         <div class="spatial-coordinate-note"><span>01 — 定義</span><p>調整函數與範圍。</p><span>02 — 探索</span><p>旋轉、縮放，發現關係。</p><span>03 — 留存</span><p>把這個視角帶走。</p></div>
@@ -42,5 +86,9 @@
   </main>
   <dialog id="spatialShareDialog" class="spatial-share"><form method="dialog"><button class="spatial-dialog-close" aria-label="關閉分享視窗">×</button></form><p class="eyebrow">SHARE YOUR PERSPECTIVE</p><h2>把這個視角分享出去。</h2><p>連結包含曲面、座標範圍與目前視角。</p><label for="spatialShareURL">分享連結</label><input id="spatialShareURL" readonly><button id="copySpatialShare" type="button" class="spatial-primary">複製連結</button><p id="spatialShareStatus" role="status"></p></dialog>
   <p id="spatialNotice" class="spatial-notice" role="status" hidden></p>
+  <dialog id="geometryConfirm" class="spatial-share"><form method="dialog"><button class="spatial-dialog-close" aria-label="關閉條件核對">×</button></form><p class="eyebrow">CHECK THE CONDITIONS</p><h2>核對辨識到的物件</h2><div id="geometryConditions"></div><p id="geometryUnrecognized"></p><button id="geometryConfirmAdd" class="spatial-primary" type="button">確認並加入工作區</button></dialog>
+  <dialog id="geometryShareDialog" class="spatial-share"><form method="dialog"><button class="spatial-dialog-close" aria-label="關閉工作區分享">×</button></form><h2>帶走這個空間關係</h2><label for="geometryShareURL">工作區連結</label><input id="geometryShareURL" readonly><button id="geometryCopyShare" class="spatial-primary" type="button">複製連結</button><p id="geometryShareStatus" role="status"></p></dialog>
+  <nav class="geometry-mobile-tools" id="geometryMobileTools" aria-label="空間幾何快捷操作"><button id="geometryMobileCanvas" type="button">圖形</button><button id="geometryMobileBuild" type="button">建立物件 ＋</button><button id="geometryMobileLesson" type="button">教學資訊</button></nav>
+  <dialog id="geometryMobileDrawer" class="geometry-mobile-drawer" aria-labelledby="geometryDrawerTitle"><div class="geometry-drawer-head"><h2 id="geometryDrawerTitle">建立物件</h2><button id="geometryDrawerClose" type="button" aria-label="關閉工具抽屜">完成 ×</button></div><div id="geometryDrawerContent"></div></dialog>
   <footer class="app-footer spatial-footer"><span>MATH LAB <span aria-hidden="true">/</span> 數學工作室</span><span>讓理解，自然發生。</span></footer>
 </body></html>

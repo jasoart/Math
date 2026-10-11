@@ -22,19 +22,19 @@ const TAU = Math.PI * 2;
 const DEG = Math.PI / 180;
 
 const palette = {
-  ink: "#182033",
-  muted: "#657089",
-  grid: "#e7ebf3",
-  axis: "#8c97ad",
-  blue: "#2f63ff",
-  green: "#18a999",
-  orange: "#f59e0b",
-  red: "#ef4444",
-  purple: "#7c3aed",
-  fillBlue: "rgba(47, 99, 255, .12)",
-  fillGreen: "rgba(24, 169, 153, .14)",
-  fillOrange: "rgba(245, 158, 11, .14)",
-  fillRed: "rgba(239, 68, 68, .12)"
+  ink: "#172d3a",
+  muted: "#718389",
+  grid: "#e5edea",
+  axis: "#9aafad",
+  blue: "#316ac5",
+  green: "#087f73",
+  orange: "#c58a29",
+  red: "#d65353",
+  purple: "#8261bd",
+  fillBlue: "rgba(49, 106, 197, .11)",
+  fillGreen: "rgba(8, 127, 115, .12)",
+  fillOrange: "rgba(197, 138, 41, .13)",
+  fillRed: "rgba(214, 83, 83, .11)"
 };
 
 function round(n, digits = 3) {
@@ -61,10 +61,12 @@ function format(n, digits = 3) {
 }
 
 function html(lines) {
-  return lines.map(line => `<code>${window.MathExact.escape(line)}</code>`).join("");
+  return window.MathTypeset ? window.MathTypeset.linesHTML(lines) : lines.map(line => `<code>${window.MathExact.escape(line)}</code>`).join("");
 }
 
 let canvasSize = {width: 1100, height: 720};
+let activeCanvasFrame = null;
+let lastCanvasReport = null;
 function setupCanvas() {
   const rect = canvas.getBoundingClientRect();
   // Bound backing-store memory while retaining crisp HiDPI rendering.
@@ -98,6 +100,7 @@ function clearCanvas() {
 }
 
 function drawGrid(plane, range = 8) {
+  if (activeCanvasFrame) return activeCanvasFrame.drawGrid(plane);
   const { width, height, scale, origin } = plane;
   ctx.save();
   ctx.lineWidth = 1;
@@ -144,7 +147,10 @@ function drawPoint(plane, p, label, color = palette.blue, radius = 5) {
   ctx.beginPath();
   ctx.arc(sp.x, sp.y, radius, 0, TAU);
   ctx.fill();
-  if (label) {
+  if (activeCanvasFrame) {
+    activeCanvasFrame.reserve({x: sp.x, y: sp.y, radius: radius + 2});
+    if (label) activeCanvasFrame.queueLabel(label, sp.x, sp.y, {kind: 'point', color});
+  } else if (label) {
     ctx.fillStyle = palette.ink;
     ctx.font = "700 13px ui-sans-serif, system-ui";
     ctx.fillText(label, sp.x + 8, sp.y - 8);
@@ -162,6 +168,8 @@ function drawSegment(plane, p, q, color = palette.blue, width = 3, dash = []) {
   ctx.lineTo(plane.sx(q.x), plane.sy(q.y));
   ctx.stroke();
   ctx.restore();
+  // Fine construction grids remain a backdrop; labels avoid emphasized geometry.
+  if (width >= 1.5) activeCanvasFrame?.reserveSegment(plane.point(p), plane.point(q), width / 2);
 }
 
 function drawArrow(plane, p, q, color = palette.blue, width = 3, label = "") {
@@ -182,7 +190,11 @@ function drawArrow(plane, p, q, color = palette.blue, width = 3, label = "") {
   ctx.lineTo(sq.x - 12 * Math.cos(angle + Math.PI / 7), sq.y - 12 * Math.sin(angle + Math.PI / 7));
   ctx.closePath();
   ctx.fill();
-  if (label) {
+  if (activeCanvasFrame) {
+    activeCanvasFrame.reserveSegment(sp, sq, width / 2);
+    activeCanvasFrame.reserve({x: sq.x, y: sq.y, radius: 8});
+    if (label) activeCanvasFrame.queueLabel(label, sq.x, sq.y, {kind: 'point', color});
+  } else if (label) {
     ctx.fillStyle = palette.ink;
     ctx.font = "700 13px ui-sans-serif, system-ui";
     ctx.fillText(label, sq.x + 8, sq.y - 8);
@@ -191,10 +203,12 @@ function drawArrow(plane, p, q, color = palette.blue, width = 3, label = "") {
 }
 
 function drawMathLabel(text, x, y, color = palette.ink) {
+  if (activeCanvasFrame) return activeCanvasFrame.queueLabel(text, x - 9, y - 18, {color});
   ctx.save();
   ctx.fillStyle = "rgba(255,255,255,.86)";
   ctx.strokeStyle = "rgba(223,228,239,.9)";
   ctx.lineWidth = 1;
+  ctx.font = "700 13px ui-sans-serif, system-ui";
   const width = ctx.measureText(text).width + 18;
   ctx.beginPath();
   ctx.roundRect(x - 9, y - 18, width, 26, 10);
@@ -207,6 +221,7 @@ function drawMathLabel(text, x, y, color = palette.ink) {
 }
 
 function plotFunction(plane, f, xMin, xMax, color = palette.blue, width = 3, step = 0.02) {
+  if (activeCanvasFrame) return activeCanvasFrame.drawCurve(plane, f, xMin, xMax, color, width);
   ctx.save();
   ctx.strokeStyle = color;
   ctx.lineWidth = width;
@@ -241,6 +256,13 @@ function drawCircle(plane, center, r, color = palette.blue, fill = "transparent"
   if (fill !== "transparent") ctx.fill();
   ctx.stroke();
   ctx.restore();
+  if (activeCanvasFrame && r > 0) {
+    const samples = Math.max(16, Math.min(80, Math.ceil(TAU * r * plane.scale / 20)));
+    for (let i = 0; i < samples; i++) {
+      const a = i * TAU / samples, b = (i + 1) * TAU / samples;
+      activeCanvasFrame.reserveSegment(plane.point({x: center.x + r * Math.cos(a), y: center.y + r * Math.sin(a)}), plane.point({x: center.x + r * Math.cos(b), y: center.y + r * Math.sin(b)}), width / 2);
+    }
+  }
 }
 
 function drawInfiniteLine(plane, normal, c, color = palette.blue, width = 3, dash = []) {
@@ -312,6 +334,7 @@ function getControlDisplay(control) {
 }
 
 function drawContours(plane, f, levels, options = {}) {
+  if (activeCanvasFrame) return activeCanvasFrame.drawContours(plane, f, levels, options);
   const xMin = options.xMin ?? -4;
   const xMax = options.xMax ?? 4;
   const yMin = options.yMin ?? -4;
@@ -382,7 +405,11 @@ function drawArrowPixels(from, to, color = palette.blue, width = 3, label = "") 
   ctx.lineTo(to.x - 12 * Math.cos(angle + Math.PI / 7), to.y - 12 * Math.sin(angle + Math.PI / 7));
   ctx.closePath();
   ctx.fill();
-  if (label) {
+  if (activeCanvasFrame) {
+    activeCanvasFrame.reserveSegment(from, to, width / 2);
+    activeCanvasFrame.reserve({x: to.x, y: to.y, radius: 8});
+    if (label) activeCanvasFrame.queueLabel(label, to.x, to.y, {kind: 'point', color});
+  } else if (label) {
     ctx.fillStyle = palette.ink;
     ctx.font = "700 13px ui-sans-serif, system-ui";
     ctx.fillText(label, to.x + 8, to.y - 8);
@@ -396,7 +423,10 @@ function drawPointPixels(p, label, color = palette.blue, radius = 5) {
   ctx.beginPath();
   ctx.arc(p.x, p.y, radius, 0, TAU);
   ctx.fill();
-  if (label) {
+  if (activeCanvasFrame) {
+    activeCanvasFrame.reserve({x: p.x, y: p.y, radius: radius + 2});
+    if (label) activeCanvasFrame.queueLabel(label, p.x, p.y, {kind: 'point', color});
+  } else if (label) {
     ctx.fillStyle = palette.ink;
     ctx.font = "700 13px ui-sans-serif, system-ui";
     ctx.fillText(label, p.x + 8, p.y - 8);
@@ -4422,7 +4452,7 @@ const masteryModules = [
 ];
 
 modules.push(...masteryModules);
-modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []), ...(window.createExpansionModules?.() ?? []));
+modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []), ...(window.createExpansionModules?.() ?? []), ...(window.createStudioModules?.() ?? []));
 
 const advancedIds = new Set(["parabola", "ellipse", "hyperbola", "complex", "space-skew-lines", "riemann", "derivative-tangent", "derivative-optimization", "limit-continuity", "ftc-accumulation", "area-between-curves", "complex-demoivre", "conic-tangent", "infinite-geometric-series", "newton-method", "derivative-rules", "concavity-inflection", "optimization-box", "piecewise-continuity-ivt", "squeeze-theorem", "cross-section-volume", "complex-nth-roots", "conic-rotation-xy", "ellipse-parametric", "complex-conjugate-roots", "normal-approx-binomial"]);
 const enrichmentIds = new Set(["taylor", "contour-gradient", "sampling-clt"]);
@@ -4545,7 +4575,13 @@ function drawCurrent() {
   clearCanvas();
   const state = stateFromControls(module);
   const computed = module.compute(state);
-  module.draw(state, computed);
+  activeCanvasFrame = window.MathCanvas?.createFrame(ctx, {...canvasSize, colors: palette}) ?? null;
+  try {
+    module.draw(state, computed);
+    lastCanvasReport = activeCanvasFrame ? {...activeCanvasFrame.flushLabels(), moduleId: module.id} : null;
+  } finally {
+    activeCanvasFrame = null;
+  }
   setFormula(module.formula(state, computed));
   renderExactParameters(module);
   persistSymbolicInputs();
@@ -4658,7 +4694,7 @@ function restoreHash() {
   if (!location.hash) return;
   try {
     const [rawId, query = ""] = location.hash.slice(1).split("?");
-    if (!query && ["experiment", "notebook", "examSection", "research", "main"].includes(rawId)) return;
+    if (!query && ["experiment", "parameterSection", "insightSection", "workspaceTabs", "notebook", "examSection", "research", "main"].includes(rawId)) return;
     const id = decodeURIComponent(rawId), module = modules.find(m => m.id === id);
     if (!module) throw new Error("分享連結的模組不存在");
     const parameters = Object.create(null), params = new URLSearchParams(query);
@@ -4675,7 +4711,7 @@ function restoreHash() {
   }
 }
 
-window.MathLab = {modules, getCurrentModule, selectModule, validateParameters, createShareURL, getState: () => ({moduleId: currentId, parameters: documentParameters(getCurrentModule())}), refreshList: renderModuleList, scheduleDraw, metrics: renderMetrics};
+window.MathLab = {modules, getCurrentModule, selectModule, validateParameters, createShareURL, getState: () => ({moduleId: currentId, parameters: documentParameters(getCurrentModule())}), getRenderReport: () => lastCanvasReport ? structuredClone(lastCanvasReport) : null, refreshList: renderModuleList, scheduleDraw, metrics: renderMetrics};
 window.addEventListener("hashchange", restoreHash);
 
 if (!CanvasRenderingContext2D.prototype.roundRect) {

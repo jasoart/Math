@@ -2,7 +2,7 @@
 window.createExpansionModules = function () {
   'use strict';
   const PI = Math.PI, D = PI / 180, EPS = 1e-10;
-  const C = ['#2f63ff', '#e28b18', '#18a999', '#b24fc4', '#df4654'];
+  const C = ['#316ac5', '#c58a29', '#087f73', '#8261bd', '#d65353'];
   const F = n => Number.isFinite(n) ? String(Number(n.toPrecision(7))) : '不適用';
   const num = (key, label, min, max, value, step = .1) => ({key, label, min, max, value, step, integer: false});
   const int = (key, label, min, max, value) => ({...num(key, label, min, max, value, 1), integer: true});
@@ -42,6 +42,7 @@ window.createExpansionModules = function () {
   // All paths are clipped; poles and explicit holes break the curve.
   function drawScene(scene, title) {
     const {width, height} = canvas.getBoundingClientRect();
+    const frame = typeof activeCanvasFrame !== 'undefined' ? activeCanvasFrame : null;
     const box = {left: 58, right: Math.max(100, width - 24), top: 68, bottom: Math.max(140, height - 62)};
     const w = box.right - box.left, h = box.bottom - box.top;
     let [xmin, xmax] = scene.x, [ymin, ymax] = scene.y;
@@ -52,13 +53,14 @@ window.createExpansionModules = function () {
     }
     const sx = x => box.left + (x - xmin) * w / (xmax - xmin), sy = y => box.bottom - (y - ymin) * h / (ymax - ymin);
     const text = (s, x, y, color = '#3a4f69') => {ctx.fillStyle = color; ctx.fillText(s, x, y);};
-    const ticks = (lo, hi) => {const raw = (hi - lo) / 7, p = 10 ** Math.floor(Math.log10(raw)); const step = [1, 2, 5, 10].find(v => v * p >= raw) * p; const a = []; for (let k = Math.ceil(lo / step); k * step <= hi && a.length < 15; k++) a.push(k * step); return a;};
+    const ticks = (lo, hi, pixels) => {if (window.MathCanvas) return window.MathCanvas.niceTicks(lo, hi, pixels, 68).values; const raw = (hi - lo) / 7, p = 10 ** Math.floor(Math.log10(raw)); const step = [1, 2, 5, 10].find(v => v * p >= raw) * p; const a = []; for (let k = Math.ceil(lo / step); k * step <= hi && a.length < 15; k++) a.push(k * step); return a;};
     ctx.save(); ctx.font = '12px system-ui'; ctx.lineWidth = 1;
-    for (const x of ticks(xmin, xmax)) {ctx.beginPath(); ctx.strokeStyle = '#e7edf5'; ctx.moveTo(sx(x), box.top); ctx.lineTo(sx(x), box.bottom); ctx.stroke(); if (!scene.bars) text(F(x), sx(x) - 8, box.bottom + 20);}
-    for (const y of ticks(ymin, ymax)) {ctx.beginPath(); ctx.strokeStyle = '#e7edf5'; ctx.moveTo(box.left, sy(y)); ctx.lineTo(box.right, sy(y)); ctx.stroke(); text(F(y), 5, sy(y) + 4);}
-    ctx.strokeStyle = '#9aaac0'; ctx.strokeRect(box.left, box.top, w, h);
+    if (frame) {frame.report.grids++; frame.reserve({x: 0, y: 0, width, height: box.top - 8}); frame.reserve({x: 0, y: box.bottom + 4, width, height: height - box.bottom - 4}); frame.reserve({x: 0, y: box.top, width: box.left - 8, height: h});}
+    for (const x of ticks(xmin, xmax, w)) {ctx.beginPath(); ctx.strokeStyle = '#e5edea'; ctx.moveTo(sx(x), box.top); ctx.lineTo(sx(x), box.bottom); ctx.stroke(); if (!scene.bars) text(F(x), sx(x) - 8, box.bottom + 20);}
+    for (const y of ticks(ymin, ymax, h)) {ctx.beginPath(); ctx.strokeStyle = '#e5edea'; ctx.moveTo(box.left, sy(y)); ctx.lineTo(box.right, sy(y)); ctx.stroke(); text(F(y), 5, sy(y) + 4);}
+    ctx.strokeStyle = '#9aafad'; ctx.strokeRect(box.left, box.top, w, h);
     ctx.save(); ctx.beginPath(); ctx.rect(box.left, box.top, w, h); ctx.clip();
-    const line = (a, b, color, dash) => {ctx.strokeStyle = color || C[0]; ctx.lineWidth = 2.2; ctx.setLineDash(dash ? [6, 5] : []); ctx.beginPath(); ctx.moveTo(sx(a.x), sy(a.y)); ctx.lineTo(sx(b.x), sy(b.y)); ctx.stroke(); ctx.setLineDash([]);};
+    const line = (a, b, color, dash) => {ctx.strokeStyle = color || C[0]; ctx.lineWidth = 2.2; ctx.setLineDash(dash ? [6, 5] : []); ctx.beginPath(); ctx.moveTo(sx(a.x), sy(a.y)); ctx.lineTo(sx(b.x), sy(b.y)); ctx.stroke(); ctx.setLineDash([]); frame?.reserveSegment({x: sx(a.x), y: sy(a.y)}, {x: sx(b.x), y: sy(b.y)}, 1.1);};
     if (xmin <= 0 && xmax >= 0) line(P(0, ymin), P(0, ymax), '#bac5d5');
     if (ymin <= 0 && ymax >= 0) line(P(xmin, 0), P(xmax, 0), '#bac5d5');
     for (const poly of scene.polygons || []) {ctx.beginPath(); poly.points.forEach((p, i) => i ? ctx.lineTo(sx(p.x), sy(p.y)) : ctx.moveTo(sx(p.x), sy(p.y))); ctx.closePath(); ctx.fillStyle = poly.fill || '#2f63ff20'; ctx.fill(); ctx.strokeStyle = poly.color || C[0]; ctx.lineWidth = 2; ctx.stroke();}
@@ -67,11 +69,16 @@ window.createExpansionModules = function () {
     for (const l of scene.lines || []) line(l.a, l.b, l.color, l.dash);
     for (const c of scene.curves || []) {
       const a = Math.max(xmin, c.x?.[0] ?? xmin), b = Math.min(xmax, c.x?.[1] ?? xmax); if (!(b > a)) continue;
+      if (frame) {
+        const scaleX = w / (xmax - xmin), scaleY = h / (ymax - ymin);
+        frame.drawCurve({width, height, scaleX, scaleY, origin: {x: box.left - xmin * scaleX, y: box.bottom + ymin * scaleY}, sx, sy}, c.f, a, b, c.color || C[0], 2.6, c.holes);
+        continue;
+      }
       ctx.beginPath(); ctx.strokeStyle = c.color || C[0]; ctx.lineWidth = 2.4; let previous = null;
       for (let i = 0; i <= 420; i++) {const x = a + (b - a) * i / 420, y = c.f(x); const broken = !Number.isFinite(y) || y < ymin - (ymax - ymin) || y > ymax + (ymax - ymin); const gap = previous && (Math.abs(sy(y) - sy(previous.y)) > h * .7 || c.holes.some(t => t >= previous.x && t <= x)); if (broken) {previous = null; continue;} if (!previous || gap) ctx.moveTo(sx(x), sy(y)); else ctx.lineTo(sx(x), sy(y)); previous = {x, y};} ctx.stroke();
     }
-    for (const p of scene.points || []) {if (!Number.isFinite(p.x) || !Number.isFinite(p.y)) continue; ctx.beginPath(); ctx.arc(sx(p.x), sy(p.y), 4.5, 0, 2 * PI); ctx.fillStyle = p.open ? '#fff' : p.color || C[0]; ctx.fill(); ctx.strokeStyle = p.color || C[0]; ctx.lineWidth = 2; ctx.stroke(); if (p.label) text(p.label, sx(p.x) + 7, sy(p.y) - 9, p.color);}
-    for (const label of scene.labels || []) text(label.text, sx(label.x), sy(label.y), label.color);
+    for (const p of scene.points || []) {if (!Number.isFinite(p.x) || !Number.isFinite(p.y)) continue; ctx.beginPath(); ctx.arc(sx(p.x), sy(p.y), 4.5, 0, 2 * PI); ctx.fillStyle = p.open ? '#fff' : p.color || C[0]; ctx.fill(); ctx.strokeStyle = p.color || C[0]; ctx.lineWidth = 2; ctx.stroke(); if (frame) {frame.reserve({x: sx(p.x), y: sy(p.y), radius: 6}); if (p.label && p.x >= xmin && p.x <= xmax && p.y >= ymin && p.y <= ymax) frame.queueLabel(p.label, sx(p.x), sy(p.y), {kind: 'point', color: p.color || C[0]});} else if (p.label) text(p.label, sx(p.x) + 7, sy(p.y) - 9, p.color);}
+    for (const label of scene.labels || []) {if (frame) frame.queueLabel(label.text, sx(label.x), sy(label.y), {color: label.color || '#172d3a', leader: true}); else text(label.text, sx(label.x), sy(label.y), label.color);}
     ctx.restore();
     if (scene.bars) for (const b of scene.bars) {ctx.textAlign = 'center'; if (scene.bars.length <= 20 || b.x % 2 === 0) text(b.label, sx(b.x), box.bottom + 20);}
     ctx.textAlign = 'left'; ctx.font = '600 14px system-ui'; text(title, 20, 25);
@@ -82,6 +89,7 @@ window.createExpansionModules = function () {
     ctx.restore();
   }
 
+  window.MathScene = Object.freeze({draw: drawScene});
   const modules = [];
   function add(config) {
     modules.push({...config, release: '2.3', formula: (s, m) => m.lines, status: (s, m) => m.summary, draw: (s, m) => drawScene(m.scene, config.short)});

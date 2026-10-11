@@ -13,12 +13,13 @@
   ];
   const clone = value => JSON.parse(JSON.stringify(value));
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  function compile(source) {
+  function expression(source) {
     if (typeof source !== 'string' || source.length > 480) throw Error('請輸入 1–480 字的曲面算式。');
     const result = M.compile(source.trim().replace(/^z\s*=\s*/i, ''));
     if (result.variables.some(v => v !== 'x' && v !== 'y')) throw Error('曲面可使用 x、y 與常數；請移除其他變數。');
-    return (x, y) => result.evaluate({ x, y });
+    return result;
   }
+  function compile(source) { const result = expression(source); return (x, y) => result.evaluate({ x, y }); }
   function validate(input) {
     if (!input || typeof input !== 'object' || Array.isArray(input)) throw Error('曲面資料格式不正確。');
     const expression = input.expression;
@@ -32,7 +33,18 @@
     if (!camera || !['yaw', 'pitch', 'zoom'].every(k => typeof camera[k] === 'number' && Number.isFinite(camera[k]))) throw Error('視角資料不正確。');
     if (Math.abs(camera.yaw) > 1e6 || camera.pitch < -.1 || camera.pitch > Math.PI / 2 || camera.zoom < .35 || camera.zoom > 3) throw Error('視角超出可用範圍。');
     if (!['surface', 'wire'].includes(input.mode)) throw Error('顯示模式不正確。');
-    return { expression, domain: domain.slice(), height, camera: { yaw: camera.yaw % (Math.PI * 2), pitch: camera.pitch, zoom: camera.zoom }, mode: input.mode };
+    const state = { expression, domain: domain.slice(), height, camera: { yaw: camera.yaw % (Math.PI * 2), pitch: camera.pitch, zoom: camera.zoom }, mode: input.mode };
+    if (input.probe !== undefined) {
+      const probe = input.probe;
+      if (!probe || !['x', 'y'].every(k => typeof probe[k] === 'number' && Number.isFinite(probe[k])) || probe.x < domain[0] || probe.x > domain[1] || probe.y < domain[2] || probe.y > domain[3] || typeof probe.tangent !== 'boolean') throw Error('觀察點須位於目前的座標範圍內。');
+      state.probe = { x: probe.x, y: probe.y, tangent: probe.tangent };
+    }
+    if (input.fit !== undefined) {
+      const fit = input.fit;
+      if (!fit || typeof fit.centerZ !== 'number' || !Number.isFinite(fit.centerZ) || Math.abs(fit.centerZ) > 100 || typeof fit.extent !== 'number' || !Number.isFinite(fit.extent) || fit.extent < .1 || fit.extent > 400) throw Error('自動取景資料不正確。');
+      state.fit = { centerZ: fit.centerZ, extent: fit.extent };
+    }
+    return state;
   }
   function sample(input, resolution = 48) {
     const state = validate(input), fn = compile(state.expression), [xmin, xmax, ymin, ymax] = state.domain;
@@ -64,12 +76,44 @@
     const used = new Set(faces.flat()), heights = [...used].map(i => points[i][2]);
     return { points, faces, resolution: n, evaluations, skipped, min: heights.length ? Math.min(...heights) : null, max: heights.length ? Math.max(...heights) : null, domain: state.domain, height: state.height };
   }
-  function project(point, camera, domain, width, height) {
-    const span = Math.max(domain[1] - domain[0], domain[3] - domain[2]), scale = Math.min(width, height) * .62 / span * camera.zoom;
-    const x = point[0] - (domain[0] + domain[1]) / 2, y = point[1] - (domain[2] + domain[3]) / 2;
-    const horizontal = x * Math.cos(camera.yaw) - y * Math.sin(camera.yaw), depth = x * Math.sin(camera.yaw) + y * Math.cos(camera.yaw);
-    return [width / 2 + horizontal * scale, height * .52 - (point[2] * Math.cos(camera.pitch) - depth * Math.sin(camera.pitch)) * scale, depth * Math.cos(camera.pitch) + point[2] * Math.sin(camera.pitch)];
+  function probe(input, coordinates = input.probe) {
+    const state = validate(input), { x, y } = coordinates || {};
+    const result = { status: 'outside-domain', point: null, gradient: null, normal: null, tangent: [] };
+    if (![x, y].every(Number.isFinite) || x < state.domain[0] || x > state.domain[1] || y < state.domain[2] || y > state.domain[3]) return result;
+    const fn = expression(state.expression), z = fn.evaluate({ x, y });
+    if (!Number.isFinite(z)) return { ...result, status: 'undefined' };
+    if (Math.abs(z) > state.height) return { ...result, status: 'outside-height' };
+    const gradient = fn.gradient({ x, y }, ['x', 'y']);
+    const measured = { ...result, point: [x, y, z], gradient, status: 'non-differentiable' };
+    if (![gradient.x, gradient.y].every(Number.isFinite)) return measured;
+    const norm = Math.hypot(gradient.x, gradient.y, 1), normal = [-gradient.x / norm, -gradient.y / norm, 1 / norm];
+    const radius = Math.min(state.domain[1] - state.domain[0], state.domain[3] - state.domain[2]) * .14;
+    const left = Math.max(state.domain[0], x - radius), right = Math.min(state.domain[1], x + radius), bottom = Math.max(state.domain[2], y - radius), top = Math.min(state.domain[3], y + radius);
+    let tangent = [[left, bottom], [right, bottom], [right, top], [left, top]].map(([px, py]) => [px, py, z + gradient.x * (px - x) + gradient.y * (py - y)]);
+    // Clip the mathematical plane against the displayed height slab. A steep
+    // derivative never becomes an unrelated, clamped quadrilateral.
+    for (const sign of [-1, 1]) {
+      const clipped = [];
+      for (let i = 0; i < tangent.length; i++) {
+        const a = tangent[i], b = tangent[(i + 1) % tangent.length], da = state.height - sign * a[2], db = state.height - sign * b[2];
+        if (da >= 0) clipped.push(a);
+        if ((da >= 0) !== (db >= 0)) { const t = da / (da - db); clipped.push(a.map((value, k) => value + (b[k] - value) * t)); }
+      }
+      tangent = clipped;
+    }
+    return { ...measured, status: 'regular', normal, tangent };
   }
-  const api = { DEFAULT, PRESETS, compile, validate, sample, project, clamp, clone };
+  function fitSurface(input, mesh) {
+    const state = validate(input), surface = mesh || sample(state), low = Math.min(0, surface.min ?? 0), high = Math.max(0, surface.max ?? 0);
+    return { centerZ: (low + high) / 2, extent: Math.hypot(state.domain[1] - state.domain[0], state.domain[3] - state.domain[2], high - low) };
+  }
+  function project(point, camera, domain, width, height, fit) {
+    const span = Math.max(domain[1] - domain[0], domain[3] - domain[2]), scale = Math.min(width, height) * (fit ? .82 / fit.extent : .62 / span) * camera.zoom;
+    const x = point[0] - (domain[0] + domain[1]) / 2, y = point[1] - (domain[2] + domain[3]) / 2;
+    const z = point[2] - (fit?.centerZ || 0);
+    const horizontal = x * Math.cos(camera.yaw) - y * Math.sin(camera.yaw), depth = x * Math.sin(camera.yaw) + y * Math.cos(camera.yaw);
+    return [width / 2 + horizontal * scale, height * .52 - (z * Math.cos(camera.pitch) - depth * Math.sin(camera.pitch)) * scale, depth * Math.cos(camera.pitch) + z * Math.sin(camera.pitch)];
+  }
+  const api = { DEFAULT, PRESETS, compile, validate, sample, probe, fitSurface, project, clamp, clone };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.SpatialMath = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
