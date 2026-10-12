@@ -1,7 +1,12 @@
 'use strict';
 // Generated shell inventory is refreshed by node scripts/build-pwa.cjs before release.
-const BUILD = '1a44f67bf5ed46eaa499';
+const BUILD = 'cd5f5c16e2df245ce68d';
 const PRECACHE = [
+  "academy.html",
+  "academy/academy.css",
+  "academy/academy.js",
+  "academy/models.js",
+  "academy/state.js",
   "app.js",
   "assets/favicon.svg",
   "assets/studio-app-icon.svg",
@@ -129,7 +134,7 @@ const SHELL_CACHE = PREFIX + 'shell-' + BUILD;
 const RUNTIME_CACHE = PREFIX + 'runtime-' + BUILD;
 const RUNTIME_LIMIT = 64;
 const shellURLs = new Set(PRECACHE.map(path => new URL(path, BASE).href));
-const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html']);
+const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html', 'academy.html']);
 function localPath(url) { return url.origin === BASE.origin && url.pathname.startsWith(BASE.pathname) ? url.pathname.slice(BASE.pathname.length) : null; }
 self.addEventListener('install', event => {
   event.waitUntil((async () => {

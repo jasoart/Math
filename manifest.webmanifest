@@ -2,7 +2,7 @@
   "id": "./",
   "name": "MATH LAB 數學工作室",
   "short_name": "MATH LAB",
-  "description": "互動探索、每日練習、錯題複習、2D／3D 繪圖與 MathScript，離線也能繼續學習。",
+  "description": "196 個探索實驗、540 組數學情境、每日練習、2D／3D 繪圖與 MathScript 1.1，離線也能繼續學習。",
   "lang": "zh-Hant",
   "dir": "ltr",
   "start_url": "./index.html",
@@ -50,6 +50,10 @@
     {
       "name": "每日練習",
       "url": "./practice.html"
+    },
+    {
+      "name": "540 組模組學院",
+      "url": "./academy.html"
     }
   ]
 }

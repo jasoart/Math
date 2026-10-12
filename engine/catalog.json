@@ -980,6 +980,3246 @@
       "id": "studio-condition-sensitivity",
       "title": "條件數與解的敏感性",
       "tag": "線性代數"
+    },
+    {
+      "id": "academy-linear-01",
+      "title": "一次方程與等量關係 · 情境 01",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-02",
+      "title": "一次方程與等量關係 · 情境 02",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-03",
+      "title": "一次方程與等量關係 · 情境 03",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-04",
+      "title": "一次方程與等量關係 · 情境 04",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-05",
+      "title": "一次方程與等量關係 · 情境 05",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-06",
+      "title": "一次方程與等量關係 · 情境 06",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-07",
+      "title": "一次方程與等量關係 · 情境 07",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-08",
+      "title": "一次方程與等量關係 · 情境 08",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-09",
+      "title": "一次方程與等量關係 · 情境 09",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-10",
+      "title": "一次方程與等量關係 · 情境 10",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-11",
+      "title": "一次方程與等量關係 · 情境 11",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-linear-12",
+      "title": "一次方程與等量關係 · 情境 12",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-01",
+      "title": "根與係數逆推 · 情境 01",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-02",
+      "title": "根與係數逆推 · 情境 02",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-03",
+      "title": "根與係數逆推 · 情境 03",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-04",
+      "title": "根與係數逆推 · 情境 04",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-05",
+      "title": "根與係數逆推 · 情境 05",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-06",
+      "title": "根與係數逆推 · 情境 06",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-07",
+      "title": "根與係數逆推 · 情境 07",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-08",
+      "title": "根與係數逆推 · 情境 08",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-09",
+      "title": "根與係數逆推 · 情境 09",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-10",
+      "title": "根與係數逆推 · 情境 10",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-11",
+      "title": "根與係數逆推 · 情境 11",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vieta-12",
+      "title": "根與係數逆推 · 情境 12",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-01",
+      "title": "配方法與最小值 · 情境 01",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-02",
+      "title": "配方法與最小值 · 情境 02",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-03",
+      "title": "配方法與最小值 · 情境 03",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-04",
+      "title": "配方法與最小值 · 情境 04",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-05",
+      "title": "配方法與最小值 · 情境 05",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-06",
+      "title": "配方法與最小值 · 情境 06",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-07",
+      "title": "配方法與最小值 · 情境 07",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-08",
+      "title": "配方法與最小值 · 情境 08",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-09",
+      "title": "配方法與最小值 · 情境 09",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-10",
+      "title": "配方法與最小值 · 情境 10",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-11",
+      "title": "配方法與最小值 · 情境 11",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-vertex-12",
+      "title": "配方法與最小值 · 情境 12",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-01",
+      "title": "餘式定理與代入 · 情境 01",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-02",
+      "title": "餘式定理與代入 · 情境 02",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-03",
+      "title": "餘式定理與代入 · 情境 03",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-04",
+      "title": "餘式定理與代入 · 情境 04",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-05",
+      "title": "餘式定理與代入 · 情境 05",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-06",
+      "title": "餘式定理與代入 · 情境 06",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-07",
+      "title": "餘式定理與代入 · 情境 07",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-08",
+      "title": "餘式定理與代入 · 情境 08",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-09",
+      "title": "餘式定理與代入 · 情境 09",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-10",
+      "title": "餘式定理與代入 · 情境 10",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-11",
+      "title": "餘式定理與代入 · 情境 11",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-remainder-12",
+      "title": "餘式定理與代入 · 情境 12",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-01",
+      "title": "二元一次聯立與行列式 · 情境 01",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-02",
+      "title": "二元一次聯立與行列式 · 情境 02",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-03",
+      "title": "二元一次聯立與行列式 · 情境 03",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-04",
+      "title": "二元一次聯立與行列式 · 情境 04",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-05",
+      "title": "二元一次聯立與行列式 · 情境 05",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-06",
+      "title": "二元一次聯立與行列式 · 情境 06",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-07",
+      "title": "二元一次聯立與行列式 · 情境 07",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-08",
+      "title": "二元一次聯立與行列式 · 情境 08",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-09",
+      "title": "二元一次聯立與行列式 · 情境 09",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-10",
+      "title": "二元一次聯立與行列式 · 情境 10",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-11",
+      "title": "二元一次聯立與行列式 · 情境 11",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-system-12",
+      "title": "二元一次聯立與行列式 · 情境 12",
+      "tag": "代數與方程",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-01",
+      "title": "指數成長與倍增 · 情境 01",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-02",
+      "title": "指數成長與倍增 · 情境 02",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-03",
+      "title": "指數成長與倍增 · 情境 03",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-04",
+      "title": "指數成長與倍增 · 情境 04",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-05",
+      "title": "指數成長與倍增 · 情境 05",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-06",
+      "title": "指數成長與倍增 · 情境 06",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-07",
+      "title": "指數成長與倍增 · 情境 07",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-08",
+      "title": "指數成長與倍增 · 情境 08",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-09",
+      "title": "指數成長與倍增 · 情境 09",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-10",
+      "title": "指數成長與倍增 · 情境 10",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-11",
+      "title": "指數成長與倍增 · 情境 11",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-12",
+      "title": "指數成長與倍增 · 情境 12",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-01",
+      "title": "對數與反函數 · 情境 01",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-02",
+      "title": "對數與反函數 · 情境 02",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-03",
+      "title": "對數與反函數 · 情境 03",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-04",
+      "title": "對數與反函數 · 情境 04",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-05",
+      "title": "對數與反函數 · 情境 05",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-06",
+      "title": "對數與反函數 · 情境 06",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-07",
+      "title": "對數與反函數 · 情境 07",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-08",
+      "title": "對數與反函數 · 情境 08",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-09",
+      "title": "對數與反函數 · 情境 09",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-10",
+      "title": "對數與反函數 · 情境 10",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-11",
+      "title": "對數與反函數 · 情境 11",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-logarithm-12",
+      "title": "對數與反函數 · 情境 12",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-01",
+      "title": "反比例平移與漸近線 · 情境 01",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-02",
+      "title": "反比例平移與漸近線 · 情境 02",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-03",
+      "title": "反比例平移與漸近線 · 情境 03",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-04",
+      "title": "反比例平移與漸近線 · 情境 04",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-05",
+      "title": "反比例平移與漸近線 · 情境 05",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-06",
+      "title": "反比例平移與漸近線 · 情境 06",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-07",
+      "title": "反比例平移與漸近線 · 情境 07",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-08",
+      "title": "反比例平移與漸近線 · 情境 08",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-09",
+      "title": "反比例平移與漸近線 · 情境 09",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-10",
+      "title": "反比例平移與漸近線 · 情境 10",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-11",
+      "title": "反比例平移與漸近線 · 情境 11",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rational-12",
+      "title": "反比例平移與漸近線 · 情境 12",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-01",
+      "title": "絕對值與距離模型 · 情境 01",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-02",
+      "title": "絕對值與距離模型 · 情境 02",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-03",
+      "title": "絕對值與距離模型 · 情境 03",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-04",
+      "title": "絕對值與距離模型 · 情境 04",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-05",
+      "title": "絕對值與距離模型 · 情境 05",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-06",
+      "title": "絕對值與距離模型 · 情境 06",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-07",
+      "title": "絕對值與距離模型 · 情境 07",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-08",
+      "title": "絕對值與距離模型 · 情境 08",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-09",
+      "title": "絕對值與距離模型 · 情境 09",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-10",
+      "title": "絕對值與距離模型 · 情境 10",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-11",
+      "title": "絕對值與距離模型 · 情境 11",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-absolute-12",
+      "title": "絕對值與距離模型 · 情境 12",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-01",
+      "title": "合成函數的運算順序 · 情境 01",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-02",
+      "title": "合成函數的運算順序 · 情境 02",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-03",
+      "title": "合成函數的運算順序 · 情境 03",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-04",
+      "title": "合成函數的運算順序 · 情境 04",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-05",
+      "title": "合成函數的運算順序 · 情境 05",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-06",
+      "title": "合成函數的運算順序 · 情境 06",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-07",
+      "title": "合成函數的運算順序 · 情境 07",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-08",
+      "title": "合成函數的運算順序 · 情境 08",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-09",
+      "title": "合成函數的運算順序 · 情境 09",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-10",
+      "title": "合成函數的運算順序 · 情境 10",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-11",
+      "title": "合成函數的運算順序 · 情境 11",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-composition-12",
+      "title": "合成函數的運算順序 · 情境 12",
+      "tag": "函數與模型",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-01",
+      "title": "兩點距離與畢氏定理 · 情境 01",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-02",
+      "title": "兩點距離與畢氏定理 · 情境 02",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-03",
+      "title": "兩點距離與畢氏定理 · 情境 03",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-04",
+      "title": "兩點距離與畢氏定理 · 情境 04",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-05",
+      "title": "兩點距離與畢氏定理 · 情境 05",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-06",
+      "title": "兩點距離與畢氏定理 · 情境 06",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-07",
+      "title": "兩點距離與畢氏定理 · 情境 07",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-08",
+      "title": "兩點距離與畢氏定理 · 情境 08",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-09",
+      "title": "兩點距離與畢氏定理 · 情境 09",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-10",
+      "title": "兩點距離與畢氏定理 · 情境 10",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-11",
+      "title": "兩點距離與畢氏定理 · 情境 11",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-distance-12",
+      "title": "兩點距離與畢氏定理 · 情境 12",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-01",
+      "title": "內分點與加權平均 · 情境 01",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-02",
+      "title": "內分點與加權平均 · 情境 02",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-03",
+      "title": "內分點與加權平均 · 情境 03",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-04",
+      "title": "內分點與加權平均 · 情境 04",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-05",
+      "title": "內分點與加權平均 · 情境 05",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-06",
+      "title": "內分點與加權平均 · 情境 06",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-07",
+      "title": "內分點與加權平均 · 情境 07",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-08",
+      "title": "內分點與加權平均 · 情境 08",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-09",
+      "title": "內分點與加權平均 · 情境 09",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-10",
+      "title": "內分點與加權平均 · 情境 10",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-11",
+      "title": "內分點與加權平均 · 情境 11",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-section-12",
+      "title": "內分點與加權平均 · 情境 12",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-01",
+      "title": "點到直線的距離 · 情境 01",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-02",
+      "title": "點到直線的距離 · 情境 02",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-03",
+      "title": "點到直線的距離 · 情境 03",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-04",
+      "title": "點到直線的距離 · 情境 04",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-05",
+      "title": "點到直線的距離 · 情境 05",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-06",
+      "title": "點到直線的距離 · 情境 06",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-07",
+      "title": "點到直線的距離 · 情境 07",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-08",
+      "title": "點到直線的距離 · 情境 08",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-09",
+      "title": "點到直線的距離 · 情境 09",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-10",
+      "title": "點到直線的距離 · 情境 10",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-11",
+      "title": "點到直線的距離 · 情境 11",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-line-distance-12",
+      "title": "點到直線的距離 · 情境 12",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-01",
+      "title": "圓的弦長與圓心距 · 情境 01",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-02",
+      "title": "圓的弦長與圓心距 · 情境 02",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-03",
+      "title": "圓的弦長與圓心距 · 情境 03",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-04",
+      "title": "圓的弦長與圓心距 · 情境 04",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-05",
+      "title": "圓的弦長與圓心距 · 情境 05",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-06",
+      "title": "圓的弦長與圓心距 · 情境 06",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-07",
+      "title": "圓的弦長與圓心距 · 情境 07",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-08",
+      "title": "圓的弦長與圓心距 · 情境 08",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-09",
+      "title": "圓的弦長與圓心距 · 情境 09",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-10",
+      "title": "圓的弦長與圓心距 · 情境 10",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-11",
+      "title": "圓的弦長與圓心距 · 情境 11",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-chord-12",
+      "title": "圓的弦長與圓心距 · 情境 12",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-01",
+      "title": "橢圓焦距與離心率 · 情境 01",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-02",
+      "title": "橢圓焦距與離心率 · 情境 02",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-03",
+      "title": "橢圓焦距與離心率 · 情境 03",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-04",
+      "title": "橢圓焦距與離心率 · 情境 04",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-05",
+      "title": "橢圓焦距與離心率 · 情境 05",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-06",
+      "title": "橢圓焦距與離心率 · 情境 06",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-07",
+      "title": "橢圓焦距與離心率 · 情境 07",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-08",
+      "title": "橢圓焦距與離心率 · 情境 08",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-09",
+      "title": "橢圓焦距與離心率 · 情境 09",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-10",
+      "title": "橢圓焦距與離心率 · 情境 10",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-11",
+      "title": "橢圓焦距與離心率 · 情境 11",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-ellipse-12",
+      "title": "橢圓焦距與離心率 · 情境 12",
+      "tag": "平面幾何",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-01",
+      "title": "餘弦定理求第三邊 · 情境 01",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-02",
+      "title": "餘弦定理求第三邊 · 情境 02",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-03",
+      "title": "餘弦定理求第三邊 · 情境 03",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-04",
+      "title": "餘弦定理求第三邊 · 情境 04",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-05",
+      "title": "餘弦定理求第三邊 · 情境 05",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-06",
+      "title": "餘弦定理求第三邊 · 情境 06",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-07",
+      "title": "餘弦定理求第三邊 · 情境 07",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-08",
+      "title": "餘弦定理求第三邊 · 情境 08",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-09",
+      "title": "餘弦定理求第三邊 · 情境 09",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-10",
+      "title": "餘弦定理求第三邊 · 情境 10",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-11",
+      "title": "餘弦定理求第三邊 · 情境 11",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cosine-law-12",
+      "title": "餘弦定理求第三邊 · 情境 12",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-01",
+      "title": "正弦定理的對應關係 · 情境 01",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-02",
+      "title": "正弦定理的對應關係 · 情境 02",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-03",
+      "title": "正弦定理的對應關係 · 情境 03",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-04",
+      "title": "正弦定理的對應關係 · 情境 04",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-05",
+      "title": "正弦定理的對應關係 · 情境 05",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-06",
+      "title": "正弦定理的對應關係 · 情境 06",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-07",
+      "title": "正弦定理的對應關係 · 情境 07",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-08",
+      "title": "正弦定理的對應關係 · 情境 08",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-09",
+      "title": "正弦定理的對應關係 · 情境 09",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-10",
+      "title": "正弦定理的對應關係 · 情境 10",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-11",
+      "title": "正弦定理的對應關係 · 情境 11",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-sine-law-12",
+      "title": "正弦定理的對應關係 · 情境 12",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-01",
+      "title": "兩邊夾角求面積 · 情境 01",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-02",
+      "title": "兩邊夾角求面積 · 情境 02",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-03",
+      "title": "兩邊夾角求面積 · 情境 03",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-04",
+      "title": "兩邊夾角求面積 · 情境 04",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-05",
+      "title": "兩邊夾角求面積 · 情境 05",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-06",
+      "title": "兩邊夾角求面積 · 情境 06",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-07",
+      "title": "兩邊夾角求面積 · 情境 07",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-08",
+      "title": "兩邊夾角求面積 · 情境 08",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-09",
+      "title": "兩邊夾角求面積 · 情境 09",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-10",
+      "title": "兩邊夾角求面積 · 情境 10",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-11",
+      "title": "兩邊夾角求面積 · 情境 11",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-triangle-area-12",
+      "title": "兩邊夾角求面積 · 情境 12",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-01",
+      "title": "正弦餘弦合成振幅 · 情境 01",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-02",
+      "title": "正弦餘弦合成振幅 · 情境 02",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-03",
+      "title": "正弦餘弦合成振幅 · 情境 03",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-04",
+      "title": "正弦餘弦合成振幅 · 情境 04",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-05",
+      "title": "正弦餘弦合成振幅 · 情境 05",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-06",
+      "title": "正弦餘弦合成振幅 · 情境 06",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-07",
+      "title": "正弦餘弦合成振幅 · 情境 07",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-08",
+      "title": "正弦餘弦合成振幅 · 情境 08",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-09",
+      "title": "正弦餘弦合成振幅 · 情境 09",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-10",
+      "title": "正弦餘弦合成振幅 · 情境 10",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-11",
+      "title": "正弦餘弦合成振幅 · 情境 11",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-phasor-12",
+      "title": "正弦餘弦合成振幅 · 情境 12",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-01",
+      "title": "仰角與高度測量 · 情境 01",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-02",
+      "title": "仰角與高度測量 · 情境 02",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-03",
+      "title": "仰角與高度測量 · 情境 03",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-04",
+      "title": "仰角與高度測量 · 情境 04",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-05",
+      "title": "仰角與高度測量 · 情境 05",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-06",
+      "title": "仰角與高度測量 · 情境 06",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-07",
+      "title": "仰角與高度測量 · 情境 07",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-08",
+      "title": "仰角與高度測量 · 情境 08",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-09",
+      "title": "仰角與高度測量 · 情境 09",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-10",
+      "title": "仰角與高度測量 · 情境 10",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-11",
+      "title": "仰角與高度測量 · 情境 11",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-height-12",
+      "title": "仰角與高度測量 · 情境 12",
+      "tag": "三角與測量",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-01",
+      "title": "平面向量內積 · 情境 01",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-02",
+      "title": "平面向量內積 · 情境 02",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-03",
+      "title": "平面向量內積 · 情境 03",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-04",
+      "title": "平面向量內積 · 情境 04",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-05",
+      "title": "平面向量內積 · 情境 05",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-06",
+      "title": "平面向量內積 · 情境 06",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-07",
+      "title": "平面向量內積 · 情境 07",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-08",
+      "title": "平面向量內積 · 情境 08",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-09",
+      "title": "平面向量內積 · 情境 09",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-10",
+      "title": "平面向量內積 · 情境 10",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-11",
+      "title": "平面向量內積 · 情境 11",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-dot-12",
+      "title": "平面向量內積 · 情境 12",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-01",
+      "title": "向量正射影長 · 情境 01",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-02",
+      "title": "向量正射影長 · 情境 02",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-03",
+      "title": "向量正射影長 · 情境 03",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-04",
+      "title": "向量正射影長 · 情境 04",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-05",
+      "title": "向量正射影長 · 情境 05",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-06",
+      "title": "向量正射影長 · 情境 06",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-07",
+      "title": "向量正射影長 · 情境 07",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-08",
+      "title": "向量正射影長 · 情境 08",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-09",
+      "title": "向量正射影長 · 情境 09",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-10",
+      "title": "向量正射影長 · 情境 10",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-11",
+      "title": "向量正射影長 · 情境 11",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-projection-12",
+      "title": "向量正射影長 · 情境 12",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-01",
+      "title": "空間外積與三角形面積 · 情境 01",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-02",
+      "title": "空間外積與三角形面積 · 情境 02",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-03",
+      "title": "空間外積與三角形面積 · 情境 03",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-04",
+      "title": "空間外積與三角形面積 · 情境 04",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-05",
+      "title": "空間外積與三角形面積 · 情境 05",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-06",
+      "title": "空間外積與三角形面積 · 情境 06",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-07",
+      "title": "空間外積與三角形面積 · 情境 07",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-08",
+      "title": "空間外積與三角形面積 · 情境 08",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-09",
+      "title": "空間外積與三角形面積 · 情境 09",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-10",
+      "title": "空間外積與三角形面積 · 情境 10",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-11",
+      "title": "空間外積與三角形面積 · 情境 11",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-cross-12",
+      "title": "空間外積與三角形面積 · 情境 12",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-01",
+      "title": "旋轉矩陣與長度不變 · 情境 01",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-02",
+      "title": "旋轉矩陣與長度不變 · 情境 02",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-03",
+      "title": "旋轉矩陣與長度不變 · 情境 03",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-04",
+      "title": "旋轉矩陣與長度不變 · 情境 04",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-05",
+      "title": "旋轉矩陣與長度不變 · 情境 05",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-06",
+      "title": "旋轉矩陣與長度不變 · 情境 06",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-07",
+      "title": "旋轉矩陣與長度不變 · 情境 07",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-08",
+      "title": "旋轉矩陣與長度不變 · 情境 08",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-09",
+      "title": "旋轉矩陣與長度不變 · 情境 09",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-10",
+      "title": "旋轉矩陣與長度不變 · 情境 10",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-11",
+      "title": "旋轉矩陣與長度不變 · 情境 11",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-rotation-12",
+      "title": "旋轉矩陣與長度不變 · 情境 12",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-01",
+      "title": "行列式與面積倍率 · 情境 01",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-02",
+      "title": "行列式與面積倍率 · 情境 02",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-03",
+      "title": "行列式與面積倍率 · 情境 03",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-04",
+      "title": "行列式與面積倍率 · 情境 04",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-05",
+      "title": "行列式與面積倍率 · 情境 05",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-06",
+      "title": "行列式與面積倍率 · 情境 06",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-07",
+      "title": "行列式與面積倍率 · 情境 07",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-08",
+      "title": "行列式與面積倍率 · 情境 08",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-09",
+      "title": "行列式與面積倍率 · 情境 09",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-10",
+      "title": "行列式與面積倍率 · 情境 10",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-11",
+      "title": "行列式與面積倍率 · 情境 11",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-determinant-12",
+      "title": "行列式與面積倍率 · 情境 12",
+      "tag": "向量與矩陣",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-01",
+      "title": "等差數列第 n 項 · 情境 01",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-02",
+      "title": "等差數列第 n 項 · 情境 02",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-03",
+      "title": "等差數列第 n 項 · 情境 03",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-04",
+      "title": "等差數列第 n 項 · 情境 04",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-05",
+      "title": "等差數列第 n 項 · 情境 05",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-06",
+      "title": "等差數列第 n 項 · 情境 06",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-07",
+      "title": "等差數列第 n 項 · 情境 07",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-08",
+      "title": "等差數列第 n 項 · 情境 08",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-09",
+      "title": "等差數列第 n 項 · 情境 09",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-10",
+      "title": "等差數列第 n 項 · 情境 10",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-11",
+      "title": "等差數列第 n 項 · 情境 11",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-term-12",
+      "title": "等差數列第 n 項 · 情境 12",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-01",
+      "title": "等差級數與首尾配對 · 情境 01",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-02",
+      "title": "等差級數與首尾配對 · 情境 02",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-03",
+      "title": "等差級數與首尾配對 · 情境 03",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-04",
+      "title": "等差級數與首尾配對 · 情境 04",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-05",
+      "title": "等差級數與首尾配對 · 情境 05",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-06",
+      "title": "等差級數與首尾配對 · 情境 06",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-07",
+      "title": "等差級數與首尾配對 · 情境 07",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-08",
+      "title": "等差級數與首尾配對 · 情境 08",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-09",
+      "title": "等差級數與首尾配對 · 情境 09",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-10",
+      "title": "等差級數與首尾配對 · 情境 10",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-11",
+      "title": "等差級數與首尾配對 · 情境 11",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-arithmetic-sum-12",
+      "title": "等差級數與首尾配對 · 情境 12",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-01",
+      "title": "等比級數與倍率抵消 · 情境 01",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-02",
+      "title": "等比級數與倍率抵消 · 情境 02",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-03",
+      "title": "等比級數與倍率抵消 · 情境 03",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-04",
+      "title": "等比級數與倍率抵消 · 情境 04",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-05",
+      "title": "等比級數與倍率抵消 · 情境 05",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-06",
+      "title": "等比級數與倍率抵消 · 情境 06",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-07",
+      "title": "等比級數與倍率抵消 · 情境 07",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-08",
+      "title": "等比級數與倍率抵消 · 情境 08",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-09",
+      "title": "等比級數與倍率抵消 · 情境 09",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-10",
+      "title": "等比級數與倍率抵消 · 情境 10",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-11",
+      "title": "等比級數與倍率抵消 · 情境 11",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-geometric-sum-12",
+      "title": "等比級數與倍率抵消 · 情境 12",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-01",
+      "title": "裂項相消級數 · 情境 01",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-02",
+      "title": "裂項相消級數 · 情境 02",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-03",
+      "title": "裂項相消級數 · 情境 03",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-04",
+      "title": "裂項相消級數 · 情境 04",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-05",
+      "title": "裂項相消級數 · 情境 05",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-06",
+      "title": "裂項相消級數 · 情境 06",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-07",
+      "title": "裂項相消級數 · 情境 07",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-08",
+      "title": "裂項相消級數 · 情境 08",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-09",
+      "title": "裂項相消級數 · 情境 09",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-10",
+      "title": "裂項相消級數 · 情境 10",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-11",
+      "title": "裂項相消級數 · 情境 11",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-telescoping-12",
+      "title": "裂項相消級數 · 情境 12",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-01",
+      "title": "複利與定期累積 · 情境 01",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-02",
+      "title": "複利與定期累積 · 情境 02",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-03",
+      "title": "複利與定期累積 · 情境 03",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-04",
+      "title": "複利與定期累積 · 情境 04",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-05",
+      "title": "複利與定期累積 · 情境 05",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-06",
+      "title": "複利與定期累積 · 情境 06",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-07",
+      "title": "複利與定期累積 · 情境 07",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-08",
+      "title": "複利與定期累積 · 情境 08",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-09",
+      "title": "複利與定期累積 · 情境 09",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-10",
+      "title": "複利與定期累積 · 情境 10",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-11",
+      "title": "複利與定期累積 · 情境 11",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-compound-12",
+      "title": "複利與定期累積 · 情境 12",
+      "tag": "數列與級數",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-01",
+      "title": "組合數與不計順序選取 · 情境 01",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-02",
+      "title": "組合數與不計順序選取 · 情境 02",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-03",
+      "title": "組合數與不計順序選取 · 情境 03",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-04",
+      "title": "組合數與不計順序選取 · 情境 04",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-05",
+      "title": "組合數與不計順序選取 · 情境 05",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-06",
+      "title": "組合數與不計順序選取 · 情境 06",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-07",
+      "title": "組合數與不計順序選取 · 情境 07",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-08",
+      "title": "組合數與不計順序選取 · 情境 08",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-09",
+      "title": "組合數與不計順序選取 · 情境 09",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-10",
+      "title": "組合數與不計順序選取 · 情境 10",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-11",
+      "title": "組合數與不計順序選取 · 情境 11",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-combination-12",
+      "title": "組合數與不計順序選取 · 情境 12",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-01",
+      "title": "二項分配單點機率 · 情境 01",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-02",
+      "title": "二項分配單點機率 · 情境 02",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-03",
+      "title": "二項分配單點機率 · 情境 03",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-04",
+      "title": "二項分配單點機率 · 情境 04",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-05",
+      "title": "二項分配單點機率 · 情境 05",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-06",
+      "title": "二項分配單點機率 · 情境 06",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-07",
+      "title": "二項分配單點機率 · 情境 07",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-08",
+      "title": "二項分配單點機率 · 情境 08",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-09",
+      "title": "二項分配單點機率 · 情境 09",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-10",
+      "title": "二項分配單點機率 · 情境 10",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-11",
+      "title": "二項分配單點機率 · 情境 11",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-binomial-12",
+      "title": "二項分配單點機率 · 情境 12",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-01",
+      "title": "不放回抽樣與組合 · 情境 01",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-02",
+      "title": "不放回抽樣與組合 · 情境 02",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-03",
+      "title": "不放回抽樣與組合 · 情境 03",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-04",
+      "title": "不放回抽樣與組合 · 情境 04",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-05",
+      "title": "不放回抽樣與組合 · 情境 05",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-06",
+      "title": "不放回抽樣與組合 · 情境 06",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-07",
+      "title": "不放回抽樣與組合 · 情境 07",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-08",
+      "title": "不放回抽樣與組合 · 情境 08",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-09",
+      "title": "不放回抽樣與組合 · 情境 09",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-10",
+      "title": "不放回抽樣與組合 · 情境 10",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-11",
+      "title": "不放回抽樣與組合 · 情境 11",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-hypergeometric-12",
+      "title": "不放回抽樣與組合 · 情境 12",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-01",
+      "title": "條件機率與貝氏更新 · 情境 01",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-02",
+      "title": "條件機率與貝氏更新 · 情境 02",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-03",
+      "title": "條件機率與貝氏更新 · 情境 03",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-04",
+      "title": "條件機率與貝氏更新 · 情境 04",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-05",
+      "title": "條件機率與貝氏更新 · 情境 05",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-06",
+      "title": "條件機率與貝氏更新 · 情境 06",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-07",
+      "title": "條件機率與貝氏更新 · 情境 07",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-08",
+      "title": "條件機率與貝氏更新 · 情境 08",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-09",
+      "title": "條件機率與貝氏更新 · 情境 09",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-10",
+      "title": "條件機率與貝氏更新 · 情境 10",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-11",
+      "title": "條件機率與貝氏更新 · 情境 11",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-bayes-12",
+      "title": "條件機率與貝氏更新 · 情境 12",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-01",
+      "title": "期望值的加權平均 · 情境 01",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-02",
+      "title": "期望值的加權平均 · 情境 02",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-03",
+      "title": "期望值的加權平均 · 情境 03",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-04",
+      "title": "期望值的加權平均 · 情境 04",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-05",
+      "title": "期望值的加權平均 · 情境 05",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-06",
+      "title": "期望值的加權平均 · 情境 06",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-07",
+      "title": "期望值的加權平均 · 情境 07",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-08",
+      "title": "期望值的加權平均 · 情境 08",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-09",
+      "title": "期望值的加權平均 · 情境 09",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-10",
+      "title": "期望值的加權平均 · 情境 10",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-11",
+      "title": "期望值的加權平均 · 情境 11",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-expectation-12",
+      "title": "期望值的加權平均 · 情境 12",
+      "tag": "機率與組合",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-01",
+      "title": "等權資料平均數 · 情境 01",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-02",
+      "title": "等權資料平均數 · 情境 02",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-03",
+      "title": "等權資料平均數 · 情境 03",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-04",
+      "title": "等權資料平均數 · 情境 04",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-05",
+      "title": "等權資料平均數 · 情境 05",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-06",
+      "title": "等權資料平均數 · 情境 06",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-07",
+      "title": "等權資料平均數 · 情境 07",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-08",
+      "title": "等權資料平均數 · 情境 08",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-09",
+      "title": "等權資料平均數 · 情境 09",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-10",
+      "title": "等權資料平均數 · 情境 10",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-11",
+      "title": "等權資料平均數 · 情境 11",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-mean-12",
+      "title": "等權資料平均數 · 情境 12",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-01",
+      "title": "母體變異數與離差 · 情境 01",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-02",
+      "title": "母體變異數與離差 · 情境 02",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-03",
+      "title": "母體變異數與離差 · 情境 03",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-04",
+      "title": "母體變異數與離差 · 情境 04",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-05",
+      "title": "母體變異數與離差 · 情境 05",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-06",
+      "title": "母體變異數與離差 · 情境 06",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-07",
+      "title": "母體變異數與離差 · 情境 07",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-08",
+      "title": "母體變異數與離差 · 情境 08",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-09",
+      "title": "母體變異數與離差 · 情境 09",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-10",
+      "title": "母體變異數與離差 · 情境 10",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-11",
+      "title": "母體變異數與離差 · 情境 11",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-variance-12",
+      "title": "母體變異數與離差 · 情境 12",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-01",
+      "title": "加權平均與份量 · 情境 01",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-02",
+      "title": "加權平均與份量 · 情境 02",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-03",
+      "title": "加權平均與份量 · 情境 03",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-04",
+      "title": "加權平均與份量 · 情境 04",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-05",
+      "title": "加權平均與份量 · 情境 05",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-06",
+      "title": "加權平均與份量 · 情境 06",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-07",
+      "title": "加權平均與份量 · 情境 07",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-08",
+      "title": "加權平均與份量 · 情境 08",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-09",
+      "title": "加權平均與份量 · 情境 09",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-10",
+      "title": "加權平均與份量 · 情境 10",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-11",
+      "title": "加權平均與份量 · 情境 11",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-weighted-mean-12",
+      "title": "加權平均與份量 · 情境 12",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-01",
+      "title": "標準分數與尺度 · 情境 01",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-02",
+      "title": "標準分數與尺度 · 情境 02",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-03",
+      "title": "標準分數與尺度 · 情境 03",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-04",
+      "title": "標準分數與尺度 · 情境 04",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-05",
+      "title": "標準分數與尺度 · 情境 05",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-06",
+      "title": "標準分數與尺度 · 情境 06",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-07",
+      "title": "標準分數與尺度 · 情境 07",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-08",
+      "title": "標準分數與尺度 · 情境 08",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-09",
+      "title": "標準分數與尺度 · 情境 09",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-10",
+      "title": "標準分數與尺度 · 情境 10",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-11",
+      "title": "標準分數與尺度 · 情境 11",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-z-score-12",
+      "title": "標準分數與尺度 · 情境 12",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-01",
+      "title": "最小平方法與預測 · 情境 01",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-02",
+      "title": "最小平方法與預測 · 情境 02",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-03",
+      "title": "最小平方法與預測 · 情境 03",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-04",
+      "title": "最小平方法與預測 · 情境 04",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-05",
+      "title": "最小平方法與預測 · 情境 05",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-06",
+      "title": "最小平方法與預測 · 情境 06",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-07",
+      "title": "最小平方法與預測 · 情境 07",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-08",
+      "title": "最小平方法與預測 · 情境 08",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-09",
+      "title": "最小平方法與預測 · 情境 09",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-10",
+      "title": "最小平方法與預測 · 情境 10",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-11",
+      "title": "最小平方法與預測 · 情境 11",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-regression-12",
+      "title": "最小平方法與預測 · 情境 12",
+      "tag": "統計與資料",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-01",
+      "title": "冪函數導數與切線 · 情境 01",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-02",
+      "title": "冪函數導數與切線 · 情境 02",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-03",
+      "title": "冪函數導數與切線 · 情境 03",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-04",
+      "title": "冪函數導數與切線 · 情境 04",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-05",
+      "title": "冪函數導數與切線 · 情境 05",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-06",
+      "title": "冪函數導數與切線 · 情境 06",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-07",
+      "title": "冪函數導數與切線 · 情境 07",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-08",
+      "title": "冪函數導數與切線 · 情境 08",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-09",
+      "title": "冪函數導數與切線 · 情境 09",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-10",
+      "title": "冪函數導數與切線 · 情境 10",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-11",
+      "title": "冪函數導數與切線 · 情境 11",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-power-derivative-12",
+      "title": "冪函數導數與切線 · 情境 12",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-01",
+      "title": "冪函數定積分 · 情境 01",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-02",
+      "title": "冪函數定積分 · 情境 02",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-03",
+      "title": "冪函數定積分 · 情境 03",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-04",
+      "title": "冪函數定積分 · 情境 04",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-05",
+      "title": "冪函數定積分 · 情境 05",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-06",
+      "title": "冪函數定積分 · 情境 06",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-07",
+      "title": "冪函數定積分 · 情境 07",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-08",
+      "title": "冪函數定積分 · 情境 08",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-09",
+      "title": "冪函數定積分 · 情境 09",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-10",
+      "title": "冪函數定積分 · 情境 10",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-11",
+      "title": "冪函數定積分 · 情境 11",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-definite-integral-12",
+      "title": "冪函數定積分 · 情境 12",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-01",
+      "title": "兩曲線之間的面積 · 情境 01",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-02",
+      "title": "兩曲線之間的面積 · 情境 02",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-03",
+      "title": "兩曲線之間的面積 · 情境 03",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-04",
+      "title": "兩曲線之間的面積 · 情境 04",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-05",
+      "title": "兩曲線之間的面積 · 情境 05",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-06",
+      "title": "兩曲線之間的面積 · 情境 06",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-07",
+      "title": "兩曲線之間的面積 · 情境 07",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-08",
+      "title": "兩曲線之間的面積 · 情境 08",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-09",
+      "title": "兩曲線之間的面積 · 情境 09",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-10",
+      "title": "兩曲線之間的面積 · 情境 10",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-11",
+      "title": "兩曲線之間的面積 · 情境 11",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-area-between-12",
+      "title": "兩曲線之間的面積 · 情境 12",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-01",
+      "title": "固定周長的最大面積 · 情境 01",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-02",
+      "title": "固定周長的最大面積 · 情境 02",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-03",
+      "title": "固定周長的最大面積 · 情境 03",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-04",
+      "title": "固定周長的最大面積 · 情境 04",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-05",
+      "title": "固定周長的最大面積 · 情境 05",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-06",
+      "title": "固定周長的最大面積 · 情境 06",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-07",
+      "title": "固定周長的最大面積 · 情境 07",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-08",
+      "title": "固定周長的最大面積 · 情境 08",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-09",
+      "title": "固定周長的最大面積 · 情境 09",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-10",
+      "title": "固定周長的最大面積 · 情境 10",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-11",
+      "title": "固定周長的最大面積 · 情境 11",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-optimization-12",
+      "title": "固定周長的最大面積 · 情境 12",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-01",
+      "title": "指數函數與累積量 · 情境 01",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-02",
+      "title": "指數函數與累積量 · 情境 02",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-03",
+      "title": "指數函數與累積量 · 情境 03",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-04",
+      "title": "指數函數與累積量 · 情境 04",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-05",
+      "title": "指數函數與累積量 · 情境 05",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-06",
+      "title": "指數函數與累積量 · 情境 06",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-07",
+      "title": "指數函數與累積量 · 情境 07",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-08",
+      "title": "指數函數與累積量 · 情境 08",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-09",
+      "title": "指數函數與累積量 · 情境 09",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-10",
+      "title": "指數函數與累積量 · 情境 10",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-11",
+      "title": "指數函數與累積量 · 情境 11",
+      "tag": "微積分",
+      "workspace": "academy"
+    },
+    {
+      "id": "academy-exponential-integral-12",
+      "title": "指數函數與累積量 · 情境 12",
+      "tag": "微積分",
+      "workspace": "academy"
     }
   ]
 }

@@ -27,12 +27,12 @@
   <a class="skip-link" href="#source">跳至程式編輯器</a>
   <header class="brandbar">
     <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
-    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./practice.html">每日練習</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html" aria-current="page">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./academy.html">模組學院</a><a href="./practice.html">每日練習</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html" aria-current="page">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
     <button class="brandbar-action" type="button" data-open-search>搜尋 <kbd>⌘ K</kbd></button>
   </header>
   <main class="script-shell">
     <section class="script-intro" aria-labelledby="scriptTitle">
-      <div><p class="eyebrow">MATHSCRIPT / A LANGUAGE FOR EXPLORATION</p><h1 id="scriptTitle">把想法，<span>寫成實驗。</span></h1><p>幾行程式，讓函數、參數與圖形一起思考。</p></div>
+      <div><p class="eyebrow">MATHSCRIPT / A LANGUAGE FOR EXPLORATION</p><h1 id="scriptTitle">把想法，<span>寫成實驗。</span></h1><p>加總、微分、積分與條件驗證，讓想法成為可重現的實驗。</p></div>
       <div class="intro-mark" aria-hidden="true"><span>ƒ(x)</span><small>WRITE → EXPLORE</small></div>
     </section>
     <section class="project-bar" aria-label="作品工具">
@@ -45,7 +45,7 @@
         <header class="editor-toolbar"><div><span class="file-dot" aria-hidden="true"></span><h2 id="editorTitle">experiment.mathscript</h2></div><div class="editor-history"><button id="focusScript" type="button" aria-pressed="false">專注 ↗</button><button id="undoEdit" type="button" aria-label="復原編輯" disabled>↶</button><button id="redoEdit" type="button" aria-label="重做編輯" disabled>↷</button></div></header>
         <div class="snippet-toolbar"><label for="snippetSelect">插入指令</label><select id="snippetSelect"><option value="">選擇範本…</option></select><label class="syntax-toggle"><input id="syntaxColor" type="checkbox" checked>語法上色</label></div>
         <div class="code-wrap"><pre id="lineNumbers" aria-hidden="true">1</pre><div class="source-stack"><pre id="sourceHighlight" aria-hidden="true"></pre><textarea id="source" aria-label="MathScript 程式碼" aria-describedby="editorHint diagnostics" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" maxlength="24000"></textarea></div></div>
-        <div class="editor-bottom"><span id="cursorPosition">第 1 行 · 第 1 欄</span><span>MathScript 1.0 · UTF-8</span></div>
+        <div class="editor-bottom"><span id="cursorPosition">第 1 行 · 第 1 欄</span><span>MathScript 1.1 · UTF-8</span></div>
         <div class="run-toolbar"><label><input id="autoRun" type="checkbox" checked> 即時預覽</label><div><button id="stopRun" type="button" disabled>停止</button><button id="runScript" type="button" class="primary">執行 <span aria-hidden="true">⌘ / Ctrl ↵</span></button></div></div>
         <p id="editorHint" class="editor-hint">每行一個指令。使用 * 表示乘法、^ 表示次方，# 加入註解。Ctrl／⌘ + Enter 執行。</p>
         <div id="diagnostics" class="diagnostics" role="status" aria-live="polite">正在準備實驗…</div><button id="jumpError" class="error-jump" type="button" hidden>移至錯誤位置</button>
@@ -61,7 +61,7 @@
     </div>
     <section id="languageGuide" class="language-guide" aria-labelledby="guideTitle">
       <div><p class="eyebrow">SMALL LANGUAGE. ROOM TO EXPLORE.</p><h2 id="guideTitle">從一個想法開始。</h2><p>名稱可用中英文，區分大小寫。先定義，再使用。三角函數使用弧度；π 可寫成 pi。</p><a href="./docs/mathscript.md">完整語言規格與範例 ↗</a></div>
-      <div class="guide-examples"><article><h3>01 / 定義</h3><code>參數 a = 1 從 -3 到 3 每 0.1<br>函數 f(x) = a * x^2</code></article><article><h3>02 / 看見</h3><code>視窗 -6, 6, -4, 8<br>繪圖 f(x) 標籤 "我的曲線"</code></article><article><h3>03 / 驗證</h3><code>顯示 f(2)<br>積分 f(x) 從 0 到 2</code></article><details><summary>更多指令</summary><dl><dt>let / 設</dt><dd><code>let radius = 2</code></dd><dt>curve / 曲線</dt><dd><code>curve (cos(t), sin(t)) from 0 to 2*pi</code></dd><dt>point / 點</dt><dd><code>point (1, 2) label "A"</code></dd><dt>table / 表格</dt><dd><code>table x^2 from -2 to 2 step 1</code></dd><dt>roots / 求根</dt><dd><code>roots x^2-2 from -3 to 3</code></dd><dt>if / 條件函數</dt><dd><code>plot if(x &lt; 0, -x, x^2)</code></dd></dl></details></div>
+      <div class="guide-examples"><article><h3>01 / 定義</h3><code>參數 a = 1 從 -3 到 3 每 0.1<br>函數 f(x) = a * x^2</code></article><article><h3>02 / 看見</h3><code>視窗 -6, 6, -4, 8<br>繪圖 f(x) 標籤 "我的曲線"</code></article><article><h3>03 / 驗證</h3><code>顯示 f(2)<br>積分 f(x) 從 0 到 2</code></article><details><summary>更多指令</summary><dl><dt>let / 設</dt><dd><code>let radius = 2</code></dd><dt>curve / 曲線</dt><dd><code>curve (cos(t), sin(t)) from 0 to 2*pi</code></dd><dt>point / 點</dt><dd><code>point (1, 2) label "A"</code></dd><dt>table / 表格</dt><dd><code>table x^2 from -2 to 2 step 1</code></dd><dt>roots / 求根</dt><dd><code>roots x^2-2 from -3 to 3</code></dd><dt>derivative / 微分</dt><dd><code>derivative sin(x) at pi/4</code></dd><dt>tangent / 切線</dt><dd><code>tangent x^2 at 1</code></dd><dt>sum / 加總</dt><dd><code>print sum(n^2, n, 1, 10)</code></dd><dt>product / 連乘</dt><dd><code>print product(k, k, 1, 6)</code></dd><dt>diff / 導數函數</dt><dd><code>plot diff(sin(t), t, x)</code></dd><dt>integrate / 積分函數</dt><dd><code>print integrate(u^2, u, 0, 2)</code></dd><dt>scatter / 散點</dt><dd><code>scatter choose(6,x) from 0 to 6 step 1</code></dd><dt>assert / 驗證</dt><dd><code>assert abs(0.1+0.2-0.3)&lt;1e-12</code></dd><dt>if / 條件函數</dt><dd><code>plot if(x &lt; 0, -x, x^2)</code></dd></dl></details></div>
     </section>
     <p class="script-privacy">草稿與作品保存在此瀏覽器，建議匯出備份。分享連結包含完整程式與參數，持有連結的人即可開啟。匯出網頁保存目前結果快照，可離線閱讀。數值計算及有限取樣有精度限制。</p>
     <noscript>MathScript 編輯器需要啟用 JavaScript；仍可閱讀上方語法速查與語言文件。</noscript>

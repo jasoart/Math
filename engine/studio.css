@@ -133,3 +133,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg, #6366f1, #06b6d
 @media (max-width: 400px) { .topic-grid { grid-template-columns: 1fr; }.home-studio .hero-actions { flex-direction: column; align-items: stretch; }.home-studio .hero-actions a { justify-content: center; }.practice-answer-row { flex-wrap: wrap; }.practice-answer-row button { width: 100%; }.journey-metrics { gap: 1rem; }.learning-intro h1 span { display: block; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }.topic-card:hover,.workspace-card:hover { transform: none; } }
 @media print { .brandbar,.home-section,.practice-settings,.question-actions,.practice-backup,.search-dialog { display: none !important; } body { background: #fff; }.practice-layout { display: block; }.question-card { border: 0; box-shadow: none; } }
+
+@media (min-width:761px) and (max-width:1100px) { .workspace-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:401px) and (max-width:650px) { .product-nav { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+a[aria-disabled=true] { pointer-events:none; opacity:.5; }

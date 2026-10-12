@@ -1,4 +1,4 @@
-/* MathScript 1.0: bounded, declarative mathematics. No JavaScript evaluation. */
+/* MathScript 1.1: bounded, declarative mathematics. No JavaScript evaluation. */
 (function (root, factory) {
   'use strict';
   const api = factory(typeof module === 'object' && module.exports ? require('../graph/math.js') : root.GraphMath,
@@ -7,18 +7,28 @@
   else root.MathScript = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (math, render) {
   'use strict';
-  const VERSION = '1.0.0';
-  const LIMITS = Object.freeze({ source: 24000, tokens: 6000, statements: 160, depth: 48, steps: 1500000, plots: 12, rows: 200, parameters: 12 });
+  const VERSION = '1.1.0';
+  const LIMITS = Object.freeze({ source: 24000, tokens: 6000, statements: 160, depth: 48, steps: 1500000, plots: 12, rows: 200, parameters: 12, points: 2000, totalRows: 2000 });
   const palette = ['#087f73', '#b7742a', '#6468b0', '#bd5368', '#367ca5', '#749447'];
-  const aliases = { '標題': 'title', '參數': 'param', '設': 'let', '函數': 'fn', '視窗': 'view', '繪圖': 'plot', '曲線': 'curve', '點': 'point', '顯示': 'print', '表格': 'table', '積分': 'integral', '求根': 'roots', '從': 'from', '到': 'to', '每': 'step', '顏色': 'color', '標籤': 'label' };
+  const aliases = { '標題': 'title', '參數': 'param', '設': 'let', '函數': 'fn', '視窗': 'view', '繪圖': 'plot', '曲線': 'curve', '點': 'point', '顯示': 'print', '表格': 'table', '積分': 'integral', '求根': 'roots', '從': 'from', '到': 'to', '每': 'step', '顏色': 'color', '標籤': 'label', '微分': 'derivative', '切線': 'tangent', '於': 'at', '加總': 'sum', '連乘': 'product', '驗證': 'assert' };
+  aliases['散點'] = 'scatter';
   const keywords = new Set([...Object.values(aliases)]);
+  const scoped = new Set(['sum', 'product', 'diff', 'integrate']);
+  function factorial(n) { if (!Number.isInteger(n) || n < 0 || n > 170) return NaN; let v = 1; for (let i = 2; i <= n; i++) v *= i; return v; }
+  function choose(n, k) { if (![n, k].every(Number.isSafeInteger) || k < 0 || n < k || n > 1000) return NaN; let v = 1; k = Math.min(k, n - k); for (let i = 1; i <= k; i++) v = v * (n - k + i) / i; return v; }
+  function gcd(a, b) { if (![a, b].every(Number.isSafeInteger)) return NaN; a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; }
   const builtins = new Map([
     ['sin', [Math.sin, 1]], ['cos', [Math.cos, 1]], ['tan', [Math.tan, 1]],
     ['asin', [Math.asin, 1]], ['acos', [Math.acos, 1]], ['atan', [Math.atan, 1]],
     ['sqrt', [Math.sqrt, 1]], ['cbrt', [Math.cbrt, 1]], ['abs', [Math.abs, 1]],
     ['exp', [Math.exp, 1]], ['ln', [Math.log, 1]], ['log', [Math.log10, 1]],
     ['floor', [Math.floor, 1]], ['ceil', [Math.ceil, 1]], ['round', [Math.round, 1]],
-    ['min', [Math.min, 2]], ['max', [Math.max, 2]], ['if', [null, 3]]
+    ['min', [Math.min, 2]], ['max', [Math.max, 2]], ['if', [null, 3]],
+    ['sign', [Math.sign, 1]], ['sinh', [Math.sinh, 1]], ['cosh', [Math.cosh, 1]], ['tanh', [Math.tanh, 1]],
+    ['atan2', [Math.atan2, 2]], ['hypot', [Math.hypot, 2]], ['factorial', [factorial, 1]], ['choose', [choose, 2]],
+    ['gcd', [gcd, 2]], ['lcm', [(a, b) => { const d = gcd(a, b), v = d === 0 ? 0 : Math.abs(a / d * b); return Number.isSafeInteger(v) ? v : NaN; }, 2]],
+    ['mod', [(a, b) => b > 0 ? ((a % b) + b) % b : NaN, 2]],
+    ['sum', [null, 4]], ['product', [null, 4]], ['diff', [null, 3]], ['integrate', [null, 4]]
   ]);
   const constants = new Map([['pi', Math.PI], ['e', Math.E]]);
   const forbidden = new Set(['__proto__', 'prototype', 'constructor']);
@@ -74,7 +84,7 @@
       if (t.kind === 'number') node = { type: 'number', value: t.value, token: t };
       else if (t.kind === '+' || t.kind === '-') node = { type: 'unary', op: t.kind, child: expr(25), token: t };
       else if (t.kind === '(') { node = expr(); need(')'); }
-      else if (t.kind === 'name' && !keywords.has(t.value) && !forbidden.has(t.value)) {
+      else if (t.kind === 'name' && (!keywords.has(t.value) || scoped.has(t.value)) && !forbidden.has(t.value)) {
         if (is('(')) {
           take(); const args = []; if (!is(')')) { args.push(expr()); while (is(',')) { take(); args.push(expr()); } }
           need(')'); if (args.length > 8) fail('函數最多 8 個引數。', t);
@@ -110,8 +120,11 @@
         }
         case 'view': s.values = [expr()]; for (let i = 0; i < 3; i++) { need(','); s.values.push(expr()); } break;
         case 'plot': case 'print': s.value = expr(); Object.assign(s, style()); break;
+        case 'assert': s.value = expr(); Object.assign(s, style()); break;
+        case 'derivative': case 'tangent': s.value = expr(); need('at'); s.at = expr(); Object.assign(s, style()); break;
+        case 'sum': case 'product': s.value = expr(); Object.assign(s, range(false)); Object.assign(s, style()); break;
         case 'curve': case 'point': need('('); s.x = expr(); need(','); s.y = expr(); need(')'); if (s.type === 'curve') Object.assign(s, range(false)); Object.assign(s, style()); break;
-        case 'table': case 'integral': case 'roots': s.value = expr(); Object.assign(s, range(s.type === 'table')); break;
+        case 'table': case 'scatter': case 'integral': case 'roots': s.value = expr(); Object.assign(s, range(s.type === 'table' || s.type === 'scatter')); break;
         default: fail(`不認得指令「${t.value || ''}」。請參考語法速查。`, t);
       }
       if (!['endline', 'eof'].includes(peek().kind)) fail('每行寫一個指令；乘法請明確使用 *。', peek());
@@ -121,7 +134,7 @@
   }
   function run(program, options = {}) {
     if (typeof program === 'string') program = compile(program);
-    let steps = 0; const overrides = options.parameters || {}, variables = new Map(constants), functions = new Map();
+    let steps = 0, totalRows = 0; const overrides = options.parameters || {}, variables = new Map(constants), functions = new Map(), adCache = new Map();
     const result = { version: VERSION, title: '未命名實驗', parameters: [], plots: [], points: [], outputs: [], warnings: [], view: { xmin: -6, xmax: 6, ymin: -4, ymax: 6 }, stats: {} };
     function tick(token) { if (++steps > LIMITS.steps) fail('已達計算上限，請簡化函數或縮小取樣範圍。', token); }
     function validate(node, scope, funcs) {
@@ -131,6 +144,13 @@
         if (!fn) fail(`尚未定義函數「${node.name}」。函數需先定義，且不支援遞迴。`, node.token);
         const count = Array.isArray(fn) ? fn[1] : fn.args.length;
         if (count !== node.args.length) fail(`${node.name} 需要 ${count} 個引數。`, node.token);
+        if (scoped.has(node.name)) {
+          const index = node.args[1];
+          if (index.type !== 'variable' || constants.has(index.name) || builtins.has(index.name)) fail('第二個引數需為區域變數名稱，例如 n 或 x。', index.token);
+          const local = new Map(scope); local.set(index.name, 0); validate(node.args[0], local, funcs);
+          for (const arg of node.args.slice(2)) validate(arg, scope, funcs);
+          return;
+        }
       }
       for (const child of [node.child, node.left, node.right, ...(node.args || [])].filter(Boolean)) validate(child, scope, funcs);
     }
@@ -141,6 +161,17 @@
       if (node.type === 'unary') return (node.op === '-' ? -1 : 1) * evaluate(node.child, scope, funcs, depth);
       if (node.type === 'call') {
         if (node.name === 'if') { const condition = evaluate(node.args[0], scope, funcs, depth); return Number.isFinite(condition) ? evaluate(node.args[condition ? 1 : 2], scope, funcs, depth) : NaN; }
+        if (scoped.has(node.name)) {
+          const local = new Map(scope), name = node.args[1].name, a = evaluate(node.args[2], scope, funcs, depth);
+          const fn = n => { local.set(name, n); return evaluate(node.args[0], local, funcs, depth + 1); };
+          if (node.name === 'diff') return analytic(node.args[0], name, scope, funcs, node.token).derivative({ x: a }, 'x');
+          const b = evaluate(node.args[3], scope, funcs, depth);
+          if (node.name === 'integrate') {
+            if (![a, b].every(Number.isFinite) || Math.max(Math.abs(a), Math.abs(b)) > 1e6) fail('積分範圍需在 ±1000000 內。', node.token);
+            const integral = math.integrate(fn, a, b); if (!integral.converged) fail('integrate 未收斂或定義域無效。', node.token); return integral.value;
+          }
+          return aggregate(fn, a, b, node.name, node.token);
+        }
         const args = node.args.map(a => evaluate(a, scope, funcs, depth));
         if (args.some(a => !Number.isFinite(a))) return NaN;
         if (builtins.has(node.name)) return builtins.get(node.name)[0](...args);
@@ -158,9 +189,41 @@
       }
     }
     function value(node) { validate(node, variables, functions); const v = evaluate(node); if (!Number.isFinite(v)) fail('此處需要有限實數，請檢查除以零或函數定義域。', node.token); return v; }
+    function aggregate(fn, a, b, type, token) {
+      if (![a, b].every(Number.isSafeInteger) || Math.abs(a) > 1e6 || Math.abs(b) > 1e6 || b < a || b - a + 1 > 5000) fail('加總／連乘需遞增整數範圍，最多 5000 項，端點在 ±1000000 內。', token);
+      let total = type === 'sum' ? 0 : 1, correction = 0;
+      for (let n = a; n <= b; n++) { tick(token); const v = fn(n); if (!Number.isFinite(v)) fail('加總／連乘含未定義項。', token);
+        if (type === 'sum') { const y = v - correction, next = total + y; correction = (next - total) - y; total = next; } else total *= v;
+        if (!Number.isFinite(total)) fail('加總／連乘結果超出有限實數範圍。', token);
+      } return total;
+    }
+    // Expand lexical functions into the existing forward-mode AD engine. Never use finite differences at cusps.
+    function analytic(node, variable, scope, funcs, token) {
+      const supported = new Set('sin cos tan asin acos atan sqrt cbrt abs exp ln log floor ceil round sign min max sinh cosh tanh if'.split(' '));
+      function emit(n, bindings, functions, depth = 0) {
+        tick(n.token); if (depth > LIMITS.depth) fail('微分函數展開過深。', token);
+        let text;
+        if (n.type === 'number') text = String(n.value);
+        else if (n.type === 'variable') text = bindings.get(n.name);
+        else if (n.type === 'unary') text = `(${n.op}${emit(n.child, bindings, functions, depth + 1)})`;
+        else if (n.type === 'binary') text = `(${emit(n.left, bindings, functions, depth + 1)}${n.op}${emit(n.right, bindings, functions, depth + 1)})`;
+        else if (n.type === 'call') {
+          const args = n.args.map(arg => emit(arg, bindings, functions, depth + 1));
+          if (builtins.has(n.name)) { if (!supported.has(n.name)) fail(`微分不支援 ${n.name}，請先化簡算式。`, n.token); text = `${n.name}(${args.join(',')})`; }
+          else { const fn = functions.get(n.name), local = new Map([...fn.variables].map(([k, v]) => [k, `(${v})`])); fn.args.forEach((k, i) => local.set(k, args[i])); text = emit(fn.value, local, fn.functions, depth + 1); }
+        }
+        if (!text || text.length > 480) fail('微分展開式最多 480 字，請簡化函數。', token); return text;
+      }
+      const bindings = new Map([...scope].map(([k, v]) => [k, `(${v})`])); bindings.set(variable, 'x');
+      try {
+        const expression = emit(node, bindings, funcs);
+        if (adCache.has(expression)) return adCache.get(expression);
+        const compiled = math.compile(expression); if (adCache.size >= 32) adCache.delete(adCache.keys().next().value); adCache.set(expression, compiled); return compiled;
+      } catch (error) { if (error instanceof ScriptError) throw error; fail(`無法微分：${error.message}`, token); }
+    }
     function declare(s) { if (variables.has(s.name) || functions.has(s.name)) fail(`「${s.name}」已定義，請使用另一個名稱。`, s.token); }
     function sampler(node, variable) { const scope = new Map(variables), funcs = new Map(functions); scope.set(variable, 0); validate(node, scope, funcs); return n => { scope.set(variable, n); return evaluate(node, scope, funcs); }; }
-    function bounds(s, ascending) { const a = value(s.from), b = value(s.to); if (Math.max(Math.abs(a), Math.abs(b)) > 1e6 || (ascending && a >= b)) fail('範圍需在 ±1000000 內，起點小於終點。', s.token); return [a, b]; }
+    function bounds(s, ascending) { const a = value(s.from), b = value(s.to); if (Math.max(Math.abs(a), Math.abs(b)) > 1e6 || (ascending === true && a >= b) || (ascending === 'table' && a > b)) fail('範圍需在 ±1000000 內；表格起點不可大於終點，曲線／求根需嚴格遞增。', s.token); return [a, b]; }
     const plots = [];
     for (const s of program.statements) {
       switch (s.type) {
@@ -189,13 +252,35 @@
           if (s.type === 'plot') plots.push({ type: s.type, fn: sampler(s.value, 'x'), color, label });
           else { const x = sampler(s.x, 't'), y = sampler(s.y, 't'); plots.push({ type: s.type, fn: t => [x(t), y(t)], range: bounds(s, true), color, label }); } break;
         }
-        case 'point': result.points.push({ x: value(s.x), y: value(s.y), label: s.label || '', color: s.color || '#b7742a' }); break;
+        case 'point':
+          if (result.points.length >= LIMITS.points) fail('散點與標記合計最多 2000 點。', s.token);
+          result.points.push({ x: value(s.x), y: value(s.y), label: s.label || '', color: s.color || '#b7742a' }); break;
         case 'print': result.outputs.push({ type: 'value', label: s.label || '計算結果', value: value(s.value), line: s.token.line }); break;
-        case 'table': {
-          const fn = sampler(s.value, 'x'), [a, b] = bounds(s, true), step = s.step ? value(s.step) : 1;
+        case 'assert': {
+          if (!value(s.value)) fail(s.label ? `驗證失敗：${s.label}` : '驗證條件不成立。', s.token);
+          result.outputs.push({ type: 'assert', label: s.label || '驗證通過', value: 1, line: s.token.line }); break;
+        }
+        case 'sum': case 'product': result.outputs.push({ type: 'value', label: s.label || (s.type === 'sum' ? '有限加總' : '有限連乘'), value: aggregate(sampler(s.value, 'x'), value(s.from), value(s.to), s.type, s.token), line: s.token.line }); break;
+        case 'derivative': case 'tangent': {
+          const fn = sampler(s.value, 'x'), at = value(s.at), y = fn(at), ad = analytic(s.value, 'x', variables, functions, s.token), slope = ad.derivative({ x: at }, 'x');
+          if (![y, slope].every(Number.isFinite)) fail('此點未定義或無法確認可微；請避開尖點、跳躍及定義域邊界。', s.token);
+          result.outputs.push({ type: 'derivative', label: s.label || `x=${at} 的導數`, value: slope, line: s.token.line });
+          if (s.type === 'tangent') {
+            if (plots.length >= LIMITS.plots) fail('最多同時繪製 12 條曲線。', s.token);
+            plots.push({ type: 'plot', fn: x => y + slope * (x - at), color: s.color || '#b7742a', label: s.label || `x=${at} 的切線` });
+            if (result.points.length >= LIMITS.points) fail('散點與標記合計最多 2000 點。', s.token);
+            result.points.push({ x: at, y, color: s.color || '#b7742a', label: '切點' });
+          } break;
+        }
+        case 'table': case 'scatter': {
+          const fn = sampler(s.value, 'x'), [a, b] = bounds(s, 'table'), step = s.step ? value(s.step) : 1;
           const ratio = (b - a) / step, count = Math.floor(ratio + 1e-9) + 1;
           if (step <= 0 || !Number.isFinite(count) || count > LIMITS.rows || count < 1) fail('表格最多 200 列，請增加正數步長。', s.token);
+          totalRows += count;
+          if (totalRows > LIMITS.totalRows) fail('所有數值表合計最多 2000 列。', s.token);
+          if (s.type === 'scatter' && result.points.length + count > LIMITS.points) fail('散點與標記合計最多 2000 點。', s.token);
           const rows = Array.from({ length: count }, (_, i) => { const x = Math.min(b, a + i * step), y = fn(x); return [x, Number.isFinite(y) ? y : null]; });
+          if (s.type === 'scatter') for (const [x, y] of rows) if (y !== null) result.points.push({ x, y, label: '', color: palette[0] });
           result.outputs.push({ type: 'table', rows, line: s.token.line }); break;
         }
         case 'integral': {

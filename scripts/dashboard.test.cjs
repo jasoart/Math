@@ -23,11 +23,11 @@ const saved = [{ id: 'quadratic-vertex', parameters: { a: 1.5, h: 2, k: -1, x: 3
   assert.equal($('dashboardToday').textContent, '1'); assert.ok($('dailyResult').textContent.length > 10);
   d.querySelector('[data-open-search]').click(); $('globalSearch').value = 'SSA'; $('globalSearch').dispatchEvent(new w.Event('input')); d.querySelector('#searchResults a').click(); assert.equal(lab.getState().moduleId, 'sine-law-ssa'); assert.equal(d.querySelector('.search-dialog').open, false);
   $('focusWorkspace').click(); assert.ok(d.body.classList.contains('workspace-focused')); $('focusWorkspace').click();
-  for (const file of ['index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html']) {
+  for (const file of ['index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html', 'academy.html']) {
     const parsed = new JSDOM(fs.readFileSync(path.join(root, file), 'utf8')), page = parsed.window.document, ids = [...page.querySelectorAll('[id]')].map(el => el.id); assert.equal(ids.length, new Set(ids).size, file + ': unique IDs');
-    assert.equal(page.querySelectorAll('.product-nav a').length, 6); assert.ok(page.querySelector('[data-open-search]'));
+    assert.equal(page.querySelectorAll('.product-nav a').length, 7); assert.ok(page.querySelector('[data-open-search]'));
     for (const element of page.querySelectorAll('[src], link[href], a[href]')) { const value = element.getAttribute('src') || element.getAttribute('href'); if (!value || value.includes(':') || value.startsWith('#')) continue; const target = value.split(/[?#]/)[0]; if (target) assert.ok(fs.existsSync(path.join(root, target)), file + ': local resource ' + target); }
     parsed.window.close();
   }
-  assert.deepEqual(errors, []); console.log('PASS dashboard/navigation: all 196 modules, category filters, resume parameters, progress/daily quiz, search, focus mode, and five-page local assets/anchors.');
+  assert.deepEqual(errors, []); console.log('PASS dashboard/navigation: all 196 modules, category filters, resume parameters, progress/daily quiz, search, focus mode, and six-page local assets/anchors.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => w.close());

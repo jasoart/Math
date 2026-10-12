@@ -9,7 +9,7 @@ w.HTMLCanvasElement.prototype.getBoundingClientRect = () => ({ width: 1100, heig
 Object.defineProperty(w.HTMLCanvasElement.prototype, 'clientWidth', { get: () => 1100 }); Object.defineProperty(w.HTMLCanvasElement.prototype, 'clientHeight', { get: () => 720 });
 w.CanvasRenderingContext2D = class {}; w.structuredClone = structuredClone;
 for (const file of ['graph/math.js', 'graph/exact.js', 'engine/typeset.js', 'graph/render.js', 'engine/canvas.js', 'math-keyboard.js', 'extension-modules.js', 'exam-modules.js', 'expansion-modules.js', 'studio-modules.js', 'app.js']) new (require('node:vm').Script)(fs.readFileSync(path.join(root, file), 'utf8'), { filename: file }).runInContext(dom.getInternalVMContext());
-const catalog = w.MathLab.modules.map(m => ({ id: m.id, title: m.short || m.title, tag: m.tag }));
+const catalog = [...w.MathLab.modules.map(m => ({ id: m.id, title: m.short || m.title, tag: m.tag })), ...require('../academy/models.js').scenarios.map(s => ({ id: s.id, title: s.title, tag: s.tag, workspace: 'academy' }))];
 if (new Set(catalog.map(m => m.id)).size !== catalog.length) throw Error('Duplicate module IDs');
 fs.writeFileSync(path.join(root, 'engine/catalog.json'), JSON.stringify({ version: 1, modules: catalog }, null, 2) + '\n');
 console.log(`Search catalog: ${catalog.length} modules`); w.close();
