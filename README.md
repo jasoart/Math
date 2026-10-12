@@ -1,10 +1,12 @@
 # MATH LAB 數學工作室
 
-[開啟網站](https://jasoart.github.io/Math/) · [平面繪圖](https://jasoart.github.io/Math/graph.html) · [3D 空間幾何](https://jasoart.github.io/Math/spatial.html)
+[開啟網站](https://jasoart.github.io/Math/) · [平面繪圖](https://jasoart.github.io/Math/graph.html) · [3D 空間幾何](https://jasoart.github.io/Math/spatial.html) · [MathScript 程式實驗](https://jasoart.github.io/Math/script.html)
 
 讓想法，有了形狀。MATH LAB 將互動數學、自由繪圖、空間幾何與個人筆記整合在同一個可安裝的工作室，適用桌面、平板與手機。
 
 ## 工作空間
+
+- **MathScript 程式實驗**：專為數學探索設計的客製化語言，支援中英文指令、常數、自訂函數、參數滑桿、2D 函數／參數曲線、數值表、積分與求根。網頁編輯器有即時預覽、行列錯誤、復原／重做、草稿與作品儲存、JSON 匯入／匯出、分享連結、SVG 和 HTML 結果快照。獨立 Worker、編譯快取、取消與資源上限保護互動回應。參見 [語言規格](docs/mathscript.md)。
 
 - **互動探索**：196 個模組。48 個擴充主題涵蓋數值方法、訊號、動態系統、曲線幾何、機率與線性代數。全部模組共用自適應曲線、標註避讓與公式排版；556 個模組數值欄位保留精確原式。
 - **平面繪圖**：安全解析函數、隱函數、參數式、極座標、點與不等式。依算式結構辨識圖形類型、公式與定義域；自動微分提供切線、導函數與極值分析。另有參數動畫、交點、積分、數值表、標註及 PNG／SVG 匯出。
@@ -17,7 +19,7 @@
 
 ## 安裝與離線
 
-首次以 HTTPS 載入並顯示「已可離線使用」後，三個工作區和全部模組可離線開啟。支援的瀏覽器會提供「安裝應用程式」；iPhone／iPad Safari 可由分享選單加入主畫面。
+首次以 HTTPS 載入並顯示「已可離線使用」後，四個工作區和全部模組可離線開啟。支援的瀏覽器會提供「安裝應用程式」；iPhone／iPad Safari 可由分享選單加入主畫面。
 
 有更新時，使用者選擇「套用更新」才重新載入。儲存的圖形、筆記與場景會保留。請先結束輸入或儲存重要內容。首次離線快取約 2.5 MB；瀏覽器仍可清除快取與本機資料。
 
@@ -39,6 +41,7 @@ npm run check
 npm run test:modules
 npm test
 npm run test:graph
+npm run test:language
 npm run test:engine
 npm run test:spatial
 npm run test:geometry
@@ -63,7 +66,7 @@ npm run build:pwa
 
 GitHub Pages 使用 main 分支根目錄。推送前重建 PWA 清單並驗證；GitHub 的 pages-build-deployment 成功狀態與對應提交確認部署。
 
-入口為 index.html、graph.html、spatial.html；共用引擎位於 engine，幾何引擎位於 spatial，圖形分析位於 graph。維護範圍與後續需求見 [3D 需求對照](docs/geometry-roadmap.md)。
+入口為 index.html、graph.html、spatial.html、script.html；MathScript 語言與編輯器位於 language，共用引擎位於 engine，幾何引擎位於 spatial，圖形分析位於 graph。維護範圍與後續需求見 [3D 需求對照](docs/geometry-roadmap.md)。
 
 ## 授權
 

@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'graph.html', 'spatial.html'];
+const pages = ['index.html', 'graph.html', 'spatial.html', 'script.html'];
 function inventory() {
   const files = new Set([...pages, 'manifest.webmanifest']);
   for (const page of pages) {
@@ -20,7 +20,7 @@ function inventory() {
       else if (/\.(?:js|css|png|webp|svg|woff2?|ttf|json)$/.test(item.name)) files.add(next);
     }
   }
-  for (const directory of ['assets', 'engine', 'graph', 'spatial', 'vendor/katex']) scan(directory);
+  for (const directory of ['assets', 'engine', 'graph', 'spatial', 'language', 'vendor/katex']) scan(directory);
   const sorted = [...files].sort();
   for (const file of sorted) { if (!fs.existsSync(path.join(root, file))) throw Error('Missing PWA asset: ' + file); }
   return sorted;

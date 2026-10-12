@@ -1,6 +1,6 @@
 'use strict';
 // Generated shell inventory is refreshed by node scripts/build-pwa.cjs before release.
-const BUILD = 'febe6d1fb115205e2340';
+const BUILD = '96fce0af4902dece06c0';
 const PRECACHE = [
   "app.js",
   "assets/favicon.svg",
@@ -30,10 +30,17 @@ const PRECACHE = [
   "graph/state.js",
   "graph/svg.js",
   "index.html",
+  "language/display.js",
+  "language/examples.js",
+  "language/mathscript.js",
+  "language/studio.css",
+  "language/studio.js",
+  "language/worker.js",
   "learning.js",
   "manifest.webmanifest",
   "math-keyboard.css",
   "math-keyboard.js",
+  "script.html",
   "spatial.html",
   "spatial/core.js",
   "spatial/geometry-render.js",
@@ -113,7 +120,7 @@ const SHELL_CACHE = PREFIX + 'shell-' + BUILD;
 const RUNTIME_CACHE = PREFIX + 'runtime-' + BUILD;
 const RUNTIME_LIMIT = 64;
 const shellURLs = new Set(PRECACHE.map(path => new URL(path, BASE).href));
-const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html']);
+const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html', 'script.html']);
 function localPath(url) { return url.origin === BASE.origin && url.pathname.startsWith(BASE.pathname) ? url.pathname.slice(BASE.pathname.length) : null; }
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
@@ -164,7 +171,7 @@ self.addEventListener('fetch', event => {
   const canonical = url.origin + url.pathname;
   if (shellURLs.has(canonical)) {
     event.respondWith((async () => (await (await caches.open(SHELL_CACHE)).match(canonical)) || fetch(request))());
-  } else if (/^(?:assets|engine|graph|spatial|vendor)\/.+\.(?:js|css|png|webp|svg|woff2?|ttf)$/.test(path) && !url.search) {
+  } else if (/^(?:assets|engine|graph|spatial|language|vendor)\/.+\.(?:js|css|png|webp|svg|woff2?|ttf)$/.test(path) && !url.search) {
     event.respondWith(runtimeAsset(request));
   }
 });

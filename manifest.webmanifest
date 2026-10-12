@@ -2,7 +2,7 @@
   "id": "./",
   "name": "MATH LAB 數學工作室",
   "short_name": "MATH LAB",
-  "description": "互動數學、平面繪圖與空間幾何，離線也能繼續探索。",
+  "description": "互動數學、平面繪圖、空間幾何與 MathScript 程式實驗，離線也能繼續探索。",
   "lang": "zh-Hant",
   "dir": "ltr",
   "start_url": "./index.html",
@@ -11,15 +11,41 @@
   "orientation": "any",
   "background_color": "#f5f3ee",
   "theme_color": "#087f73",
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "prefer_related_applications": false,
   "icons": [
-    { "src": "./assets/studio-icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "./assets/studio-app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    {
+      "src": "./assets/studio-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/studio-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
   ],
   "shortcuts": [
-    { "name": "互動探索", "url": "./index.html" },
-    { "name": "平面繪圖", "url": "./graph.html" },
-    { "name": "空間幾何", "url": "./spatial.html" }
+    {
+      "name": "互動探索",
+      "url": "./index.html"
+    },
+    {
+      "name": "平面繪圖",
+      "url": "./graph.html"
+    },
+    {
+      "name": "空間幾何",
+      "url": "./spatial.html"
+    },
+    {
+      "name": "MathScript 程式實驗",
+      "url": "./script.html"
+    }
   ]
 }
