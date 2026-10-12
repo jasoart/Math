@@ -1,6 +1,6 @@
 'use strict';
 // Generated shell inventory is refreshed by node scripts/build-pwa.cjs before release.
-const BUILD = '96fce0af4902dece06c0';
+const BUILD = '1a44f67bf5ed46eaa499';
 const PRECACHE = [
   "app.js",
   "assets/favicon.svg",
@@ -9,11 +9,18 @@ const PRECACHE = [
   "assets/studio-hero.webp",
   "assets/studio-icon.png",
   "assets/studio-icon.webp",
+  "assets/studio-math.svg",
   "engine/canvas.js",
+  "engine/catalog.json",
+  "engine/dashboard.js",
   "engine/insight.css",
+  "engine/navigation.js",
+  "engine/practice-ui.js",
+  "engine/practice.js",
   "engine/pwa.css",
   "engine/pwa.js",
   "engine/spatial-bridge.js",
+  "engine/studio.css",
   "engine/typeset.css",
   "engine/typeset.js",
   "engine/workspace.js",
@@ -31,6 +38,7 @@ const PRECACHE = [
   "graph/svg.js",
   "index.html",
   "language/display.js",
+  "language/editor-tools.js",
   "language/examples.js",
   "language/mathscript.js",
   "language/studio.css",
@@ -40,6 +48,7 @@ const PRECACHE = [
   "manifest.webmanifest",
   "math-keyboard.css",
   "math-keyboard.js",
+  "practice.html",
   "script.html",
   "spatial.html",
   "spatial/core.js",
@@ -120,7 +129,7 @@ const SHELL_CACHE = PREFIX + 'shell-' + BUILD;
 const RUNTIME_CACHE = PREFIX + 'runtime-' + BUILD;
 const RUNTIME_LIMIT = 64;
 const shellURLs = new Set(PRECACHE.map(path => new URL(path, BASE).href));
-const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html', 'script.html']);
+const pageNames = new Set(['', 'index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html']);
 function localPath(url) { return url.origin === BASE.origin && url.pathname.startsWith(BASE.pathname) ? url.pathname.slice(BASE.pathname.length) : null; }
 self.addEventListener('install', event => {
   event.waitUntil((async () => {

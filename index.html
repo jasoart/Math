@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MATH LAB｜數學工作室</title>
-  <meta name="description" content="在 MATH LAB 探索數學的形狀。互動實驗、平面與立體繪圖、精確符號輸入，讓每個想法清楚呈現。" />
+  <meta name="description" content="主題探索、每日練習、錯題複習、平面與立體繪圖、MathScript 程式實驗，讓數學變得看得懂。" />
   <meta property="og:title" content="MATH LAB｜讓想法，有了形狀。" />
-  <meta property="og:description" content="互動探索、平面與立體繪圖。你的數學工作室。" />
+  <meta property="og:description" content="探索、練習與創作。你的互動數學學習工作室。" />
   <meta property="og:image" content="https://jasoart.github.io/Math/assets/studio-hero.webp" />
-  <meta name="theme-color" content="#f5f3ee" />
+  <meta name="theme-color" content="#4f46e5" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/studio-icon.png" type="image/png" />
   <link rel="stylesheet" href="./styles.css" />
@@ -35,21 +35,31 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="assets/studio-icon.png">
+  <link rel="stylesheet" href="./engine/studio.css">
+  <script defer src="./engine/navigation.js"></script>
+  <script defer src="./engine/practice.js"></script>
+  <script defer src="./engine/dashboard.js"></script>
 </head>
-<body>
+<body class="home-studio">
   <a class="skip-link" href="#experiment">跳至互動實驗</a>
   <header class="brandbar">
     <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
-    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html" aria-current="page">互動探索</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
-    <a class="brandbar-action" href="./graph.html">開啟畫布 <span aria-hidden="true">↗</span></a>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html" aria-current="page">互動探索</a><a href="./practice.html">每日練習</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <button class="brandbar-action" type="button" data-open-search>搜尋 <kbd>⌘ K</kbd></button>
   </header>
   <section class="studio-hero" aria-labelledby="heroTitle">
-    <picture class="hero-art"><source media="(max-width: 650px)" srcset="./assets/studio-hero-mobile.webp"><img src="./assets/studio-hero.webp" width="1536" height="1024" fetchpriority="high" alt="玉石綠曲面與金色線條交織的幾何雕塑"></picture>
-    <div class="hero-copy"><p class="eyebrow">A SPACE FOR MATHEMATICAL THINKING</p><h1 id="heroTitle">讓想法，<br>有了<span>形狀。</span></h1><p class="subtitle">從一條曲線，到一個立體世界。<br>用直覺的操作，探索數學的無限可能。</p><div class="hero-actions"><a class="primary-link" href="./spatial.html">探索立體繪圖 <span aria-hidden="true">↗</span></a><a class="quiet-link" href="#experiment">開始互動實驗 <span aria-hidden="true">↓</span></a></div></div>
-    <div class="hero-caption" aria-hidden="true"><span>FORM / 空間與想像</span><span>01 — ∞</span></div>
+    <div class="hero-copy"><p class="eyebrow">EXPLORE. PRACTICE. CREATE.</p><h1 id="heroTitle">讓數學，<br><span>變得看得懂。</span></h1><p class="subtitle">從一個問題到一張圖形，把抽象的想法變成可以親手探索的世界。</p><div class="hero-actions"><a class="primary-link" href="#topics">找到你的主題 <span aria-hidden="true">↗</span></a><a class="quiet-link" href="./practice.html">開始每日練習 <span aria-hidden="true">→</span></a></div><div class="hero-benefits"><span>196 個互動實驗</span><span>精確算式輸入</span><span>離線繼續學習</span></div></div>
+    <div class="hero-visual"><img src="./assets/studio-math.svg" width="720" height="540" fetchpriority="high" alt="函數曲線與立體空間交織的數學畫布"><div class="hero-float"><span class="live-dot"></span><span>一個想法，無限種探索。</span></div></div>
   </section>
+  <section id="learningHome" class="home-section learning-overview" aria-labelledby="homeLearningTitle">
+    <article class="resume-card"><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h2 id="homeLearningTitle">接著你的好奇心。</h2><p id="resumeTitle">選一個主題，開始你的第一個實驗。</p><button id="resumeExperiment" type="button" class="primary" disabled>繼續上次實驗 ↗</button><div id="recentExperiments" class="recent-experiments" aria-label="最近開啟的實驗"></div></article>
+    <article class="journey-card"><p class="eyebrow">YOUR LEARNING JOURNEY</p><h2>每一小步，都算數。</h2><p id="exploreSummary">已探索 0 / 196 個實驗</p><progress id="exploreProgress" value="0" max="196" aria-label="互動模組探索進度"></progress><div class="journey-metrics"><div><strong id="dashboardToday">0</strong><span>今日練習</span></div><div><strong id="dashboardMistakes">0</strong><span>待複習錯題</span></div><div><strong id="dashboardAccuracy">從第一題開始</strong><span>練習正確率</span></div></div><button id="suggestedExperiment" type="button" class="text-button">探索下一個想法 ↗</button></article>
+  </section>
+  <section id="topics" class="home-section" aria-labelledby="topicsTitle"><div class="section-heading"><div><p class="eyebrow">FIND YOUR NEXT IDEA</p><h2 id="topicsTitle">從你感興趣的主題開始。</h2><p class="subtitle">調整參數、觀察變化，再用自己的話說明原因。</p></div><a class="quiet-link" href="#experiment">瀏覽所有實驗 ↘</a></div><div id="topicCards" class="topic-grid"></div></section>
+  <section id="features" class="home-section workspace-overview" aria-labelledby="workspaceOverviewTitle"><div class="section-heading"><div><p class="eyebrow">A WORKSPACE FOR EVERY IDEA</p><h2 id="workspaceOverviewTitle">想探索，還是想創作？</h2></div></div><div class="workspace-card-grid"><a class="workspace-card" href="./graph.html"><span class="workspace-icon">⌁</span><h3>平面繪圖</h3><p>函數、交點、積分與數值表，集中在一張自由畫布。</p><span>開啟 2D 畫布 ↗</span></a><a class="workspace-card" href="./spatial.html"><span class="workspace-icon">◇</span><h3>空間幾何</h3><p>建立點、線、面與曲面，旋轉視角看懂空間關係。</p><span>探索 3D 世界 ↗</span></a><a class="workspace-card" href="./script.html"><span class="workspace-icon">{ }</span><h3>MathScript</h3><p>用中英文指令寫出數學實驗，立即執行並分享。</p><span>編輯你的程式 ↗</span></a></div></section>
+  <section id="start" class="home-section daily-practice" aria-labelledby="dailyTitle"><div><p class="eyebrow">A LITTLE PRACTICE, EVERY DAY</p><h2 id="dailyTitle">今天，先想清楚一題。</h2><p>七個主題、兩種難度。看提示、核對解析，讓錯題變成下一次的進步。</p><a class="primary-link" href="./practice.html">開啟完整練習 ↗</a></div><article class="daily-question"><p id="dailyQuestion" class="question"></p><div id="dailyChoices" class="daily-choices" role="group" aria-label="每日一題選項"></div><p id="dailyResult" role="status" aria-live="polite"></p></article></section>
   <div class="app-header studio-intro">
-    <div class="brand-copy"><p class="eyebrow">YOUR MATHEMATICAL WORKSPACE</p><h2>好奇心，是最好的起點。</h2><p class="subtitle">選一個主題，調整參數，讓圖像帶你發現規律。</p></div>
+    <div class="brand-copy"><p class="eyebrow">YOUR MATHEMATICAL WORKSPACE</p><h2>把想法，放進實驗裡。</h2><p class="subtitle">選一個主題，調整參數，讓圖像帶你發現規律。</p></div>
     <div class="header-side"><div class="lab-summary" aria-label="探索概況"><div><strong id="moduleCount">196</strong><span>互動模組</span></div><div><strong id="practiceCount">0</strong><span>已探索</span></div><div><strong id="favoriteCount">0</strong><span>已收藏</span></div></div></div>
   </div>
   <main class="app-shell">

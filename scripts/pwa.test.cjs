@@ -37,7 +37,7 @@ function makeWorker({ failInstall = false } = {}) {
     Object.defineProperty(response, 'type', { value: 'basic' });
     return response;
   };
-  const source = workerSource.replace(/const BUILD = '[^']*';/, "const BUILD = 'unit';").replace(/const PRECACHE = \[[\s\S]*?\];/, "const PRECACHE = ['index.html','graph.html','spatial.html','script.html','language/worker.js','language/mathscript.js','engine/pwa.js'];");
+  const source = workerSource.replace(/const BUILD = '[^']*';/, "const BUILD = 'unit';").replace(/const PRECACHE = \[[\s\S]*?\];/, "const PRECACHE = ['index.html','graph.html','spatial.html','script.html','practice.html','language/worker.js','language/mathscript.js','engine/pwa.js'];");
   vm.runInNewContext(source, { self, caches, fetch, URL, Request, Response, Set, Promise, Number });
   async function event(type, values = {}) {
     let pending, response;
@@ -77,14 +77,14 @@ function makeUI({ secure = true, ios = false } = {}) {
   const worker = makeWorker();
   worker.stored.set('personal-notes', new Map()); worker.stored.set('mathlab-pwa-%2FOther%2F-shell-old', new Map()); worker.stored.set('mathlab-pwa-%2FMath%2F-shell-old', new Map());
   await worker.event('install');
-  check(worker.calls.length === 7 && worker.calls.every(request => request.cache === 'reload'), 'Shell fetches bypass stale HTTP caches');
+  check(worker.calls.length === 8 && worker.calls.every(request => request.cache === 'reload'), 'Shell fetches bypass stale HTTP caches');
   check(worker.skips === 0, 'Installing an update does not activate without user action');
   await worker.event('activate');
   check(worker.claims === 1, 'Initial installation can control the workspace');
   check(worker.stored.has('personal-notes') && worker.stored.has('mathlab-pwa-%2FOther%2F-shell-old'), 'Activation preserves unrelated and other-scope caches');
   check(!worker.stored.has('mathlab-pwa-%2FMath%2F-shell-old'), 'Activation removes obsolete cache for this repository');
   worker.setOffline(true);
-  for (const page of ['', 'index.html', 'graph.html?example=1', 'spatial.html', 'script.html?shared=1']) {
+  for (const page of ['', 'index.html', 'graph.html?example=1', 'spatial.html', 'script.html?shared=1', 'practice.html?topic=geometry']) {
     const response = await worker.request('https://example.test/Math/' + page, 'navigate');
     check(response.ok && (await response.text()).startsWith('cached:'), 'Offline navigation: ' + page);
   }

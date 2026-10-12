@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>MathScript｜把想法寫成實驗 · MATH LAB</title>
   <meta name="description" content="專為數學探索設計的程式語言。用中英文指令編輯函數、參數、圖形與數值實驗，立即執行、儲存及分享。">
-  <meta name="theme-color" content="#f5f3ee">
+  <meta name="theme-color" content="#4f46e5">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./assets/studio-icon.png" type="image/png">
   <link rel="apple-touch-icon" href="./assets/studio-icon.png">
@@ -17,15 +17,18 @@
   <script defer src="./language/mathscript.js"></script>
   <script defer src="./language/examples.js"></script>
   <script defer src="./language/display.js"></script>
+  <script defer src="./language/editor-tools.js"></script>
   <script defer src="./language/studio.js"></script>
   <script defer src="./engine/pwa.js"></script>
+  <link rel="stylesheet" href="./engine/studio.css">
+  <script defer src="./engine/navigation.js"></script>
 </head>
-<body class="script-studio">
+<body class="script-studio syntax-active">
   <a class="skip-link" href="#source">跳至程式編輯器</a>
   <header class="brandbar">
     <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
-    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html" aria-current="page">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
-    <a class="brandbar-action" href="#languageGuide">語法速查 ↘</a>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./practice.html">每日練習</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html" aria-current="page">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <button class="brandbar-action" type="button" data-open-search>搜尋 <kbd>⌘ K</kbd></button>
   </header>
   <main class="script-shell">
     <section class="script-intro" aria-labelledby="scriptTitle">
@@ -39,8 +42,9 @@
     </section>
     <div class="script-workspace">
       <section class="editor-panel" aria-labelledby="editorTitle">
-        <header class="editor-toolbar"><div><span class="file-dot" aria-hidden="true"></span><h2 id="editorTitle">experiment.mathscript</h2></div><div class="editor-history"><button id="undoEdit" type="button" aria-label="復原編輯" disabled>↶</button><button id="redoEdit" type="button" aria-label="重做編輯" disabled>↷</button></div></header>
-        <div class="code-wrap"><pre id="lineNumbers" aria-hidden="true">1</pre><textarea id="source" aria-label="MathScript 程式碼" aria-describedby="editorHint diagnostics" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" maxlength="24000"></textarea></div>
+        <header class="editor-toolbar"><div><span class="file-dot" aria-hidden="true"></span><h2 id="editorTitle">experiment.mathscript</h2></div><div class="editor-history"><button id="focusScript" type="button" aria-pressed="false">專注 ↗</button><button id="undoEdit" type="button" aria-label="復原編輯" disabled>↶</button><button id="redoEdit" type="button" aria-label="重做編輯" disabled>↷</button></div></header>
+        <div class="snippet-toolbar"><label for="snippetSelect">插入指令</label><select id="snippetSelect"><option value="">選擇範本…</option></select><label class="syntax-toggle"><input id="syntaxColor" type="checkbox" checked>語法上色</label></div>
+        <div class="code-wrap"><pre id="lineNumbers" aria-hidden="true">1</pre><div class="source-stack"><pre id="sourceHighlight" aria-hidden="true"></pre><textarea id="source" aria-label="MathScript 程式碼" aria-describedby="editorHint diagnostics" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" maxlength="24000"></textarea></div></div>
         <div class="editor-bottom"><span id="cursorPosition">第 1 行 · 第 1 欄</span><span>MathScript 1.0 · UTF-8</span></div>
         <div class="run-toolbar"><label><input id="autoRun" type="checkbox" checked> 即時預覽</label><div><button id="stopRun" type="button" disabled>停止</button><button id="runScript" type="button" class="primary">執行 <span aria-hidden="true">⌘ / Ctrl ↵</span></button></div></div>
         <p id="editorHint" class="editor-hint">每行一個指令。使用 * 表示乘法、^ 表示次方，# 加入註解。Ctrl／⌘ + Enter 執行。</p>
@@ -50,7 +54,7 @@
         <header class="preview-toolbar"><div><p class="eyebrow">LIVE CANVAS</p><h2 id="previewTitle">實驗預覽</h2></div><span id="runStatus" class="run-status" role="status">準備中</span></header>
         <div id="plotStage" class="plot-stage" aria-busy="true"><p class="empty-stage">執行程式，在這裡看見你的想法。</p></div>
         <div id="plotLegend" class="plot-legend" aria-label="圖例"></div>
-        <div class="preview-footer"><span id="engineStats">背景運算 · 自適應繪圖</span><div><button id="exportSVG" type="button" disabled>SVG</button><button id="exportHTML" type="button" disabled>匯出網頁</button></div></div>
+        <div class="preview-footer"><span id="engineStats">背景運算 · 自適應繪圖</span><div><button id="exportSVG" type="button" disabled>SVG</button><button id="exportCSV" type="button" disabled>CSV</button><button id="exportHTML" type="button" disabled>匯出網頁</button></div></div>
         <section class="parameter-panel" aria-labelledby="parameterTitle"><div class="section-heading"><h3 id="parameterTitle">調整參數</h3><button id="resetParameters" class="text-button" type="button">恢復初值</button></div><div id="parameters"><p class="muted">以 param 定義滑桿，拖曳就能觀察變化。</p></div></section>
         <section class="output-panel" aria-labelledby="outputTitle"><h3 id="outputTitle">計算結果</h3><div id="outputs"><p class="muted">print、table 與 integral 的結果會顯示在這裡。</p></div><ul id="warnings" class="script-warnings" hidden></ul></section>
       </section>

@@ -14,6 +14,7 @@
   let formulasVisible = true;
   let previousFormulaVisibility = true;
   let storageAvailable = true;
+  let categoryIds = null, categoryName = '';
 
   function notify(message) {
     const notice = $("appNotice");
@@ -78,6 +79,7 @@
       clearTimeout(saveTimer);
       saveTimer = setTimeout(persist, 350);
     }
+    document.dispatchEvent(new CustomEvent('mathlab:learningchange'));
   }
 
   function readSaved() {
@@ -108,12 +110,14 @@
     return lab.modules.filter(module => {
       const searchText = module.searchText || [module.title, module.short, module.tag, module.examSignal, module.prompt].join(" ").toLocaleLowerCase();
       return (!query || searchText.includes(query)) &&
+        (!categoryIds || categoryIds.has(module.id)) &&
         (topic === "all" || module.tag === topic) &&
         (!$("favoritesOnly").checked || getRecord(module.id).favorite);
     });
   }
 
   function resetFilters() {
+    categoryIds = null; categoryName = '';
     $("moduleSearch").value = "";
     $("topicFilter").value = "all";
     $("favoritesOnly").checked = false;
@@ -166,7 +170,7 @@
       fragment.append(button);
     }
     list.replaceChildren(fragment);
-    $("filterCount").textContent = `${visible.length} / ${lab.modules.length} 個模組`;
+    $("filterCount").textContent = `${visible.length} / ${lab.modules.length} 個模組${categoryName ? ' · ' + categoryName : ''}`;
     if (focusedId) [...list.querySelectorAll("button[data-module-id]")].find(button => button.dataset.moduleId === focusedId)?.focus({preventScroll: true});
   }
 
@@ -238,6 +242,7 @@
       const saved = persist();
       renderCurrentLearning();
       renderNavigation();
+      document.dispatchEvent(new CustomEvent('mathlab:learningchange'));
       notify(saved ? "已匯入學習紀錄，並還原實驗參數。相同模組的筆記已以匯入內容更新。" : "已匯入到本次工作階段；瀏覽器無法儲存，請匯出備份。");
     } catch (error) {
       notify(`匯入失敗：${error.message || "檔案格式錯誤"}。原有紀錄與實驗未變更。`);
@@ -270,7 +275,12 @@
   readSaved();
   lab.renderNavigation = renderNavigation;
   lab.notify = notify;
-  lab.learning = {storageKey, validateBackup, importBackup};
+  lab.learning = {storageKey, validateBackup, importBackup,
+    getSummary: () => ({ practiced: Object.values(records).filter(r => r.practiced).length, practicedIds: Object.keys(records).filter(id => records[id].practiced), favorites: Object.values(records).filter(r => r.favorite).length }),
+    setCategory: (ids, name = '') => { categoryIds = ids ? new Set(ids.filter(id => moduleById.has(id))) : null; categoryName = categoryIds ? name : ''; renderNavigation(); }
+  };
+  $("moduleSearch").addEventListener('input', () => { categoryIds = null; categoryName = ''; });
+  $("topicFilter").addEventListener('change', () => { categoryIds = null; categoryName = ''; });
   $("moduleSearch").addEventListener("input", renderNavigation);
   for (const id of ["topicFilter", "favoritesOnly"]) $(id).addEventListener("change", renderNavigation);
   $("clearFilters").addEventListener("click", resetFilters);

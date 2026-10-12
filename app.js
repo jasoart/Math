@@ -4694,7 +4694,7 @@ function restoreHash() {
   if (!location.hash) return;
   try {
     const [rawId, query = ""] = location.hash.slice(1).split("?");
-    if (!query && ["experiment", "parameterSection", "insightSection", "workspaceTabs", "notebook", "examSection", "research", "main"].includes(rawId)) return;
+    if (!query && ["topics", "learningHome", "start", "features", "experiment", "parameterSection", "insightSection", "workspaceTabs", "notebook", "examSection", "research", "main"].includes(rawId)) return;
     const id = decodeURIComponent(rawId), module = modules.find(m => m.id === id);
     if (!module) throw new Error("分享連結的模組不存在");
     const parameters = Object.create(null), params = new URLSearchParams(query);

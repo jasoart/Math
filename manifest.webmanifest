@@ -2,15 +2,15 @@
   "id": "./",
   "name": "MATH LAB 數學工作室",
   "short_name": "MATH LAB",
-  "description": "互動數學、平面繪圖、空間幾何與 MathScript 程式實驗，離線也能繼續探索。",
+  "description": "互動探索、每日練習、錯題複習、2D／3D 繪圖與 MathScript，離線也能繼續學習。",
   "lang": "zh-Hant",
   "dir": "ltr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#f5f3ee",
-  "theme_color": "#087f73",
+  "background_color": "#f7f8ff",
+  "theme_color": "#4f46e5",
   "categories": [
     "education",
     "productivity"
@@ -46,6 +46,10 @@
     {
       "name": "MathScript 程式實驗",
       "url": "./script.html"
+    },
+    {
+      "name": "每日練習",
+      "url": "./practice.html"
     }
   ]
 }

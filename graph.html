@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>平面繪圖｜MATH LAB 數學工作室</title>
   <meta name="description" content="自由輸入函數、隱函數、參數式、極座標與座標點，即時調參數、找交點、積分面積、數值表並匯出圖形。">
-  <meta name="theme-color" content="#f5f3ee"><link rel="icon" href="./assets/studio-icon.png" type="image/png">
+  <meta name="theme-color" content="#4f46e5"><link rel="icon" href="./assets/studio-icon.png" type="image/png">
   <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./graph/graph.css">
   <script src="./graph/math.js" defer></script><script src="./graph/insight.js" defer></script><script src="./graph/exact.js" defer></script><script src="./vendor/katex/katex.min.js" defer></script><script src="./engine/typeset.js" defer></script><script src="./math-keyboard.js" defer></script><script src="./graph/state.js" defer></script><script src="./graph/svg.js" defer></script><script src="./graph/render.js" defer></script><script src="./graph/graph.js" defer></script>
 <link rel="stylesheet" href="./math-keyboard.css">
@@ -17,13 +17,15 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="assets/studio-icon.png">
   <link rel="stylesheet" href="engine/insight.css">
+  <link rel="stylesheet" href="./engine/studio.css">
+  <script defer src="./engine/navigation.js"></script>
 </head>
 <body class="graph-app">
   <a class="skip-link" href="#graphCanvas">跳至繪圖畫布</a>
   <header class="brandbar">
     <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
-    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./graph.html" aria-current="page">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
-    <a class="brandbar-action" href="./graph.html">開啟畫布 <span aria-hidden="true">↗</span></a>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./practice.html">每日練習</a><a href="./graph.html" aria-current="page">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <button class="brandbar-action" type="button" data-open-search>搜尋 <kbd>⌘ K</kbd></button>
   </header>
   <header class="graph-header">
     <div><p class="eyebrow">THE GRAPH STUDIO</p><h1>平面繪圖<span>每條曲線，都有自己的語言。</span></h1></div>

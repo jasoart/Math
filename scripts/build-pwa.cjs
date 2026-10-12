@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'graph.html', 'spatial.html', 'script.html'];
+const pages = ['index.html', 'graph.html', 'spatial.html', 'script.html', 'practice.html'];
 function inventory() {
   const files = new Set([...pages, 'manifest.webmanifest']);
   for (const page of pages) {

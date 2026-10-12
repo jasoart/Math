@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>每日練習｜MATH LAB 數學工作室</title>
+  <meta name="description" content="代數、幾何、三角、數列、機率、統計與微積分的互動練習。輸入分數或根號作答，查看解析、保存錯題並追蹤自己的進度。">
+  <meta name="theme-color" content="#4f46e5"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./assets/studio-icon.png">
+  <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./engine/studio.css"><link rel="stylesheet" href="./engine/pwa.css">
+  <script defer src="./graph/math.js"></script><script defer src="./graph/exact.js"></script><script defer src="./engine/practice.js"></script><script defer src="./engine/practice-ui.js"></script><script defer src="./engine/navigation.js"></script><script defer src="./engine/pwa.js"></script>
+</head>
+<body class="practice-app">
+  <a class="skip-link" href="#practiceQuestion">跳至練習題</a>
+  <header class="brandbar">
+    <a class="brand" href="./index.html" aria-label="MATH LAB 數學工作室首頁"><img src="./assets/studio-icon.webp" width="44" height="44" alt=""><span><strong>MATH LAB</strong><small>數學工作室</small></span></a>
+    <nav class="product-nav" aria-label="主要導覽"><a href="./index.html">互動探索</a><a href="./practice.html" aria-current="page">每日練習</a><a href="./graph.html">平面繪圖</a><a href="./spatial.html">立體繪圖</a><a href="./script.html">程式實驗</a><a href="./index.html#notebook">我的筆記</a></nav>
+    <button class="brandbar-action" type="button" data-open-search>搜尋 <kbd>⌘ K</kbd></button>
+  </header>
+  <main class="learning-shell">
+    <section class="learning-intro"><div><p class="eyebrow">ONE QUESTION. A LITTLE CLEARER.</p><h1>每一次練習，<span>都更靠近理解。</span></h1><p>先自己想，再看提示。從一題開始，把不熟悉的地方慢慢補上。</p></div><a class="quiet-link" href="./index.html#topics">用圖形探索觀念 ↗</a></section>
+    <section class="practice-stat-grid" aria-label="我的練習概況"><article><small>累積作答</small><strong id="attemptCount">0</strong><span>題</span></article><article><small>正確率</small><strong id="accuracy">—</strong><span>包含複習作答</span></article><article><small>今天的練習</small><strong id="todayCount">0</strong><span>每日目標 10 題</span><progress id="dailyProgress" value="0" max="10" aria-label="每日練習進度"></progress></article><article><small>待複習錯題</small><strong id="mistakeCount">0</strong><button id="reviewMistakes" class="text-button" type="button" disabled>開始複習 ↗</button></article></section>
+    <div class="practice-layout">
+      <aside class="practice-settings"><p class="eyebrow">YOUR PRACTICE</p><h2>選一個練習方向</h2><label for="practiceTopic">主題</label><select id="practiceTopic"><option value="all">混合練習</option></select><label for="practiceDifficulty">難度</label><select id="practiceDifficulty"><option value="1">基礎 · 熟悉觀念</option><option value="2">進階 · 多一步思考</option></select><button id="startSession" class="primary" type="button">開始 10 題練習</button><p>題目依參數產生，提供觀念練習與計算核對。</p><div id="topicPerformance" class="topic-performance" aria-label="各主題練習表現"></div><div class="practice-backup"><button id="exportPractice" type="button">匯出練習紀錄</button><button id="importPractice" type="button">匯入紀錄</button><input id="practiceFile" type="file" accept=".json,application/json" hidden></div><p id="practiceStorage" role="status">紀錄保存在此裝置。</p></aside>
+      <section class="question-card" aria-labelledby="practiceQuestion">
+        <div class="question-meta"><span id="questionTag" class="pill">代數與函數</span><span id="sessionPosition">第 1 / 10 題</span></div><progress id="sessionProgress" max="10" value="0" aria-label="本次練習進度"></progress><h2 id="practiceQuestion" tabindex="-1"></h2><p class="question-instruction">選擇答案，或輸入你的算式。分數、√ 和 π 都可以。</p>
+        <div id="practiceChoices" class="practice-choices" role="group" aria-label="答案選項"></div>
+        <form id="answerForm" novalidate><label for="practiceAnswer">我的答案</label><div class="practice-answer-row"><input id="practiceAnswer" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="480" placeholder="例如：6、2/3、√13"><button id="checkAnswer" type="submit" class="primary">核對答案</button></div></form>
+        <div class="question-actions"><button id="showHint" type="button">給我一個提示</button><button id="nextQuestion" type="button" disabled>下一題 →</button></div><p id="practiceHint" class="practice-hint" hidden></p><div id="answerFeedback" class="answer-feedback" role="status" aria-live="polite"></div>
+        <section id="answerExplanation" class="answer-explanation" hidden><p class="eyebrow">UNDERSTAND THE WHY</p><h3>把過程想清楚</h3><p id="solutionSteps"></p><a id="relatedExperiment" class="quiet-link" href="./index.html#experiment">開啟相關互動實驗 ↗</a></section>
+        <section id="sessionSummary" class="session-summary" hidden><h3>這次練習完成了。</h3><p id="summaryText"></p><button id="anotherSession" type="button" class="primary">再練習 10 題</button></section>
+      </section>
+    </div>
+    <section class="review-section" aria-labelledby="reviewTitle"><div class="section-heading"><div><p class="eyebrow">A SECOND LOOK</p><h2 id="reviewTitle">我的錯題清單</h2></div><span class="small-label">再次答對即移出待複習清單</span></div><div id="mistakeList" class="mistake-list"><p class="muted">答錯的題目會留在這裡，供你之後重新練習。</p></div></section>
+    <p class="learning-footnote">練習使用參數產生題目，並非正式考試題庫。紀錄只保存在此瀏覽器；建議匯出 JSON 備份。錯題最多保留最近 60 題。</p>
+    <noscript>練習與紀錄需要啟用 JavaScript。</noscript>
+  </main>
+  <div id="practiceNotice" class="app-notice" role="status" aria-live="polite" hidden></div>
+  <footer class="app-footer"><span>MATH LAB · 每日練習</span><a href="./index.html">回到學習首頁 ↗</a><a href="https://github.com/jasoart/Math" target="_blank" rel="noopener">GitHub</a></footer>
+</body>
+</html>

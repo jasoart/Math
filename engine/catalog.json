@@ -1,0 +1,985 @@
+{
+  "version": 1,
+  "modules": [
+    {
+      "id": "circle-line",
+      "title": "圓心到直線距離",
+      "tag": "直線與圓"
+    },
+    {
+      "id": "parabola",
+      "title": "拋物線的定義",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "ellipse",
+      "title": "橢圓定義",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "projection",
+      "title": "內積與投影",
+      "tag": "平面向量"
+    },
+    {
+      "id": "trig",
+      "title": "三角函數圖像",
+      "tag": "三角函數"
+    },
+    {
+      "id": "matrix",
+      "title": "2×2 線性變換",
+      "tag": "矩陣"
+    },
+    {
+      "id": "riemann",
+      "title": "微積分面積",
+      "tag": "微積分"
+    },
+    {
+      "id": "hyperbola",
+      "title": "雙曲線焦點定義",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "complex",
+      "title": "複數極式",
+      "tag": "複數平面"
+    },
+    {
+      "id": "space-skew-lines",
+      "title": "歪斜線距離",
+      "tag": "空間向量"
+    },
+    {
+      "id": "taylor",
+      "title": "局部近似",
+      "tag": "微積分"
+    },
+    {
+      "id": "regression",
+      "title": "迴歸與殘差",
+      "tag": "數據分析"
+    },
+    {
+      "id": "bayes",
+      "title": "貝氏定理",
+      "tag": "機率統計"
+    },
+    {
+      "id": "contour-gradient",
+      "title": "等高線與梯度",
+      "tag": "科學視覺化"
+    },
+    {
+      "id": "number-line-absolute",
+      "title": "絕對值距離",
+      "tag": "代數與數線"
+    },
+    {
+      "id": "quadratic-vertex",
+      "title": "二次函數頂點",
+      "tag": "函數圖形"
+    },
+    {
+      "id": "polynomial-remainder",
+      "title": "餘式定理",
+      "tag": "多項式"
+    },
+    {
+      "id": "amgm-rectangle",
+      "title": "算幾不等式",
+      "tag": "代數不等式"
+    },
+    {
+      "id": "exponential-log",
+      "title": "指數對數反函數",
+      "tag": "指數與對數"
+    },
+    {
+      "id": "sequence-series",
+      "title": "數列級數",
+      "tag": "數列與級數"
+    },
+    {
+      "id": "trig-composition",
+      "title": "正餘弦疊合",
+      "tag": "三角函數"
+    },
+    {
+      "id": "triangle-laws",
+      "title": "三角測量",
+      "tag": "三角比"
+    },
+    {
+      "id": "vector-linear-combination",
+      "title": "向量線性組合",
+      "tag": "平面向量"
+    },
+    {
+      "id": "cauchy-bound",
+      "title": "柯西不等式",
+      "tag": "向量與不等式"
+    },
+    {
+      "id": "determinant-system",
+      "title": "二階行列式",
+      "tag": "矩陣與線性系統"
+    },
+    {
+      "id": "markov-chain",
+      "title": "轉移矩陣",
+      "tag": "矩陣應用"
+    },
+    {
+      "id": "counting-principle",
+      "title": "排列組合分類",
+      "tag": "排列組合"
+    },
+    {
+      "id": "binomial-distribution",
+      "title": "二項分布",
+      "tag": "機率分布"
+    },
+    {
+      "id": "geometric-distribution",
+      "title": "幾何分布",
+      "tag": "機率分布"
+    },
+    {
+      "id": "standardization-transform",
+      "title": "標準化",
+      "tag": "數據分析"
+    },
+    {
+      "id": "normal-curve",
+      "title": "常態曲線",
+      "tag": "數據分析"
+    },
+    {
+      "id": "derivative-tangent",
+      "title": "導數切線",
+      "tag": "微分"
+    },
+    {
+      "id": "derivative-optimization",
+      "title": "導數極值",
+      "tag": "微分"
+    },
+    {
+      "id": "limit-continuity",
+      "title": "極限連續",
+      "tag": "極限"
+    },
+    {
+      "id": "ftc-accumulation",
+      "title": "累積面積",
+      "tag": "積分"
+    },
+    {
+      "id": "area-between-curves",
+      "title": "兩曲線面積",
+      "tag": "積分"
+    },
+    {
+      "id": "complex-demoivre",
+      "title": "棣美弗定理",
+      "tag": "複數平面"
+    },
+    {
+      "id": "conic-tangent",
+      "title": "橢圓切線",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "sampling-clt",
+      "title": "抽樣平均",
+      "tag": "統計模擬"
+    },
+    {
+      "id": "boxplot-spread",
+      "title": "盒狀圖",
+      "tag": "數據分析"
+    },
+    {
+      "id": "space-plane-distance",
+      "title": "點到平面距離",
+      "tag": "空間向量"
+    },
+    {
+      "id": "set-logic-venn",
+      "title": "集合與邏輯",
+      "tag": "數與式／邏輯"
+    },
+    {
+      "id": "line-slope-intercept",
+      "title": "直線方程",
+      "tag": "解析幾何"
+    },
+    {
+      "id": "linear-programming",
+      "title": "線性規劃",
+      "tag": "不等式／解析幾何"
+    },
+    {
+      "id": "circle-standard-equation",
+      "title": "圓方程",
+      "tag": "直線與圓"
+    },
+    {
+      "id": "function-transformations",
+      "title": "函數變換",
+      "tag": "函數"
+    },
+    {
+      "id": "inverse-composition",
+      "title": "反函數與合成",
+      "tag": "函數"
+    },
+    {
+      "id": "cubic-symmetry-center",
+      "title": "三次函數中心",
+      "tag": "多項式函數"
+    },
+    {
+      "id": "root-multiplicity",
+      "title": "根與重數",
+      "tag": "多項式函數"
+    },
+    {
+      "id": "exponential-compound-interest",
+      "title": "複利與指數",
+      "tag": "指數函數"
+    },
+    {
+      "id": "logarithm-domain-scale",
+      "title": "對數尺度",
+      "tag": "指數與對數"
+    },
+    {
+      "id": "sigma-sum-formulas",
+      "title": "Σ與級數和",
+      "tag": "數列級數"
+    },
+    {
+      "id": "recurrence-sequence",
+      "title": "遞迴數列",
+      "tag": "數列級數"
+    },
+    {
+      "id": "infinite-geometric-series",
+      "title": "無窮等比級數",
+      "tag": "數列極限"
+    },
+    {
+      "id": "trig-graph-transform",
+      "title": "三角圖形變換",
+      "tag": "三角函數"
+    },
+    {
+      "id": "trig-equation-solutions",
+      "title": "三角方程",
+      "tag": "三角函數"
+    },
+    {
+      "id": "plane-intersection-line",
+      "title": "兩平面交線",
+      "tag": "空間向量"
+    },
+    {
+      "id": "line-plane-angle",
+      "title": "線面角與面面角",
+      "tag": "空間向量"
+    },
+    {
+      "id": "matrix-inverse-system",
+      "title": "反方陣",
+      "tag": "矩陣"
+    },
+    {
+      "id": "gaussian-elimination-visual",
+      "title": "高斯消去",
+      "tag": "矩陣／方程組"
+    },
+    {
+      "id": "shoelace-determinant-area",
+      "title": "行列式面積",
+      "tag": "向量／行列式"
+    },
+    {
+      "id": "stars-and-bars",
+      "title": "隔板法",
+      "tag": "排列組合"
+    },
+    {
+      "id": "binomial-theorem-pascal",
+      "title": "二項式定理",
+      "tag": "排列組合"
+    },
+    {
+      "id": "probability-tree-independence",
+      "title": "機率樹與獨立",
+      "tag": "機率"
+    },
+    {
+      "id": "discrete-random-variable",
+      "title": "期望值變異數",
+      "tag": "機率統計"
+    },
+    {
+      "id": "subjective-objective-probability",
+      "title": "主客觀機率",
+      "tag": "機率"
+    },
+    {
+      "id": "two-way-table-bayes",
+      "title": "列聯表機率",
+      "tag": "機率統計"
+    },
+    {
+      "id": "mean-variance-transform",
+      "title": "平均標準差",
+      "tag": "統計"
+    },
+    {
+      "id": "histogram-cumulative",
+      "title": "直方圖與百分位",
+      "tag": "統計"
+    },
+    {
+      "id": "covariance-correlation-sign",
+      "title": "共變異與相關",
+      "tag": "統計"
+    },
+    {
+      "id": "newton-method",
+      "title": "牛頓求根法",
+      "tag": "數列極限／微分"
+    },
+    {
+      "id": "derivative-rules",
+      "title": "微分公式",
+      "tag": "微積分"
+    },
+    {
+      "id": "concavity-inflection",
+      "title": "凹凸與反曲",
+      "tag": "微分應用"
+    },
+    {
+      "id": "optimization-box",
+      "title": "微分最佳化",
+      "tag": "微分應用"
+    },
+    {
+      "id": "piecewise-continuity-ivt",
+      "title": "連續與介值",
+      "tag": "極限與連續"
+    },
+    {
+      "id": "squeeze-theorem",
+      "title": "夾擠定理",
+      "tag": "極限"
+    },
+    {
+      "id": "cross-section-volume",
+      "title": "切片與旋轉體",
+      "tag": "積分應用"
+    },
+    {
+      "id": "complex-nth-roots",
+      "title": "n 次方根",
+      "tag": "複數"
+    },
+    {
+      "id": "conic-rotation-xy",
+      "title": "旋轉橢圓",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "ellipse-parametric",
+      "title": "橢圓參數式",
+      "tag": "二次曲線"
+    },
+    {
+      "id": "complex-conjugate-roots",
+      "title": "共軛虛根",
+      "tag": "複數與方程式"
+    },
+    {
+      "id": "scalar-triple-product",
+      "title": "三重積體積",
+      "tag": "空間向量"
+    },
+    {
+      "id": "sphere-space-coordinate",
+      "title": "空間距離與球",
+      "tag": "空間坐標"
+    },
+    {
+      "id": "normal-approx-binomial",
+      "title": "二項常態近似",
+      "tag": "機率統計"
+    },
+    {
+      "id": "hypergeometric-sampling",
+      "title": "不放回抽樣",
+      "tag": "機率統計"
+    },
+    {
+      "id": "constrained-counting",
+      "title": "限制排列列舉",
+      "tag": "排列組合・精確計數"
+    },
+    {
+      "id": "floor-function-lattice",
+      "title": "取整與格點",
+      "tag": "取整函數・有限加總"
+    },
+    {
+      "id": "matrix-power-recurrence",
+      "title": "矩陣遞迴",
+      "tag": "矩陣・數列"
+    },
+    {
+      "id": "space-cross-product",
+      "title": "外積與空間面積",
+      "tag": "空間向量・正射影"
+    },
+    {
+      "id": "geometric-locus-ratio",
+      "title": "距離比軌跡",
+      "tag": "平面幾何・軌跡"
+    },
+    {
+      "id": "piecewise-continuity",
+      "title": "分段連續與可微",
+      "tag": "極限・微分"
+    },
+    {
+      "id": "trig-inequality-intervals",
+      "title": "三角不等式區間",
+      "tag": "三角函數・解析區間"
+    },
+    {
+      "id": "discrete-convolution",
+      "title": "骰子和的分布",
+      "tag": "機率・隨機變數"
+    },
+    {
+      "id": "polar-sector-sweep",
+      "title": "極坐標與環帶",
+      "tag": "三角與幾何"
+    },
+    {
+      "id": "data-projection-variance",
+      "title": "投影方向與變異數",
+      "tag": "數據分析"
+    },
+    {
+      "id": "complex-collinearity",
+      "title": "複數與共線",
+      "tag": "複數"
+    },
+    {
+      "id": "riemann-error-bounds",
+      "title": "積分近似誤差",
+      "tag": "微積分"
+    },
+    {
+      "id": "spatial-section-geometry",
+      "title": "空間平面截面",
+      "tag": "空間幾何"
+    },
+    {
+      "id": "quadratic-root-location",
+      "title": "二次實根的位置",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "vieta-product-locus",
+      "title": "根和固定與根積",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "quadratic-sign-intervals",
+      "title": "二次不等式符號",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "rational-sign-chart",
+      "title": "分式不等式與禁點",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "absolute-distance-sum",
+      "title": "兩點距離和與平台",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "reciprocal-minimum",
+      "title": "x+k/x 的最小值",
+      "tag": "代數與不等式"
+    },
+    {
+      "id": "logarithmic-equation-domain",
+      "title": "對數方程與定義域",
+      "tag": "指數與對數"
+    },
+    {
+      "id": "exponential-half-life",
+      "title": "半衰期與指數衰減",
+      "tag": "指數與對數"
+    },
+    {
+      "id": "sine-law-ssa",
+      "title": "SSA 的零、一、兩解",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "triangle-included-area",
+      "title": "夾角與三角形面積",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "trig-double-angle",
+      "title": "二倍角與單位圓",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "trig-half-angle-sign",
+      "title": "半角公式與正負號",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "trig-addition-rotation",
+      "title": "和差角與旋轉",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "two-station-height",
+      "title": "兩測站求高度",
+      "tag": "三角函數與測量"
+    },
+    {
+      "id": "triangle-angle-bisector",
+      "title": "角平分線分邊比",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "triangle-median-identity",
+      "title": "中線定理",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "triangle-three-centers",
+      "title": "重心、內心與外心",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "circle-point-power",
+      "title": "圓冪與切割線",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "circle-common-tangents",
+      "title": "兩圓公切線",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "circle-inscribed-angle",
+      "title": "圓周角與所對弧",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "reflection-shortest-path",
+      "title": "反射與最短折線",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "similarity-length-area",
+      "title": "相似比、周長比、面積比",
+      "tag": "平面幾何"
+    },
+    {
+      "id": "space-point-line-projection",
+      "title": "空間點到直線",
+      "tag": "空間向量"
+    },
+    {
+      "id": "sphere-plane-section-radius",
+      "title": "球的平面截圓",
+      "tag": "空間幾何"
+    },
+    {
+      "id": "tetrahedron-intercept-volume",
+      "title": "三軸截距四面體",
+      "tag": "空間幾何"
+    },
+    {
+      "id": "space-vector-coplanarity",
+      "title": "三向量共面判斷",
+      "tag": "空間向量"
+    },
+    {
+      "id": "telescoping-fraction-series",
+      "title": "裂項相消級數",
+      "tag": "數列與級數"
+    },
+    {
+      "id": "arithmetic-geometric-weighted-sum",
+      "title": "等差乘等比的和",
+      "tag": "數列與級數"
+    },
+    {
+      "id": "geometric-sequence-convergence",
+      "title": "rⁿ 的收斂分類",
+      "tag": "數列與級數"
+    },
+    {
+      "id": "quadratic-sequence-differences",
+      "title": "差分與二次數列",
+      "tag": "數列與級數"
+    },
+    {
+      "id": "circular-permutation-rotation",
+      "title": "圓排列與座位編號",
+      "tag": "排列組合"
+    },
+    {
+      "id": "nonadjacent-position-selection",
+      "title": "不相鄰選位",
+      "tag": "排列組合"
+    },
+    {
+      "id": "derangements-fixed-points",
+      "title": "錯排與固定點分布",
+      "tag": "排列組合"
+    },
+    {
+      "id": "three-set-inclusion-exclusion",
+      "title": "三集合容斥",
+      "tag": "排列組合"
+    },
+    {
+      "id": "bounded-stars-bars",
+      "title": "有容量上限的隔板法",
+      "tag": "排列組合"
+    },
+    {
+      "id": "lattice-path-forbidden-point",
+      "title": "格線路徑避開一點",
+      "tag": "排列組合"
+    },
+    {
+      "id": "birthday-collision-probability",
+      "title": "生日碰撞與補事件",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "monty-hall-generalized",
+      "title": "換門策略與資訊",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "replacement-vs-no-replacement",
+      "title": "放回與不放回比較",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "conditional-expected-successes",
+      "title": "條件期望與重新分配",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "least-squares-residual-cost",
+      "title": "最小平方法的代價",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "variance-sum-covariance",
+      "title": "和的變異數與共變異",
+      "tag": "機率與統計"
+    },
+    {
+      "id": "rationalization-difference-quotient",
+      "title": "根式極限與有理化",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "removable-hole-function-value",
+      "title": "可去點與函數值",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "mean-value-parallel-tangent",
+      "title": "均值定理與平行切線",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "power-cusp-differentiability",
+      "title": "尖點與可微門檻",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "velocity-signed-distance",
+      "title": "位移與路程的差別",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "integral-average-height",
+      "title": "函數平均值",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "washer-conical-volume",
+      "title": "圓環法與中空旋轉體",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "parabola-tangent-normal",
+      "title": "切線與法線",
+      "tag": "極限與微積分"
+    },
+    {
+      "id": "studio-bisection",
+      "title": "二分法與誤差界",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-fixed-point",
+      "title": "固定點迭代與收縮",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-secant",
+      "title": "割線法求平方根",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-finite-difference",
+      "title": "差分精度與截斷誤差",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-simpson",
+      "title": "Simpson 積分與多項式",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-trapezoid",
+      "title": "梯形積分與凸性",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-quadratic-interpolation",
+      "title": "三點插值與局部近似",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-gradient-descent",
+      "title": "梯度下降與步長",
+      "tag": "數值方法"
+    },
+    {
+      "id": "studio-beats",
+      "title": "拍頻與波形疊合",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-fourier-square",
+      "title": "方波的 Fourier 近似",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-fourier-sawtooth",
+      "title": "鋸齒波與諧波",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-damped-wave",
+      "title": "阻尼振盪與包絡",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-gaussian-width",
+      "title": "高斯形狀與半高全寬",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-sigmoid",
+      "title": "Sigmoid 與最大斜率",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-wave-packet",
+      "title": "波包與局部振盪",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-discrete-convolution",
+      "title": "離散卷積與重疊",
+      "tag": "訊號與波動"
+    },
+    {
+      "id": "studio-logistic-map",
+      "title": "Logistic 映射與軌道",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-discrete-decay",
+      "title": "離散衰減與半衰期",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-affine-recursion",
+      "title": "仿射遞迴與穩定點",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-harmonic-phase",
+      "title": "簡諧運動的相平面",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-pendulum-energy",
+      "title": "擺的能量與轉向",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-euler-growth",
+      "title": "Euler 方法與時間步長",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-midpoint-decay",
+      "title": "中點法的二階精度",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-predator-nullclines",
+      "title": "捕食模型與零增長線",
+      "tag": "動態系統"
+    },
+    {
+      "id": "studio-bezier-quadratic",
+      "title": "二次 Bézier 與切線",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-bezier-cubic",
+      "title": "三次 Bézier 的形狀控制",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-osculating-circle",
+      "title": "拋物線的密切圓",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-involute",
+      "title": "圓的漸開線與弧長",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-catenary",
+      "title": "懸鏈線與雙曲函數",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-superellipse",
+      "title": "超橢圓與形狀族",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-circle-inversion",
+      "title": "圓反演與距離乘積",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-stereographic",
+      "title": "圓的立體投影與有理參數",
+      "tag": "曲線幾何"
+    },
+    {
+      "id": "studio-poisson",
+      "title": "Poisson 分布與事件數",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-exponential-distribution",
+      "title": "指數分布與等待時間",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-geometric-memoryless",
+      "title": "幾何分布的無記憶性",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-beta-distribution",
+      "title": "Beta 分布與比例形狀",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-binomial-poisson",
+      "title": "二項分布的稀有事件極限",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-uniform-sum",
+      "title": "均勻分布相加與卷積",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-chebyshev",
+      "title": "Chebyshev 界與實際尾端",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-binary-entropy",
+      "title": "二元熵與不確定性",
+      "tag": "機率分布"
+    },
+    {
+      "id": "studio-symmetric-eigenspaces",
+      "title": "對稱矩陣與正交特徵方向",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-singular-values",
+      "title": "奇異值與單位圓影像",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-matrix-power",
+      "title": "三角矩陣的冪與耦合",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-matrix-exponential",
+      "title": "矩陣指數與連續旋轉",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-quadratic-form",
+      "title": "正定二次型與等值橢圓",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-householder",
+      "title": "Householder 反射與正交性",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-least-squares",
+      "title": "最小平方法與正交殘差",
+      "tag": "線性代數"
+    },
+    {
+      "id": "studio-condition-sensitivity",
+      "title": "條件數與解的敏感性",
+      "tag": "線性代數"
+    }
+  ]
+}

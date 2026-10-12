@@ -8,9 +8,9 @@
   const source = $('source');
   const snapshot = () => ({ kind: 'mathscript', version: 1, source: source.value, parameters: { ...parameters } });
   function notify(text) { clearTimeout(noticeTimer); $('studioNotice').textContent = text; $('studioNotice').hidden = false; noticeTimer = setTimeout(() => { $('studioNotice').hidden = true; }, 6000); }
-  function exportsEnabled(enabled) { for (const id of ['shareProject', 'exportSVG', 'exportHTML']) $(id).disabled = !enabled; }
+  function exportsEnabled(enabled) { for (const id of ['shareProject', 'exportSVG', 'exportHTML', 'exportCSV']) $(id).disabled = !enabled; }
   function status(text, state) { $('runStatus').textContent = text; $('runStatus').dataset.state = state || ''; }
-  function lineNumbers() { $('lineNumbers').textContent = Array.from({ length: source.value.split('\n').length }, (_, i) => i + 1).join('\n'); position(); }
+  function lineNumbers() { $('lineNumbers').textContent = Array.from({ length: source.value.split('\n').length }, (_, i) => i + 1).join('\n'); if (root.MathScriptEditor) $('sourceHighlight').innerHTML = root.MathScriptEditor.highlight(source.value); position(); }
   function position() { const before = source.value.slice(0, source.selectionStart), rows = before.split('\n'); $('cursorPosition').textContent = `第 ${rows.length} 行 · 第 ${rows.at(-1).length + 1} 欄`; }
   function historyButtons() { $('undoEdit').disabled = historyIndex <= 0; $('redoEdit').disabled = historyIndex >= history.length - 1; }
   function remember() {
@@ -80,6 +80,7 @@
     result.plots.forEach(p => { const item = doc.createElement('span'), color = doc.createElement('i'); color.style.backgroundColor = p.color; item.append(color, doc.createTextNode(p.label)); $('plotLegend').append(item); });
     $('warnings').replaceChildren(); for (const warning of result.warnings) { const li = doc.createElement('li'); li.textContent = warning; $('warnings').append(li); } $('warnings').hidden = !result.warnings.length;
     updateParameters(result); status('已更新', 'ready'); exportsEnabled(true); source.setAttribute('aria-invalid', 'false');
+    $('exportCSV').disabled = !result.outputs.some(o => o.type === 'table');
     $('diagnostics').dataset.error = 'false'; $('diagnostics').textContent = `${result.stats.statements} 個指令執行完成。${result.warnings.length ? '請查看預覽下方的取樣提醒。' : '調整參數，繼續探索。'}`; $('jumpError').hidden = true;
     $('engineStats').textContent = `${Math.round(result.stats.duration || 0)} ms · ${result.stats.evaluations.toLocaleString()} 次取樣${result.stats.cached ? ' · 已重用編譯' : ''}`;
   }
@@ -132,7 +133,7 @@
     applyDocument(value, { persist: false }); notify('已開啟分享作品；原有草稿仍保留，開始編輯後才更新草稿。'); return true;
   }
   source.addEventListener('input', () => { parameters = Object.create(null); markDirty(); lineNumbers(); remember(); scheduleSave(); if ($('autoRun').checked) debounce = setTimeout(execute, 450); });
-  source.addEventListener('scroll', () => { $('lineNumbers').scrollTop = source.scrollTop; });
+  source.addEventListener('scroll', () => { $('lineNumbers').scrollTop = source.scrollTop; $('sourceHighlight').scrollTop = source.scrollTop; $('sourceHighlight').scrollLeft = source.scrollLeft; });
   for (const event of ['click', 'keyup', 'select']) source.addEventListener(event, position);
   doc.addEventListener('keydown', event => {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); execute(); }
@@ -180,6 +181,7 @@
     catch { $('shareURL').focus(); $('shareURL').select(); $('shareFeedback').textContent = '請長按或使用 Ctrl／⌘ + C 複製已選取的連結。'; }
   };
   $('exportSVG').onclick = () => { if (!dirty && lastResult) download('mathscript-plot.svg', D.svg(lastResult), 'image/svg+xml;charset=utf-8'); };
+  $('exportCSV').onclick = () => { if (!dirty && lastResult) download('mathscript-values.csv', root.MathScriptEditor.csv(lastResult), 'text/csv;charset=utf-8'); };
   $('exportHTML').onclick = () => {
     if (dirty || !lastResult) return;
     let link; try { link = shareLink(); } catch { notify('作品過大，網頁內保留完整原始碼，編輯時請複製到 MathScript。'); link = new URL('./script.html', root.location.href).href; }
@@ -188,6 +190,15 @@
   root.addEventListener('hashchange', () => { try { loadHash(); } catch (error) { notify(`無法開啟分享：${error.message}`); } });
   root.addEventListener('pagehide', () => { saveDraft(); stop(true); worker?.terminate(); worker = null; });
   root.addEventListener('pageshow', event => { if (event.persisted) execute(); });
+  for (const [id, label] of root.MathScriptEditor.snippets) $('snippetSelect').append(new Option(label, id));
+  $('snippetSelect').onchange = () => {
+    const snippet = root.MathScriptEditor.snippets.find(s => s[0] === $('snippetSelect').value); if (!snippet) return;
+    const start = source.selectionStart, end = source.selectionEnd, before = start > 0 && source.value[start - 1] !== '\n' ? '\n' : '', after = source.value[end] === '\n' ? '' : '\n';
+    source.setRangeText(before + snippet[2] + after, start, end, 'end'); source.dispatchEvent(new Event('input', { bubbles: true })); source.focus(); $('snippetSelect').value = '';
+  };
+  $('syntaxColor').onchange = () => doc.body.classList.toggle('syntax-active', $('syntaxColor').checked);
+  $('focusScript').onclick = () => { const enabled = doc.body.classList.toggle('script-focused'); $('focusScript').setAttribute('aria-pressed', String(enabled)); $('focusScript').textContent = enabled ? '離開專注 ↙' : '專注 ↗'; };
+  doc.addEventListener('keydown', event => { if (event.key === 'Escape' && doc.body.classList.contains('script-focused')) $('focusScript').click(); });
   try {
     const stored = JSON.parse(root.localStorage.getItem(projectsKey) || '[]');
     if (!Array.isArray(stored) || stored.length > 20) throw Error('Invalid projects');

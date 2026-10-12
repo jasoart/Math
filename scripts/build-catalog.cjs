@@ -1,0 +1,15 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path');
+const { JSDOM, VirtualConsole } = require('jsdom');
+const root = path.resolve(__dirname, '..');
+const dom = new JSDOM(fs.readFileSync(path.join(root, 'index.html'), 'utf8'), { url: 'https://example.test/Math/index.html', runScripts: 'outside-only', pretendToBeVisual: true, virtualConsole: new VirtualConsole() });
+const w = dom.window, context = new Proxy({ measureText: text => ({ width: String(text).length * 7 }), createLinearGradient: () => ({ addColorStop() {} }), createRadialGradient: () => ({ addColorStop() {} }) }, { get: (o, k) => o[k] || (() => {}), set: (o, k, v) => (o[k] = v, true) });
+w.HTMLCanvasElement.prototype.getContext = () => context;
+w.HTMLCanvasElement.prototype.getBoundingClientRect = () => ({ width: 1100, height: 720, top: 0, left: 0, bottom: 720, right: 1100 });
+Object.defineProperty(w.HTMLCanvasElement.prototype, 'clientWidth', { get: () => 1100 }); Object.defineProperty(w.HTMLCanvasElement.prototype, 'clientHeight', { get: () => 720 });
+w.CanvasRenderingContext2D = class {}; w.structuredClone = structuredClone;
+for (const file of ['graph/math.js', 'graph/exact.js', 'engine/typeset.js', 'graph/render.js', 'engine/canvas.js', 'math-keyboard.js', 'extension-modules.js', 'exam-modules.js', 'expansion-modules.js', 'studio-modules.js', 'app.js']) new (require('node:vm').Script)(fs.readFileSync(path.join(root, file), 'utf8'), { filename: file }).runInContext(dom.getInternalVMContext());
+const catalog = w.MathLab.modules.map(m => ({ id: m.id, title: m.short || m.title, tag: m.tag }));
+if (new Set(catalog.map(m => m.id)).size !== catalog.length) throw Error('Duplicate module IDs');
+fs.writeFileSync(path.join(root, 'engine/catalog.json'), JSON.stringify({ version: 1, modules: catalog }, null, 2) + '\n');
+console.log(`Search catalog: ${catalog.length} modules`); w.close();

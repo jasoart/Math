@@ -37,12 +37,18 @@ async function importFile(name, text, size = text.length) {
   await $('projectFile').onchange({ target: $('projectFile') }); await pause(35);
 }
 (async () => {
-  for (const file of ['graph/math.js', 'graph/render.js', 'language/mathscript.js', 'language/examples.js', 'language/display.js', 'language/studio.js']) w.eval(read(file));
+  for (const file of ['graph/math.js', 'graph/render.js', 'language/mathscript.js', 'language/examples.js', 'language/display.js', 'language/editor-tools.js', 'language/studio.js']) w.eval(read(file));
   await pause(40);
   assert.equal($('runStatus').textContent, '已更新'); assert.ok($('plotStage').querySelector('svg path'));
   assert.equal(d.querySelectorAll('.parameter-row').length, 3); assert.equal($('shareProject').disabled, false);
   $('autoRun').checked = false;
+  assert.ok($('sourceHighlight').querySelector('.syntax-keyword'));
+  $('syntaxColor').checked = false; $('syntaxColor').dispatchEvent(new w.Event('change')); assert.ok(!d.body.classList.contains('syntax-active'));
+  $('syntaxColor').checked = true; $('syntaxColor').dispatchEvent(new w.Event('change'));
+  $('focusScript').click(); assert.ok(d.body.classList.contains('script-focused')); d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); assert.ok(!d.body.classList.contains('script-focused'));
   const initialSource = $('source').value;
+  $('source').setSelectionRange($('source').value.length, $('source').value.length); change($('snippetSelect'), 'table'); assert.match($('source').value, /step 0.5/);
+  $('undoEdit').click(); await pause(35); assert.equal($('source').value, initialSource);
   change($('exampleSelect'), 'motion'); await pause(35);
   $('undoEdit').click(); await pause(35); assert.equal($('source').value, initialSource);
   $('redoEdit').click(); await pause(35); assert.match($('source').value, /速度圖/);
@@ -57,6 +63,9 @@ async function importFile(name, text, size = text.length) {
   $('exportHTML').click(); assert.equal(downloads.at(-1).name, 'mathscript-publication.html'); const published = await downloads.at(-1).blob.text(); assert.ok(published.includes('<svg')); assert.ok(published.includes('靜態快照'));
   $('exportSVG').click(); const svg = await downloads.at(-1).blob.text(); const svgDOM = new JSDOM(svg, { contentType: 'image/svg+xml' }); assert.equal(svgDOM.window.document.documentElement.tagName, 'svg'); svgDOM.window.close();
   $('exportProject').click(); const exported = JSON.parse(await downloads.at(-1).blob.text()); assert.equal(exported.parameters.a, 3);
+  await execute('table x^2 from -1 to 1 step .5'); assert.equal($('exportCSV').disabled, false); $('exportCSV').click(); assert.equal(downloads.at(-1).name, 'mathscript-values.csv'); assert.ok((await downloads.at(-1).blob.text()).includes('0.5,0.25'));
+  await execute(exported.source); assert.equal($('exportCSV').disabled, true);
+  const restoredSlider = d.querySelector('input[type=range]'); restoredSlider.value = '3'; restoredSlider.dispatchEvent(new w.Event('input', { bubbles: true })); await pause(140);
   $('saveProject').click(); assert.equal(JSON.parse(w.localStorage.getItem('mathlab-mathscript-projects-v1')).length, 1);
   const projectId = $('projectSelect').value; assert.ok(projectId);
   await execute('print 99'); change($('projectSelect'), projectId); await pause(35); assert.equal($('source').value, exported.source); assert.match($('outputs').textContent, /12/);
