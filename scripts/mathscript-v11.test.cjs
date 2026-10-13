@@ -42,7 +42,7 @@ test('assertions expose actionable lines, scatter leaves holes and shares table 
   assert.throws(()=>M.run('table x from 1 to .9'),M.ScriptError);
   assert.throws(()=>M.run(Array(11).fill('table x from 1 to 200').join('\n')),/2000 列/);
   assert.throws(()=>M.run(Array(10).fill('scatter x from 1 to 200').join('\n')+'\npoint (0,0)'),/2000 點/);
-  const pub=D.publication(pass,'assert 1','https://example.test');assert.match(pub,/MATHSCRIPT 1.1.0/);
+  const pub=D.publication(pass,'assert 1','https://example.test');assert.match(pub,/MATHSCRIPT 1.2.0/);
 });
 test('nested iteration still obeys the shared interpreter budget',()=>{
   assert.throws(()=>M.run('print sum(sum(j+i,j,1,5000),i,1,5000)'),/計算上限/);

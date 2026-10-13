@@ -1,6 +1,6 @@
 'use strict';
 // Generated shell inventory is refreshed by node scripts/build-pwa.cjs before release.
-const BUILD = 'cd5f5c16e2df245ce68d';
+const BUILD = 'bda97bc4001b50efb6ce';
 const PRECACHE = [
   "academy.html",
   "academy/academy.css",
@@ -48,6 +48,7 @@ const PRECACHE = [
   "language/mathscript.js",
   "language/studio.css",
   "language/studio.js",
+  "language/values.js",
   "language/worker.js",
   "learning.js",
   "manifest.webmanifest",

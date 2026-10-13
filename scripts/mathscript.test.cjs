@@ -70,7 +70,7 @@ test('all shipped examples produce finite, serializable geometry and valid SVG',
   for (const segment of asymptote.plots[0].segments) assert.ok(segment.every(p => p[0] > 0) || segment.every(p => p[0] < 0));
 });
 test('language cannot access JavaScript, DOM, network or prototype properties', () => {
-  for (const code of ['print window.alert(1)', 'print constructor(1)', 'print __proto__', 'print fetch(1)', 'let a = globalThis', 'print [1,2]', 'print eval(1)', 'print 2x', 'print 1e999']) assert.throws(() => M.run(code), M.ScriptError, code);
+  for (const code of ['print window.alert(1)', 'print constructor(1)', 'print __proto__', 'print fetch(1)', 'let a = globalThis', 'print [1,2].map(1)', 'print eval(1)', 'print 2x', 'print 1e999']) assert.throws(() => M.run(code), M.ScriptError, code);
   const payload = 'title "<img src=x onerror=alert(1)>"\nplot x label "</script><script>alert(1)</script>"';
   const result = M.run(payload), html = D.publication(result, payload, 'https://example.test/Math/script.html');
   assert.doesNotMatch(html, /<script>|<img /); assert.ok(html.includes('&lt;script&gt;'));
@@ -102,5 +102,5 @@ test('actual worker script caches at most 8 programs, returns request IDs and st
 });
 test('offline inventory includes editor, worker imports, and versioned publication assets', () => {
   const files = require('./build-pwa.cjs').inventory();
-  for (const name of ['script.html', 'language/worker.js', 'language/mathscript.js', 'language/studio.js', 'language/display.js', 'language/studio.css', 'graph/math.js', 'graph/render.js']) assert.ok(files.includes(name), name);
+  for (const name of ['script.html', 'language/worker.js', 'language/mathscript.js', 'language/values.js', 'language/studio.js', 'language/display.js', 'language/studio.css', 'graph/math.js', 'graph/render.js']) assert.ok(files.includes(name), name);
 });

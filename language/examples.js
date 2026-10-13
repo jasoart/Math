@@ -94,8 +94,8 @@ print (upper*sqrt(1+upper^2)+ln(upper+sqrt(1+upper^2)))/2 label "反導函數核
     { id: 'nested-reduction', name: '雙重加總與區域變數', tag: '加總 · 作用域', source: `title "方格上的乘積總和"
 param rows = 4 from 1 to 20 step 1
 param columns = 5 from 1 to 20 step 1
-let total=sum(sum(i*j,j,1,columns),i,1,rows)
-print total label "雙重加總"
+let totalValue=sum(sum(i*j,j,1,columns),i,1,rows)
+print totalValue label "雙重加總"
 print rows*(rows+1)*columns*(columns+1)/4 label "分離乘積核對"
 view 0,rows+1,0,rows*columns*(columns+1)/2*1.2
 scatter sum(x*j,j,1,columns) from 1 to rows step 1` },
@@ -126,6 +126,102 @@ plot velocity(x) label "速率"
 plot accumulated(x) color "#4f46e5" label "累積量"
 print accumulated(3) label "三個時間單位的累積"
 assert abs(accumulated(3)-(exp(3*rate)-1)/rate)<1e-7 label "反導函數核對"` }
+  );
+  examples.push(
+    { id: 'vector-projection', name: '向量投影與垂直分解', tag: '向量 · 內積', source: `# 訊號：把向量分成沿方向與垂直方向兩部分。
+title "向量的兩種方向"
+param horizontal = 3 from -4 to 4 step 0.2
+let u = [horizontal, 4]
+let direction = [2, 1]
+let projection = dot(u,direction)/dot(direction,direction)*direction
+let perpendicular = u-projection
+print projection label "平行分量"
+print perpendicular label "垂直分量"
+assert abs(dot(perpendicular,direction))<1e-10 label "內積為零"
+print cross([1,0,0],[0,1,0]) label "三維右手外積"
+view -5,6,-3,7
+polyline [0,component(u,1)], [0,component(u,2)] label "原向量"
+polyline [0,component(projection,1)], [0,component(projection,2)] color "#4f46e5" label "正射影"
+polyline [component(projection,1),component(u,1)], [component(projection,2),component(u,2)] color "#b7742a" label "垂直分量"
+# 陷阱：投影分母為方向向量長度的平方；零向量不可當方向。` },
+    { id: 'matrix-transform', name: '矩陣旋轉一個正方形', tag: '矩陣 · 幾何', source: `title "從矩陣看旋轉"
+param angle = 0.5 from -3.14 to 3.14 step 0.02
+let rotation = [[cos(angle),-sin(angle)],[sin(angle),cos(angle)]]
+let polygon = [[0,2,2,0,0],[0,0,2,2,0]]
+let transformed = matmul(rotation,polygon)
+print rotation label "旋轉矩陣"
+print transformed label "變換後的座標"
+print det(rotation) label "面積倍率"
+assert norm(matmul(transpose(rotation),rotation)-identity(2))<1e-10 label "正交矩陣核對"
+view -4,4,-3,4
+polyline row(polygon,1), row(polygon,2) color "#b7742a" label "原正方形"
+polyline row(transformed,1), row(transformed,2) color "#4f46e5" label "旋轉後"
+# 每一欄是一個頂點；用 matmul 做矩陣乘法，* 只用於純量倍乘。` },
+    { id: 'linear-system', name: '三元線性系統與殘差', tag: '矩陣 · 求解', source: `title "求解之後，再代回去"
+param forcing = 8 from -8 to 12 step 1
+let coefficients = [
+  [3, 2, -1],
+  [2, -2, 4],
+  [-1, 0.5, -1]
+]
+let rhs = [1, -2, forcing]
+let solution = solve(coefficients,rhs)
+let residual = matmul(coefficients,solution)-rhs
+print solution label "未知數解向量"
+print residual label "代回原式的殘差"
+print det(coefficients) label "非零行列式"
+assert norm(residual)<1e-9 label "三個方程式同時成立"
+view 0,4,-60,60
+points [1,2,3], solution label "解的分量"
+# 快捷：直接 solve(A,b)；不必先算 inverse(A)。奇異矩陣沒有唯一解。` },
+    { id: 'data-regression', name: '從資料推導迴歸直線', tag: '統計 · 最小平方法', source: `title "讓殘差平方和最小"
+param adjustment = 0 from -2 to 2 step 0.1
+let xs = [1,2,3,4,5]
+let ys = [2,4,5,4,6+adjustment]
+let centerX = mean(xs)
+let centerY = mean(ys)
+let centeredX = sample(component(xs,k)-centerX,k,1,5,1)
+let centeredY = sample(component(ys,k)-centerY,k,1,5,1)
+let slope = dot(centeredX,centeredY)/dot(centeredX,centeredX)
+let intercept = centerY-slope*centerX
+fn fitted(u)=slope*u+intercept
+let residuals = sample(component(ys,k)-fitted(component(xs,k)),k,1,5,1)
+print slope label "斜率"
+print intercept label "截距"
+print residuals label "每筆殘差"
+print dot(residuals,residuals) label "殘差平方和"
+assert abs(total(residuals))<1e-9 label "含截距的殘差和為零"
+view 0,6,0,9
+points xs,ys
+plot fitted(x) color "#4f46e5" label "最小平方法"
+# 陷阱：所有 x 相同時分母為零，斜率無法辨識。` },
+    { id: 'sampled-wave', name: '把連續函數變成資料', tag: '取樣 · 折線', source: `title "取樣密度如何影響圖形？"
+param frequency = 1 from 0.5 to 4 step 0.1
+let times = linspace(0,6,31)
+let amplitudes = sample(sin(frequency*u),u,0,6,0.2)
+print amplitudes label "31 筆取樣值"
+print mean(amplitudes) label "取樣平均"
+print stdev(amplitudes) label "母體標準差"
+view 0,6,-1.5,1.5
+plot sin(frequency*x) color "#b7742a" label "原函數"
+polyline times,amplitudes color "#4f46e5" label "連接取樣值"
+points times,amplitudes
+# 折線只連接已知資料；點與點之間並非原函數的精確形狀。` },
+    { id: 'statistics-spread', name: '離群值、中心與離散程度', tag: '資料 · 統計', source: `title "一筆資料改變了什麼？"
+param lastValue = 12 from 6 to 30 step 1
+let observations = [4,5,5,6,6,6,lastValue]
+let average = mean(observations)
+print observations label "原始資料"
+print average label "平均數"
+print median(observations) label "中位數"
+print variance(observations) label "母體變異數（除以 n）"
+print samplevar(observations) label "樣本變異數（除以 n−1）"
+print stdev(observations) label "母體標準差"
+assert abs(samplevar(observations)*6-variance(observations)*7)<1e-9 label "兩種分母核對"
+view 0,8,0,32
+points linspace(1,7,7),observations
+plot average color "#4f46e5" label "平均數"
+# 變體：拖動最後一筆，比較平均數與中位數對離群值的敏感度。` }
   );
   if (typeof module === 'object' && module.exports) module.exports = examples;
   else root.MathScriptExamples = examples;

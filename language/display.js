@@ -36,7 +36,12 @@
   }
   function outputs(result) {
     return result.outputs.map(o => {
-      if (o.type === 'table') return `<details class="result-table" open><summary>數值表 · 第 ${o.line} 行 · ${o.rows.length} 列</summary><div class="table-scroll"><table><thead><tr><th scope="col">x</th><th scope="col">f(x)</th></tr></thead><tbody>${o.rows.map(row => `<tr><td>${number(row[0])}</td><td>${number(row[1])}</td></tr>`).join('')}</tbody></table></div></details>`;
+      if (o.type === 'table') return `<details class="result-table" open><summary>${escape(o.label || '數值表')} · 第 ${o.line} 行 · ${o.rows.length} 列</summary><div class="table-scroll" tabindex="0" role="region" aria-label="數值表"><table><thead><tr><th scope="col">x</th><th scope="col">${o.columns ? 'y' : 'f(x)'}</th></tr></thead><tbody>${o.rows.map(row => `<tr><td>${number(row[0])}</td><td>${number(row[1])}</td></tr>`).join('')}</tbody></table></div></details>`;
+      if (o.type === 'vector' || o.type === 'matrix') {
+        const vector = o.type === 'vector', grid = vector ? o.value.map(v => [v]) : o.value;
+        const dimensions = vector ? `向量 · ${grid.length} 個分量` : `矩陣 · ${grid.length} × ${grid[0].length}`;
+        return `<details class="result-table result-data" open><summary>${escape(o.label)} <small>${dimensions} · 第 ${o.line} 行</small></summary><div class="table-scroll" tabindex="0" role="region" aria-label="${escape(o.label)}"><table><thead><tr><th scope="col">${vector ? '索引' : '列／欄'}</th>${grid[0].map((_, j) => `<th scope="col">${vector ? '值' : j + 1}</th>`).join('')}</tr></thead><tbody>${grid.map((row, i) => `<tr><th scope="row">${i + 1}</th>${row.map(v => `<td>${number(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`;
+      }
       const v = o.type === 'assert' ? '通過 ✓' : o.type === 'roots' ? o.values.map(number).join('、') || '未找到零點（有限取樣）' : number(o.value);
       return `<div class="result-value"><span>${escape(o.label)}</span><strong>${escape(v)}</strong>${o.type === 'integral' ? `<small>估計誤差 ${number(o.error)}</small>` : ''}</div>`;
     }).join('');

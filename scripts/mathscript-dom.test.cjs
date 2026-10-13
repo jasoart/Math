@@ -37,7 +37,7 @@ async function importFile(name, text, size = text.length) {
   await $('projectFile').onchange({ target: $('projectFile') }); await pause(35);
 }
 (async () => {
-  for (const file of ['graph/math.js', 'graph/render.js', 'language/mathscript.js', 'language/examples.js', 'language/display.js', 'language/editor-tools.js', 'language/studio.js']) w.eval(read(file));
+  for (const file of ['graph/math.js', 'graph/render.js', 'language/values.js', 'language/mathscript.js', 'language/examples.js', 'language/display.js', 'language/editor-tools.js', 'language/studio.js']) w.eval(read(file));
   await pause(40);
   assert.equal($('runStatus').textContent, '已更新'); assert.ok($('plotStage').querySelector('svg path'));
   assert.equal(d.querySelectorAll('.parameter-row').length, 3); assert.equal($('shareProject').disabled, false);
@@ -64,6 +64,13 @@ async function importFile(name, text, size = text.length) {
   $('exportSVG').click(); const svg = await downloads.at(-1).blob.text(); const svgDOM = new JSDOM(svg, { contentType: 'image/svg+xml' }); assert.equal(svgDOM.window.document.documentElement.tagName, 'svg'); svgDOM.window.close();
   $('exportProject').click(); const exported = JSON.parse(await downloads.at(-1).blob.text()); assert.equal(exported.parameters.a, 3);
   await execute('table x^2 from -1 to 1 step .5'); assert.equal($('exportCSV').disabled, false); $('exportCSV').click(); assert.equal(downloads.at(-1).name, 'mathscript-values.csv'); assert.ok((await downloads.at(-1).blob.text()).includes('0.5,0.25'));
+  await execute('print solve([[2,1],[1,-1]],[5,1]) label "<img src=x>"\nprint inverse([[2,1],[1,3]])\npolyline [0,1],[2,3]');
+  assert.equal($('runStatus').textContent,'已更新'); assert.equal($('exportCSV').disabled,false); assert.equal(d.querySelectorAll('#outputs .result-data').length,2); assert.equal(d.querySelector('#outputs img'),null);
+  assert.match($('outputs').textContent,/矩陣 · 2 × 2/); assert.match($('outputs').textContent,/向量 · 2 個分量/);
+  $('exportCSV').click(); assert.match(await downloads.at(-1).blob.text(),/block,type,line,row,column,value/);
+  $('exportHTML').click(); assert.match(await downloads.at(-1).blob.text(),/矩陣 · 2 × 2/);
+  $('exportProject').click(); const typedDocument=await downloads.at(-1).blob.text(); await importFile('vectors.mathscript.json',typedDocument); assert.equal(d.querySelectorAll('#outputs .result-data').length,2);
+  await execute('title "型別錯誤"\nplot [x]'); assert.match($('diagnostics').textContent,/第 2 行/); assert.equal($('exportCSV').disabled,true);
   await execute(exported.source); assert.equal($('exportCSV').disabled, true);
   const restoredSlider = d.querySelector('input[type=range]'); restoredSlider.value = '3'; restoredSlider.dispatchEvent(new w.Event('input', { bubbles: true })); await pause(140);
   $('saveProject').click(); assert.equal(JSON.parse(w.localStorage.getItem('mathlab-mathscript-projects-v1')).length, 1);

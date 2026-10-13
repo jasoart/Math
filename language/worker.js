@@ -1,5 +1,5 @@
 'use strict';
-importScripts('../graph/math.js', '../graph/render.js', './mathscript.js');
+importScripts('../graph/math.js', '../graph/render.js', './values.js', './mathscript.js');
 const programs = new Map();
 self.onmessage = event => {
   const { id, source, parameters, width, height } = event.data || {}, started = performance.now();

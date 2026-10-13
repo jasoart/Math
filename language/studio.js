@@ -80,7 +80,7 @@
     result.plots.forEach(p => { const item = doc.createElement('span'), color = doc.createElement('i'); color.style.backgroundColor = p.color; item.append(color, doc.createTextNode(p.label)); $('plotLegend').append(item); });
     $('warnings').replaceChildren(); for (const warning of result.warnings) { const li = doc.createElement('li'); li.textContent = warning; $('warnings').append(li); } $('warnings').hidden = !result.warnings.length;
     updateParameters(result); status('已更新', 'ready'); exportsEnabled(true); source.setAttribute('aria-invalid', 'false');
-    $('exportCSV').disabled = !result.outputs.some(o => o.type === 'table');
+    $('exportCSV').disabled = !root.MathScriptEditor.hasData(result);
     $('diagnostics').dataset.error = 'false'; $('diagnostics').textContent = `${result.stats.statements} 個指令執行完成。${result.warnings.length ? '請查看預覽下方的取樣提醒。' : '調整參數，繼續探索。'}`; $('jumpError').hidden = true;
     $('engineStats').textContent = `${Math.round(result.stats.duration || 0)} ms · ${result.stats.evaluations.toLocaleString()} 次取樣${result.stats.cached ? ' · 已重用編譯' : ''}`;
   }

@@ -1,19 +1,21 @@
-/* MathScript 1.1: bounded, declarative mathematics. No JavaScript evaluation. */
+/* MathScript 1.2: bounded, declarative mathematics. No JavaScript evaluation. */
 (function (root, factory) {
   'use strict';
   const api = factory(typeof module === 'object' && module.exports ? require('../graph/math.js') : root.GraphMath,
-    typeof module === 'object' && module.exports ? require('../graph/render.js') : root.GraphRender);
+    typeof module === 'object' && module.exports ? require('../graph/render.js') : root.GraphRender,
+    typeof module === 'object' && module.exports ? require('./values.js') : root.MathScriptValues);
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.MathScript = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (math, render) {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (math, render, data) {
   'use strict';
-  const VERSION = '1.1.0';
-  const LIMITS = Object.freeze({ source: 24000, tokens: 6000, statements: 160, depth: 48, steps: 1500000, plots: 12, rows: 200, parameters: 12, points: 2000, totalRows: 2000 });
+  const VERSION = '1.2.0';
+  const LIMITS = Object.freeze({ source: 24000, tokens: 6000, statements: 160, depth: 48, steps: 1500000, plots: 12, rows: 200, parameters: 12, points: 2000, totalRows: 2000, dataCells: 4096 });
   const palette = ['#087f73', '#b7742a', '#6468b0', '#bd5368', '#367ca5', '#749447'];
   const aliases = { '標題': 'title', '參數': 'param', '設': 'let', '函數': 'fn', '視窗': 'view', '繪圖': 'plot', '曲線': 'curve', '點': 'point', '顯示': 'print', '表格': 'table', '積分': 'integral', '求根': 'roots', '從': 'from', '到': 'to', '每': 'step', '顏色': 'color', '標籤': 'label', '微分': 'derivative', '切線': 'tangent', '於': 'at', '加總': 'sum', '連乘': 'product', '驗證': 'assert' };
   aliases['散點'] = 'scatter';
+  aliases['資料點'] = 'points'; aliases['折線'] = 'polyline';
   const keywords = new Set([...Object.values(aliases)]);
-  const scoped = new Set(['sum', 'product', 'diff', 'integrate']);
+  const scoped = new Set(['sum', 'product', 'diff', 'integrate', 'sample']);
   function factorial(n) { if (!Number.isInteger(n) || n < 0 || n > 170) return NaN; let v = 1; for (let i = 2; i <= n; i++) v *= i; return v; }
   function choose(n, k) { if (![n, k].every(Number.isSafeInteger) || k < 0 || n < k || n > 1000) return NaN; let v = 1; k = Math.min(k, n - k); for (let i = 1; i <= k; i++) v = v * (n - k + i) / i; return v; }
   function gcd(a, b) { if (![a, b].every(Number.isSafeInteger)) return NaN; a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; }
@@ -28,9 +30,12 @@
     ['atan2', [Math.atan2, 2]], ['hypot', [Math.hypot, 2]], ['factorial', [factorial, 1]], ['choose', [choose, 2]],
     ['gcd', [gcd, 2]], ['lcm', [(a, b) => { const d = gcd(a, b), v = d === 0 ? 0 : Math.abs(a / d * b); return Number.isSafeInteger(v) ? v : NaN; }, 2]],
     ['mod', [(a, b) => b > 0 ? ((a % b) + b) % b : NaN, 2]],
-    ['sum', [null, 4]], ['product', [null, 4]], ['diff', [null, 3]], ['integrate', [null, 4]]
+    ['sum', [null, 4]], ['product', [null, 4]], ['diff', [null, 3]], ['integrate', [null, 4]], ['sample', [null, 5]], ...data.builtins
   ]);
   const constants = new Map([['pi', Math.PI], ['e', Math.E]]);
+  // New 1.2 names are contextual: preserve identifiers in existing shared
+  // programs; a lexical user function takes precedence over a new builtin.
+  const contextual = new Set([...data.builtins.keys(), 'sample', 'points', 'polyline']);
   const forbidden = new Set(['__proto__', 'prototype', 'constructor']);
   class ScriptError extends Error {
     constructor(message, token = {}) { super(message); this.name = 'MathScriptError'; this.line = token.line || 1; this.column = token.column || 1; }
@@ -62,7 +67,7 @@
       if (num) { i += num[0].length; column += num[0].length; const value = Number(num[0]); if (!Number.isFinite(value)) fail('數字超出可計算範圍。', { line: l, column: c }); push('number', value, start, l, c); continue; }
       const word = source.slice(i).match(/^[\p{L}_][\p{L}\p{N}_]*/u);
       if (word) { i += word[0].length; column += word[0].length; const value = word[0] === 'π' ? 'pi' : aliases[word[0]] || word[0]; push('name', value, start, l, c); continue; }
-      const op = source.slice(i).match(/^(?:<=|>=|==|!=|&&|\|\||\*\*|[+\-*/^(),=<>−×÷≤≥])/);
+      const op = source.slice(i).match(/^(?:<=|>=|==|!=|&&|\|\||\*\*|[+\-*/^(),=<>\[\]−×÷≤≥])/);
       if (!op) fail(`不支援「${ch}」。`, { line: l, column: c });
       i += op[0].length; column += op[0].length;
       const value = ({ '−': '-', '×': '*', '÷': '/', '≤': '<=', '≥': '>=', '**': '^' })[op[0]] || op[0];
@@ -75,23 +80,30 @@
     const peek = () => tokens[pos], take = () => tokens[pos++];
     const is = value => peek().value === value;
     function need(value) { if (!is(value)) fail(`這裡需要 ${value}。`, peek()); return take(); }
-    function name() { const t = take(); if (t.kind !== 'name' || keywords.has(t.value) || builtins.has(t.value) || constants.has(t.value) || forbidden.has(t.value) || t.value.length > 32) fail('請使用不超過 32 字且不與指令、常數或內建函數重複的名稱。', t); return t.value; }
+    function name() { const t = take(); if (t.kind !== 'name' || ((keywords.has(t.value) || builtins.has(t.value)) && !contextual.has(t.value)) || constants.has(t.value) || forbidden.has(t.value) || t.value.length > 32) fail('請使用不超過 32 字且不與保留指令、常數或函數重複的名稱。', t); return t.value; }
     function string() { const t = take(); if (t.kind !== 'string') fail('請用雙引號包住文字。', t); return t.value; }
     const precedence = { '||': 1, '&&': 2, '<': 3, '>': 3, '<=': 3, '>=': 3, '==': 3, '!=': 3, '+': 10, '-': 10, '*': 20, '/': 20, '^': 30 };
     function expr(min = 0) {
       if (++depth > LIMITS.depth) fail('算式巢狀過深。', peek());
       const t = take(); let node;
       if (t.kind === 'number') node = { type: 'number', value: t.value, token: t };
+      else if (t.kind === '[') {
+        const elements = [], lines = () => { while (peek().kind === 'endline' && peek().value === '\n') take(); };
+        lines(); if (is(']')) fail('向量與矩陣不可為空。', t);
+        elements.push(expr()); lines();
+        while (is(',')) { take(); lines(); elements.push(expr()); lines(); if (elements.length > data.LIMITS.vector) fail('向量最多 256 個分量。', t); }
+        need(']'); node = { type: 'array', elements, token: t };
+      }
       else if (t.kind === '+' || t.kind === '-') node = { type: 'unary', op: t.kind, child: expr(25), token: t };
       else if (t.kind === '(') { node = expr(); need(')'); }
-      else if (t.kind === 'name' && (!keywords.has(t.value) || scoped.has(t.value)) && !forbidden.has(t.value)) {
+      else if (t.kind === 'name' && (!keywords.has(t.value) || scoped.has(t.value) || contextual.has(t.value)) && !forbidden.has(t.value)) {
         if (is('(')) {
           take(); const args = []; if (!is(')')) { args.push(expr()); while (is(',')) { take(); args.push(expr()); } }
           need(')'); if (args.length > 8) fail('函數最多 8 個引數。', t);
           node = { type: 'call', name: t.value, args, token: t };
         } else node = { type: 'variable', name: t.value, token: t };
       } else fail('需要數字、變數或完整算式。', t);
-      node.height = node.height || 1 + Math.max(0, ...[node.child, ...(node.args || [])].filter(Boolean).map(n => n.height));
+      node.height = node.height || 1 + Math.max(0, ...[node.child, ...(node.args || []), ...(node.elements || [])].filter(Boolean).map(n => n.height));
       if (node.height > LIMITS.depth) fail('算式結構過深，請拆成多個 let 或函數。', t);
       while (Object.hasOwn(precedence, peek().kind) && precedence[peek().kind] >= min) {
         const op = take(), p = precedence[op.kind], right = expr(op.kind === '^' ? p : p + 1);
@@ -124,6 +136,7 @@
         case 'derivative': case 'tangent': s.value = expr(); need('at'); s.at = expr(); Object.assign(s, style()); break;
         case 'sum': case 'product': s.value = expr(); Object.assign(s, range(false)); Object.assign(s, style()); break;
         case 'curve': case 'point': need('('); s.x = expr(); need(','); s.y = expr(); need(')'); if (s.type === 'curve') Object.assign(s, range(false)); Object.assign(s, style()); break;
+        case 'points': case 'polyline': s.x = expr(); need(','); s.y = expr(); Object.assign(s, style()); break;
         case 'table': case 'scatter': case 'integral': case 'roots': s.value = expr(); Object.assign(s, range(s.type === 'table' || s.type === 'scatter')); break;
         default: fail(`不認得指令「${t.value || ''}」。請參考語法速查。`, t);
       }
@@ -134,38 +147,47 @@
   }
   function run(program, options = {}) {
     if (typeof program === 'string') program = compile(program);
-    let steps = 0, totalRows = 0; const overrides = options.parameters || {}, variables = new Map(constants), functions = new Map(), adCache = new Map();
+    let steps = 0, totalRows = 0, dataCells = 0, runtimeTypeError = null; const overrides = options.parameters || {}, variables = new Map(constants), functions = new Map(), adCache = new Map();
     const result = { version: VERSION, title: '未命名實驗', parameters: [], plots: [], points: [], outputs: [], warnings: [], view: { xmin: -6, xmax: 6, ymin: -4, ymax: 6 }, stats: {} };
-    function tick(token) { if (++steps > LIMITS.steps) fail('已達計算上限，請簡化函數或縮小取樣範圍。', token); }
+    function tick(token, cost = 1) { steps += cost; if (steps > LIMITS.steps) fail('已達計算上限，請簡化函數或縮小取樣範圍。', token); }
+    function typeFail(message, token) { runtimeTypeError = new ScriptError(message, token); throw runtimeTypeError; }
+    function scalar(v, token) { if (typeof v !== 'number') typeFail('此運算需要純量；向量請用 component，矩陣請用 entry 取出分量。', token); return v; }
+    function structured(fn, token) { try { return data.checked(fn()); } catch (error) { if (error instanceof ScriptError) throw error; typeFail(error.message, token); } }
     function validate(node, scope, funcs) {
       if (node.type === 'variable' && !scope.has(node.name)) fail(`尚未定義「${node.name}」。`, node.token);
       if (node.type === 'call') {
-        const fn = builtins.get(node.name) || funcs.get(node.name);
+        const fn = funcs.get(node.name) || builtins.get(node.name);
         if (!fn) fail(`尚未定義函數「${node.name}」。函數需先定義，且不支援遞迴。`, node.token);
         const count = Array.isArray(fn) ? fn[1] : fn.args.length;
         if (count !== node.args.length) fail(`${node.name} 需要 ${count} 個引數。`, node.token);
-        if (scoped.has(node.name)) {
+        if (scoped.has(node.name) && !funcs.has(node.name)) {
           const index = node.args[1];
-          if (index.type !== 'variable' || constants.has(index.name) || builtins.has(index.name)) fail('第二個引數需為區域變數名稱，例如 n 或 x。', index.token);
+          if (index.type !== 'variable' || constants.has(index.name) || (builtins.has(index.name) && !contextual.has(index.name))) fail('第二個引數需為區域變數名稱，例如 n 或 x。', index.token);
           const local = new Map(scope); local.set(index.name, 0); validate(node.args[0], local, funcs);
           for (const arg of node.args.slice(2)) validate(arg, scope, funcs);
           return;
         }
       }
-      for (const child of [node.child, node.left, node.right, ...(node.args || [])].filter(Boolean)) validate(child, scope, funcs);
+      for (const child of [node.child, node.left, node.right, ...(node.args || []), ...(node.elements || [])].filter(Boolean)) validate(child, scope, funcs);
     }
     function evaluate(node, scope = variables, funcs = functions, depth = 0) {
       tick(node.token); if (depth > LIMITS.depth) fail('函數呼叫過深。', node.token);
       if (node.type === 'number') return node.value;
       if (node.type === 'variable') return scope.get(node.name);
-      if (node.type === 'unary') return (node.op === '-' ? -1 : 1) * evaluate(node.child, scope, funcs, depth);
+      if (node.type === 'array') return structured(() => node.elements.map(n => evaluate(n, scope, funcs, depth)), node.token);
+      if (node.type === 'unary') { const v = evaluate(node.child, scope, funcs, depth), sign = node.op === '-' ? -1 : 1; if (!Array.isArray(v)) return sign * v; tick(node.token, data.entries(v).length); return structured(() => data.map(v, n => sign * n), node.token); }
       if (node.type === 'call') {
-        if (node.name === 'if') { const condition = evaluate(node.args[0], scope, funcs, depth); return Number.isFinite(condition) ? evaluate(node.args[condition ? 1 : 2], scope, funcs, depth) : NaN; }
-        if (scoped.has(node.name)) {
-          const local = new Map(scope), name = node.args[1].name, a = evaluate(node.args[2], scope, funcs, depth);
-          const fn = n => { local.set(name, n); return evaluate(node.args[0], local, funcs, depth + 1); };
+        if (node.name === 'if') { const condition = scalar(evaluate(node.args[0], scope, funcs, depth), node.token); return Number.isFinite(condition) ? evaluate(node.args[condition ? 1 : 2], scope, funcs, depth) : NaN; }
+        if (scoped.has(node.name) && !funcs.has(node.name)) {
+          const local = new Map(scope), name = node.args[1].name, a = scalar(evaluate(node.args[2], scope, funcs, depth), node.token);
+          const fn = n => { local.set(name, n); return scalar(evaluate(node.args[0], local, funcs, depth + 1), node.token); };
           if (node.name === 'diff') return analytic(node.args[0], name, scope, funcs, node.token).derivative({ x: a }, 'x');
-          const b = evaluate(node.args[3], scope, funcs, depth);
+          const b = scalar(evaluate(node.args[3], scope, funcs, depth), node.token);
+          if (node.name === 'sample') {
+            const step = scalar(evaluate(node.args[4], scope, funcs, depth), node.token), count = Math.floor((b - a) / step + 1e-9) + 1;
+            if (![a, b, step, count].every(Number.isFinite) || Math.max(Math.abs(a), Math.abs(b)) > 1e6 || b < a || step <= 0 || count < 1 || count > data.LIMITS.vector) fail('sample 需遞增範圍、正步長、端點在 ±1000000 內，最多 256 筆。', node.token);
+            return structured(() => Array.from({ length: count }, (_, i) => fn(Math.min(b, a + i * step))), node.token);
+          }
           if (node.name === 'integrate') {
             if (![a, b].every(Number.isFinite) || Math.max(Math.abs(a), Math.abs(b)) > 1e6) fail('積分範圍需在 ±1000000 內。', node.token);
             const integral = math.integrate(fn, a, b); if (!integral.converged) fail('integrate 未收斂或定義域無效。', node.token); return integral.value;
@@ -173,22 +195,28 @@
           return aggregate(fn, a, b, node.name, node.token);
         }
         const args = node.args.map(a => evaluate(a, scope, funcs, depth));
-        if (args.some(a => !Number.isFinite(a))) return NaN;
-        if (builtins.has(node.name)) return builtins.get(node.name)[0](...args);
+        if (data.builtins.has(node.name) && !funcs.has(node.name)) { tick(node.token, data.cost(node.name, args)); return structured(() => builtins.get(node.name)[0](...args), node.token); }
+        if (builtins.has(node.name) && !funcs.has(node.name)) { args.forEach(a => scalar(a, node.token)); return args.some(a => !Number.isFinite(a)) ? NaN : builtins.get(node.name)[0](...args); }
+        if (args.some(a => typeof a === 'number' && !Number.isFinite(a))) return NaN;
         const fn = funcs.get(node.name), local = new Map(fn.variables);
         fn.args.forEach((name, i) => local.set(name, args[i])); return evaluate(fn.value, local, fn.functions, depth + 1);
       }
       const l = evaluate(node.left, scope, funcs, depth);
-      if (!Number.isFinite(l)) return NaN;
+      if (node.op === '&&' || node.op === '||') scalar(l, node.token);
+      if (typeof l === 'number' && !Number.isFinite(l)) return NaN;
       if (node.op === '&&' && !l) return 0; if (node.op === '||' && l) return 1;
-      const r = evaluate(node.right, scope, funcs, depth); if (!Number.isFinite(r)) return NaN;
+      const r = evaluate(node.right, scope, funcs, depth);
+      if (typeof r === 'number' && !Number.isFinite(r)) return NaN;
+      if (Array.isArray(l) || Array.isArray(r)) { tick(node.token, data.entries(l).length + data.entries(r).length); return structured(() => data.binary(node.op, l, r), node.token); }
+      if (!Number.isFinite(r)) return NaN;
       switch (node.op) {
         case '+': return l + r; case '-': return l - r; case '*': return l * r; case '/': return l / r; case '^': return l ** r;
         case '<': return Number(l < r); case '>': return Number(l > r); case '<=': return Number(l <= r); case '>=': return Number(l >= r);
         case '==': return Number(l === r); case '!=': return Number(l !== r); case '&&': case '||': return Number(!!r);
       }
     }
-    function value(node) { validate(node, variables, functions); const v = evaluate(node); if (!Number.isFinite(v)) fail('此處需要有限實數，請檢查除以零或函數定義域。', node.token); return v; }
+    function typedValue(node) { validate(node, variables, functions); const v = evaluate(node); if (Array.isArray(v)) return v; if (!Number.isFinite(v)) fail('此處需要有限實數，請檢查除以零或函數定義域。', node.token); return v; }
+    function value(node) { return scalar(typedValue(node), node.token); }
     function aggregate(fn, a, b, type, token) {
       if (![a, b].every(Number.isSafeInteger) || Math.abs(a) > 1e6 || Math.abs(b) > 1e6 || b < a || b - a + 1 > 5000) fail('加總／連乘需遞增整數範圍，最多 5000 項，端點在 ±1000000 內。', token);
       let total = type === 'sum' ? 0 : 1, correction = 0;
@@ -204,17 +232,18 @@
         tick(n.token); if (depth > LIMITS.depth) fail('微分函數展開過深。', token);
         let text;
         if (n.type === 'number') text = String(n.value);
-        else if (n.type === 'variable') text = bindings.get(n.name);
+        else if (n.type === 'variable') { text = bindings.get(n.name); if (text === undefined) fail('微分只支援純量算式；請先取出資料分量或化簡。', n.token); }
+        else if (n.type === 'array') fail('微分只支援純量算式；請先取出資料分量或化簡。', n.token);
         else if (n.type === 'unary') text = `(${n.op}${emit(n.child, bindings, functions, depth + 1)})`;
         else if (n.type === 'binary') text = `(${emit(n.left, bindings, functions, depth + 1)}${n.op}${emit(n.right, bindings, functions, depth + 1)})`;
         else if (n.type === 'call') {
           const args = n.args.map(arg => emit(arg, bindings, functions, depth + 1));
-          if (builtins.has(n.name)) { if (!supported.has(n.name)) fail(`微分不支援 ${n.name}，請先化簡算式。`, n.token); text = `${n.name}(${args.join(',')})`; }
-          else { const fn = functions.get(n.name), local = new Map([...fn.variables].map(([k, v]) => [k, `(${v})`])); fn.args.forEach((k, i) => local.set(k, args[i])); text = emit(fn.value, local, fn.functions, depth + 1); }
+          if (builtins.has(n.name) && !functions.has(n.name)) { if (!supported.has(n.name)) fail(`微分不支援 ${n.name}，請先化簡算式。`, n.token); text = `${n.name}(${args.join(',')})`; }
+          else { const fn = functions.get(n.name), local = new Map([...fn.variables].filter(([,v]) => Number.isFinite(v)).map(([k, v]) => [k, `(${v})`])); fn.args.forEach((k, i) => local.set(k, args[i])); text = emit(fn.value, local, fn.functions, depth + 1); }
         }
         if (!text || text.length > 480) fail('微分展開式最多 480 字，請簡化函數。', token); return text;
       }
-      const bindings = new Map([...scope].map(([k, v]) => [k, `(${v})`])); bindings.set(variable, 'x');
+      const bindings = new Map([...scope].filter(([,v]) => Number.isFinite(v)).map(([k, v]) => [k, `(${v})`])); bindings.set(variable, 'x');
       try {
         const expression = emit(node, bindings, funcs);
         if (adCache.has(expression)) return adCache.get(expression);
@@ -222,13 +251,13 @@
       } catch (error) { if (error instanceof ScriptError) throw error; fail(`無法微分：${error.message}`, token); }
     }
     function declare(s) { if (variables.has(s.name) || functions.has(s.name)) fail(`「${s.name}」已定義，請使用另一個名稱。`, s.token); }
-    function sampler(node, variable) { const scope = new Map(variables), funcs = new Map(functions); scope.set(variable, 0); validate(node, scope, funcs); return n => { scope.set(variable, n); return evaluate(node, scope, funcs); }; }
+    function sampler(node, variable) { const scope = new Map(variables), funcs = new Map(functions); scope.set(variable, 0); validate(node, scope, funcs); return n => { scope.set(variable, n); return scalar(evaluate(node, scope, funcs), node.token); }; }
     function bounds(s, ascending) { const a = value(s.from), b = value(s.to); if (Math.max(Math.abs(a), Math.abs(b)) > 1e6 || (ascending === true && a >= b) || (ascending === 'table' && a > b)) fail('範圍需在 ±1000000 內；表格起點不可大於終點，曲線／求根需嚴格遞增。', s.token); return [a, b]; }
     const plots = [];
     for (const s of program.statements) {
       switch (s.type) {
         case 'title': result.title = s.value; break;
-        case 'let': declare(s); variables.set(s.name, value(s.value)); break;
+        case 'let': declare(s); variables.set(s.name, typedValue(s.value)); break;
         case 'param': {
           declare(s); const initial = value(s.value), [min, max] = bounds(s, true), step = s.step ? value(s.step) : (max - min) / 100;
           if (initial < min || initial > max || step <= 0 || step > max - min || (max - min) / step > 1e6) fail('參數初值需落在範圍內，步長需為合理的正數。', s.token);
@@ -255,7 +284,11 @@
         case 'point':
           if (result.points.length >= LIMITS.points) fail('散點與標記合計最多 2000 點。', s.token);
           result.points.push({ x: value(s.x), y: value(s.y), label: s.label || '', color: s.color || '#b7742a' }); break;
-        case 'print': result.outputs.push({ type: 'value', label: s.label || '計算結果', value: value(s.value), line: s.token.line }); break;
+        case 'print': {
+          const v = typedValue(s.value), dimensions = data.shape(v);
+          dataCells += data.entries(v).length; if (dataCells > LIMITS.dataCells) fail('print 合計最多輸出 4096 個數值。', s.token);
+          result.outputs.push({ type: dimensions.length === 2 ? 'matrix' : dimensions.length === 1 ? 'vector' : 'value', label: s.label || '計算結果', value: v, line: s.token.line }); break;
+        }
         case 'assert': {
           if (!value(s.value)) fail(s.label ? `驗證失敗：${s.label}` : '驗證條件不成立。', s.token);
           result.outputs.push({ type: 'assert', label: s.label || '驗證通過', value: 1, line: s.token.line }); break;
@@ -283,6 +316,21 @@
           if (s.type === 'scatter') for (const [x, y] of rows) if (y !== null) result.points.push({ x, y, label: '', color: palette[0] });
           result.outputs.push({ type: 'table', rows, line: s.token.line }); break;
         }
+        case 'points': case 'polyline': {
+          const xs = structured(() => data.vector(typedValue(s.x)), s.token), ys = structured(() => data.vector(typedValue(s.y)), s.token);
+          if (xs.length !== ys.length || xs.length > LIMITS.rows || (s.type === 'polyline' && xs.length < 2)) fail('資料座標需為等長向量；最多 200 點，折線至少 2 點。', s.token);
+          if ([...xs, ...ys].some(v => Math.abs(v) > 1e6)) fail('資料座標需在 ±1000000 內。', s.token);
+          totalRows += xs.length; if (totalRows > LIMITS.totalRows) fail('所有數值表合計最多 2000 列。', s.token);
+          const rows = xs.map((x, i) => [x, ys[i]]), color = s.color || palette[plots.length % palette.length], label = s.label || '資料';
+          if (s.type === 'points') {
+            if (result.points.length + rows.length > LIMITS.points) fail('散點與標記合計最多 2000 點。', s.token);
+            for (const [x, y] of rows) result.points.push({ x, y, color, label: s.label || '' });
+          } else {
+            if (plots.length >= LIMITS.plots) fail('最多同時繪製 12 條曲線。', s.token);
+            plots.push({ type: 'polyline', segments: [rows], color, label });
+          }
+          result.outputs.push({ type: 'table', rows, line: s.token.line, label, columns: ['x', 'y'] }); break;
+        }
         case 'integral': {
           const fn = sampler(s.value, 'x'), [a, b] = bounds(s, false), integral = math.integrate(fn, a, b);
           if (!integral.converged) fail('積分未收斂或區間有未定義值；不輸出不可靠的面積。', s.token);
@@ -301,15 +349,18 @@
     const height = Number.isFinite(options.height) ? Math.max(200, Math.min(1200, options.height)) : 540;
     let evaluations = 0;
     for (const plot of plots) {
+      if (plot.type === 'polyline') { result.plots.push(plot); continue; }
       const viewport = { ...result.view, width, height };
       const geometry = plot.type === 'plot' ? render.sampleFunction(plot.fn, viewport, { quality: 'balanced', maxEvaluations: 9000 }) : render.sampleParametric(plot.fn, ...plot.range, viewport, { quality: 'balanced', maxEvaluations: 9000 });
       // GraphRender catches sample exceptions to break paths. Surface a spent interpreter budget explicitly.
       if (steps > LIMITS.steps) fail('已達計算上限，請簡化函數或減少曲線。');
+      if (runtimeTypeError) throw runtimeTypeError;
       result.plots.push({ type: plot.type, color: plot.color, label: plot.label, segments: geometry.segments });
       evaluations += geometry.stats.evaluations;
       if (geometry.stats.budgetExhausted) result.warnings.push(`「${plot.label}」達取樣上限；請縮小視窗檢查細節。`);
       if (!geometry.segments.length) result.warnings.push(`「${plot.label}」在目前視窗沒有可顯示的線段。`);
     }
+    if (runtimeTypeError) throw runtimeTypeError;
     result.warnings = [...new Set(result.warnings)]; result.stats = { steps, evaluations, statements: program.statements.length };
     return result;
   }
