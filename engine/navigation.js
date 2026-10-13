@@ -7,7 +7,7 @@
   doc.body.append(dialog);
   const input = dialog.querySelector('input'), results = dialog.querySelector('#searchResults'), status = dialog.querySelector('#searchStatus');
   const workspaces = [
-    { title: '互動探索', tag: '196 個數學實驗', href: './index.html#experiment', keywords: '首頁 主題 模組 數學' },
+    { title: '互動探索', tag: '520 個數學實驗', href: './index.html#experiment', keywords: '首頁 主題 模組 數學' },
     { title: '模組學院', tag: '540 組情境 · 45 個模型', href: './academy.html', keywords: '模組 代數 幾何 微積分 教練 推導 變體' },
     { title: '每日練習', tag: '練習 · 解析 · 錯題', href: './practice.html', keywords: '題目 測驗 複習 學習' },
     { title: '平面繪圖', tag: '2D 自由畫布', href: './graph.html', keywords: '函數 曲線 繪圖 積分 畫布' },

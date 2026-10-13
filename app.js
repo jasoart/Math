@@ -4452,7 +4452,7 @@ const masteryModules = [
 ];
 
 modules.push(...masteryModules);
-modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []), ...(window.createExpansionModules?.() ?? []), ...(window.createStudioModules?.() ?? []));
+modules.push(...(window.createExtensionModules?.() ?? []), ...(window.createExamModules?.() ?? []), ...(window.createExpansionModules?.() ?? []), ...(window.createStudioModules?.() ?? []), ...(window.MathWebModules?.create((scene,title)=>window.MathScene.draw(scene,title)) ?? []));
 
 const advancedIds = new Set(["parabola", "ellipse", "hyperbola", "complex", "space-skew-lines", "riemann", "derivative-tangent", "derivative-optimization", "limit-continuity", "ftc-accumulation", "area-between-curves", "complex-demoivre", "conic-tangent", "infinite-geometric-series", "newton-method", "derivative-rules", "concavity-inflection", "optimization-box", "piecewise-continuity-ivt", "squeeze-theorem", "cross-section-volume", "complex-nth-roots", "conic-rotation-xy", "ellipse-parametric", "complex-conjugate-roots", "normal-approx-binomial"]);
 const enrichmentIds = new Set(["taylor", "contour-gradient", "sampling-clt"]);

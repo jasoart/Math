@@ -12,12 +12,12 @@ w.HTMLDialogElement.prototype.showModal = function () { this.open = true; }; w.H
 const saved = [{ id: 'quadratic-vertex', parameters: { a: 1.5, h: 2, k: -1, x: 3 } }]; w.localStorage.setItem('mathlab.recent.v1', JSON.stringify(saved));
 (async () => {
   for (const element of d.querySelectorAll('script[src]')) { const file = element.getAttribute('src').replace(/^\.\//, ''); if (file === 'engine/pwa.js') continue; new (require('node:vm').Script)(fs.readFileSync(path.join(root, file), 'utf8'), { filename: file }).runInContext(dom.getInternalVMContext()); }
-  const lab = w.MathLab; await wait(320); assert.equal(lab.modules.length, 196);
-  assert.equal(d.querySelectorAll('.topic-card').length, 6); const counts = [...d.querySelectorAll('.topic-card small')].map(e => Number(e.textContent.match(/\/ (\d+)/)[1])); assert.equal(counts.reduce((a, b) => a + b), 196);
+  const lab = w.MathLab; await wait(320); assert.equal(lab.modules.length, 520);
+  assert.equal(d.querySelectorAll('.topic-card').length, 6); const counts = [...d.querySelectorAll('.topic-card small')].map(e => Number(e.textContent.match(/\/ (\d+)/)[1])); assert.equal(counts.reduce((a, b) => a + b), 520);
   assert.match($('resumeTitle').textContent, /二次函數/); assert.equal(JSON.parse(w.localStorage.getItem('mathlab.recent.v1'))[0].id, 'quadratic-vertex', 'initial paint does not overwrite resume history');
   $('resumeExperiment').click(); assert.equal(lab.getState().moduleId, 'quadratic-vertex'); assert.equal(lab.getState().parameters.a, 1.5); assert.equal(lab.getState().parameters.h, 2);
   d.querySelector('.topic-card button').click(); const shown = d.querySelectorAll('#moduleList button'); assert.equal(shown.length, counts[0]); assert.match($('filterCount').textContent, /代數與函數/);
-  $('moduleSearch').value = 'SSA'; $('moduleSearch').dispatchEvent(new w.Event('input')); assert.equal(d.querySelectorAll('#moduleList button').length, 1, 'typing a new query exits category filter'); $('clearFilters').click(); assert.equal(d.querySelectorAll('#moduleList button').length, 196);
+  $('moduleSearch').value = 'SSA'; $('moduleSearch').dispatchEvent(new w.Event('input')); assert.equal(d.querySelectorAll('#moduleList button').length, 1, 'typing a new query exits category filter'); $('clearFilters').click(); assert.equal(d.querySelectorAll('#moduleList button').length, 520);
   $('practicedCheck').checked = true; $('practicedCheck').dispatchEvent(new w.Event('change')); assert.equal($('exploreProgress').value, 1); assert.match($('exploreSummary').textContent, /已探索 1/);
   const before = w.localStorage.getItem('mathlab.practice.v1'); d.querySelector('#dailyChoices button').click(); assert.notEqual(w.localStorage.getItem('mathlab.practice.v1'), before); const attempts = JSON.parse(w.localStorage.getItem('mathlab.practice.v1')).attempts; d.querySelector('#dailyChoices button').click(); assert.equal(JSON.parse(w.localStorage.getItem('mathlab.practice.v1')).attempts, attempts);
   assert.equal($('dashboardToday').textContent, '1'); assert.ok($('dailyResult').textContent.length > 10);
@@ -29,5 +29,5 @@ const saved = [{ id: 'quadratic-vertex', parameters: { a: 1.5, h: 2, k: -1, x: 3
     for (const element of page.querySelectorAll('[src], link[href], a[href]')) { const value = element.getAttribute('src') || element.getAttribute('href'); if (!value || value.includes(':') || value.startsWith('#')) continue; const target = value.split(/[?#]/)[0]; if (target) assert.ok(fs.existsSync(path.join(root, target)), file + ': local resource ' + target); }
     parsed.window.close();
   }
-  assert.deepEqual(errors, []); console.log('PASS dashboard/navigation: all 196 modules, category filters, resume parameters, progress/daily quiz, search, focus mode, and six-page local assets/anchors.');
+  assert.deepEqual(errors, []); console.log('PASS dashboard/navigation: all 520 modules, category filters, resume parameters, progress/daily quiz, search, focus mode, and six-page local assets/anchors.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => w.close());

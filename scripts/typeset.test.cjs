@@ -76,7 +76,7 @@ try {
     const file=script.getAttribute('src').replace(/^\.\//,'');
     new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file}).runInContext(dom.getInternalVMContext());
   }
-  equal(w.MathLab.modules.length,196);
+  equal(w.MathLab.modules.length,520);
   for(const module of w.MathLab.modules) {
     const defaults=Object.fromEntries(module.controls.map(control=>[control.key,control.defaultValue]));
     const cases=[defaults];
@@ -103,4 +103,4 @@ try {
   equal(w.MathLab.getCurrentModule().id,initial,'Invalid link preserves current module');
   assert.deepEqual(errors,[]);
 } finally {w.close();}
-process.stdout.write(`PASS ${checks} typography checks; ${catalogCases} module parameter cases, ${catalogLines} safe formula lines (${typesetLines} with MathML) across all 196 modules\n`);
+process.stdout.write(`PASS ${checks} typography checks; ${catalogCases} module parameter cases, ${catalogLines} safe formula lines (${typesetLines} with MathML) across all 520 modules\n`);

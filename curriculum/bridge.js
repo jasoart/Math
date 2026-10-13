@@ -1,0 +1,4 @@
+/* Browser navigation adapter. Expressions and experiment behavior live in modules.msw. */
+(()=>{'use strict';const link=document.getElementById('openInvestigationGraph');if(!link)return;
+function sync(){const m=window.MathLab.getCurrentModule();link.hidden=!m.graphSource;if(!m.graphSource)return;const state=window.GraphState.defaults();state.rows=[{text:m.graphSource,label:m.short,visible:true,color:'#4f46e5'}];for(const c of m.controls){if(!['a','h','k'].includes(c.key))continue;state.params[c.key]=c.value;state.paramText[c.key]=c.exact||String(c.value);state.ranges[c.key]=[c.min,c.max,c.step];state.rangeText[c.key]=state.ranges[c.key].map(String);}state.view.span=16;state.viewText.span='16';link.href='./graph.html#g='+encodeURIComponent(JSON.stringify(window.GraphState.validate(state)));}
+document.addEventListener('mathlab:statechange',sync);document.addEventListener('mathlab:modulechange',sync);sync();})();

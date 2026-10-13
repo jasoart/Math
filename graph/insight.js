@@ -80,7 +80,8 @@
     if(n.kind==='number')return String(n.value);if(n.kind==='constant')return n.name;if(n.kind==='variable')return n.name;
     if(n.kind==='unary')return`${n.op}(${stringify(n.child)})`;if(n.kind==='degree')return`(${stringify(n.child)})*pi/180`;
     if(n.kind==='call')return`${n.name}(${n.args.map(stringify).join(',')})`;
-    if(n.kind==='binary'&&!['&&','||'].includes(n.op))return`(${stringify(n.left)})${n.op}(${stringify(n.right)})`;
+    if(n.kind==='comparison')return n.args.map((a,i)=>(i?n.ops[i-1]:'')+'('+stringify(a)+')').join('');
+    if(n.kind==='binary')return`(${stringify(n.left)})${n.op}(${stringify(n.right)})`;
     return null;
   }
   function symbolicDerivative(tree,params={}){
@@ -201,5 +202,14 @@
     const d=symbolicDerivative(tree,scope);if(d){result.derivative=d;result.lines.push(`f′(x)=${d}`);result.notes.push('導數式適用於原式有定義且可微的位置；尖點、端點與分母為零處須另行判斷。');}
     return finish();
   }
-  const api=Object.freeze({describe});if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GraphInsight=api;
+  function algebra(parsed,params={}) {
+    if(typeof parsed==='string')parsed=M.parse(parsed);
+    if(parsed?.kind!=='function'||parsed.restricted||count(parsed.trees?.[0])>MAX_NODES)return null;
+    const r=rational(parsed.trees[0],params);
+    if(!r||![r.p,r.q,...r.constraints].every(univariate))return null;
+    const coefficients=p=>Array.from({length:degree(p)+1},(_,i)=>coefficient(p,i));
+    return {numerator:coefficients(r.p),denominator:coefficients(r.q),constraints:r.constraints.map(coefficients)};
+  }
+  function expression(parsed,index=0) {if(typeof parsed==='string')parsed=M.parse(parsed);return parsed?.trees?.[index]?stringify(parsed.trees[index]):null;}
+  const api=Object.freeze({describe,algebra,expression});if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GraphInsight=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

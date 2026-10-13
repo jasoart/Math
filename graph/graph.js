@@ -12,6 +12,31 @@
   let state=defaultState(), compiled=[], width=800,height=500, points=[], frame=0, analysisTimer=0, noticeTimer=0, saveTimer=0;
   let history=null, historyTimer=0, animation=null, integral=null, tableData=null, analysisGeneration=0;
   let labelItems=[],labelObstacles=[],curveObstacles=[],renderStats={},exporting=false,interactionUntil=0,detailTimer=0,frameQuality=null;
+  let studyOverlay=null,guideKey='',guideData=[];
+  function studyChanged(){
+    if(studyOverlay&&studyOverlay.key!==functionKey())studyOverlay=null;
+    window.dispatchEvent(new CustomEvent('graph:change',{detail:{key:functionKey(),playing:!!animation}}));
+  }
+  function drawStudyOverlay(){
+    if(!studyOverlay||studyOverlay.key!==functionKey())return;
+    ctx.save();ctx.lineWidth=1;
+    for(const r of studyOverlay.rectangles){const ps=[[sx(r.x0),sy(0)],[sx(r.x0),sy(r.y0)],[sx(r.x1),sy(r.y1)],[sx(r.x1),sy(0)]];if(!ps.flat().every(finite))continue;ctx.beginPath();ps.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=r.y0+r.y1>=0?'#08917b25':'#e2653625';ctx.strokeStyle=r.y0+r.y1>=0?'#08917b88':'#e2653688';ctx.fill();ctx.stroke();}ctx.restore();
+  }
+  function drawGuides(holesOnly=false){
+    if(!state.display.guides||animation||!window.GraphStudy)return;
+    const key=functionKey();
+    if(guideKey!==key){guideKey=key;guideData=compiled.filter(c=>c.visible&&!c.error&&c.kind==='function').map(c=>({color:c.color,index:c.index,...window.GraphStudy.features(c,state.params)}));}
+    ctx.save();ctx.lineWidth=1.3;ctx.setLineDash([5,5]);
+    const path=(x0,y0,x1,y1)=>{if(![x0,y0,x1,y1].every(finite))return;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();};
+    for(const g of guideData){ctx.strokeStyle=g.color;
+      if(!holesOnly){
+        for(const x of g.poles){const px=sx(x);if(px<0||px>width)continue;path(px,0,px,height);queueLabel(px,40,g.color,'漸近線 x='+fmt(x),'pole-'+g.index+'-'+x,3);}
+        if(g.horizontal!==null){const y=sy(g.horizontal);if(y>=0&&y<=height){path(0,y,width,y);queueLabel(width-140,y,g.color,'漸近線 y='+fmt(g.horizontal),'horizontal-'+g.index,3);}}
+        if(g.oblique){const {slope,intercept}=g.oblique;path(0,sy(slope*wx(0)+intercept),width,sy(slope*wx(width)+intercept));}
+      }else for(const h of g.holes){const x=sx(h.x),y=sy(h.y);if(![x,y].every(finite)||x<0||x>width||y<0||y>height)continue;ctx.setLineDash([]);ctx.beginPath();ctx.arc(x,y,5,0,2*Math.PI);ctx.fillStyle='white';ctx.fill();ctx.lineWidth=2;ctx.stroke();labelObstacles.push({x:x-7,y:y-7,width:14,height:14});queueLabel(x,y,g.color,'破洞 ('+fmt(h.x)+', '+fmt(h.y)+')','hole-'+g.index+'-'+h.x,11);}
+    }ctx.restore();
+  }
+
   const curveCache=new Map();
   const storageKey='mathlab-graph-v1'; // Preserve the existing user's saved workspace.
   const finite=n=>Number.isFinite(n), clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -91,7 +116,7 @@
       });
       row.querySelector('.animate-param').onclick=()=>toggleAnimation(key);$('parameters').append(row);
     }
-    $('labelMode').value=state.display.labels;$('renderQuality').value=state.display.quality;$('showLegend').checked=state.display.legend;rebuildLegend();
+    $('labelMode').value=state.display.labels;$('renderQuality').value=state.display.quality;$('showLegend').checked=state.display.legend;$('showGuides').checked=state.display.guides;rebuildLegend();
     $('tMin').value=state.tText[0];$('tMax').value=state.tText[1];$('tableCount').dataset.mathInteger='true';$('showGrid').checked=state.grid;K.enhanceNumbers();parseRows();
   }
   const scale=()=>width/state.view.span;
@@ -100,6 +125,7 @@
   const evaluate=(c,x,y)=>c.at(x,y,state.params);
   function scheduleDraw(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;draw();});}
   function update(){
+    studyChanged();
     for(const k of ['x','y','span']){let previous;try{previous=X.scalar(state.viewText[k]).value;}catch{}if(previous!==state.view[k])state.viewText[k]=String(state.view[k]);}
     analysisGeneration++;points=[];
     if(integral&&integral.key!==functionKey())invalidateCalculation();
@@ -197,10 +223,10 @@
   function draw(){
     frameQuality=quality();try{
     labelItems=[];labelObstacles=[{x:8,y:8,width:Math.min(270,width-16),height:30},{x:width-100,y:height-32,width:92,height:24}];curveObstacles=[];renderStats={quality:quality(),evaluations:0,segments:0};
-    ctx.clearRect(0,0,width,height);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);grid();ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();shadeArea();
+    ctx.clearRect(0,0,width,height);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);grid();ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();shadeArea();drawStudyOverlay();drawGuides();
     for(const c of compiled.filter(c=>!c.error&&c.visible)){if(c.kind==='point'){const p=evaluate(c,0);dot(...p,c.color,`${c.label?c.label+' ':''}(${fmt(p[0])}, ${fmt(p[1])})`,'point-'+c.index,10);}else if(c.kind==='implicit'||c.kind==='inequality')implicit(c);else curve(c);if(c.kind!=='point')curveName(c,sampled(c));}
     if($('showAnalysis').checked)for(const [i,p] of points.entries())dot(p.x,p.y,p.color,`${p.label.split(' · ').at(-1)} (${fmt(p.x)}, ${fmt(p.y)})`,'analysis-'+i,p.label.includes('交點')?9:6);
-    probe();drawLabels();ctx.restore();$('viewReadout').textContent=`x ∈ [${fmt(wx(0))}, ${fmt(wx(width))}]`;
+    probe();drawGuides(true);drawLabels();ctx.restore();$('viewReadout').textContent=`x ∈ [${fmt(wx(0))}, ${fmt(wx(width))}]`;
     for(const [id,key]of [['viewX','x'],['viewY','y'],['viewSpan','span']])if(document.activeElement!==$(id))$(id).value=state.viewText[key];
     }finally{frameQuality=null;}
   }
@@ -279,7 +305,7 @@
     if(name==='integral'||name==='vt'){$('integralA').value=name==='vt'?0:-1;$('integralB').value=name==='vt'?4:2;$('integralCurve').value='';calculateIntegral();}
   };
   $('zoomIn').onclick=()=>zoom(.8);$('zoomOut').onclick=()=>zoom(1.25);$('homeView').onclick=()=>{state.view={x:0,y:0,span:14};update();};$('fitView').onclick=fit;
-  for(const id of ['labelMode','renderQuality','showLegend'])$(id).onchange=()=>{state.display={labels:$('labelMode').value,quality:$('renderQuality').value,legend:$('showLegend').checked};rebuildLegend();update();};
+  for(const id of ['labelMode','renderQuality','showLegend','showGuides'])$(id).onchange=()=>{state.display={labels:$('labelMode').value,quality:$('renderQuality').value,legend:$('showLegend').checked,guides:$('showGuides').checked};rebuildLegend();update();};
   $('showGrid').onchange=()=>{state.grid=$('showGrid').checked;update();};$('showAnalysis').onchange=scheduleDraw;
   for(const id of ['probeCurve','probeX','showTangent','showDerivative','traceCurve'])$(id).addEventListener('input',scheduleDraw);
   for(const id of ['tMin','tMax'])$(id).addEventListener('change',()=>{const a=numeric($('tMin')),b=numeric($('tMax'));if(!finite(a)||!finite(b)||a>=b||Math.max(Math.abs(a),Math.abs(b))>1e5){notice('t 起點需小於終點，且介於 −100000 到 100000。');$('tMin').value=state.tText[0];$('tMax').value=state.tText[1];return;}state.t=[a,b];state.tText=[$('tMin').value,$('tMax').value];update();});
@@ -310,7 +336,7 @@
     if(animation?.key===key){stopAnimation();return;}stopAnimation();flushHistory();invalidateCalculation();clearTimeout(analysisTimer);analysisGeneration++;points=[];$('analysisResults').textContent='參數播放中；暫停後更新特殊點。';$('analysisResults').setAttribute('aria-busy','false');tableData=null;$('valueTable').textContent='播放參數後，請重新產生數值表。';
     const button=$('parameters').querySelector(`[data-key="${key}"] .animate-param`);button.textContent='Ⅱ';button.setAttribute('aria-pressed','true');
     const [min,max,step]=state.ranges[key],start=performance.now(),initial=clamp(state.params[key],min,max);
-    animation={key,frame:0,last:0};$('calculateIntegral').disabled=true;
+    animation={key,frame:0,last:0};studyOverlay=null;studyChanged();$('calculateIntegral').disabled=true;
     function tick(now){if(!animation)return;if(now-animation.last>=50){
       const phase=(initial-min)/(max-min)+(now-start)/6000,cycle=phase%2,v=min+(cycle<=1?cycle:2-cycle)*(max-min);
       state.params[key]=clamp(min+Math.round((v-min)/step)*step,min,max);state.paramText[key]=String(Number(state.params[key].toPrecision(10)));$('param-'+key).value=state.paramText[key];
@@ -337,13 +363,12 @@
     try{if(file.size>100000)throw Error('圖形檔不可超過 100 KB。');const imported=validState(JSON.parse(await file.text()));stopAnimation();flushHistory();state=imported;rebuild();notice('圖形已匯入；可按復原回到原先內容。');}
     catch(error){notice('匯入失敗：'+error.message);}finally{e.target.value='';}
   };
-  $('exportSVG').onclick=()=>{
+  function renderSVG(){
     stopAnimation();const previous=ctx;exporting=true;
-    try{
-      const lines=footerLines(),svg=new window.GraphSVG(width,height+28+lines.length*22,(text,font)=>{previous.save();previous.font=font;const measured=previous.measureText(text);previous.restore();return measured;});
-      ctx=svg;draw();footer(svg,lines);download(new Blob([svg.toString()],{type:'image/svg+xml'}),'mathlab-graph.svg');notice('已匯出向量 SVG，標註與完整算式會自動排版。');
-    }catch(error){notice('SVG 匯出失敗，請改用 PNG。');}finally{ctx=previous;exporting=false;scheduleDraw();}
-  };
+    try{const lines=footerLines(),svg=new window.GraphSVG(width,height+28+lines.length*22,(text,font)=>{previous.save();previous.font=font;const measured=previous.measureText(text);previous.restore();return measured;});ctx=svg;draw();footer(svg,lines);return svg.toString();}
+    finally{ctx=previous;exporting=false;scheduleDraw();}
+  }
+  $('exportSVG').onclick=()=>{try{download(new Blob([renderSVG()],{type:'image/svg+xml'}),'mathlab-graph.svg');notice('已匯出 SVG，包含畫布標註與探究疊圖。');}catch{notice('SVG 匯出失敗，請改用 PNG。');}};
   function selectedFunction(id='probeCurve'){const value=$(id).value,c=compiled[Number(value)];return value!==''&&c?.kind==='function'&&!c.error&&c.visible?c:null;}
   function calculateIntegral(){
     stopAnimation();const c=selectedFunction(),other=selectedFunction('integralCurve'),a=numeric($('integralA')),b=numeric($('integralB'));
@@ -377,6 +402,26 @@
   for(const id of ['tableStart','tableStep','tableCount'])$(id).addEventListener('input',()=>{tableData=null;$('valueTable').textContent='範圍已變更，請重新產生數值表。';});
   $('exportCSV').onclick=()=>{if(!buildTable())return;const quote=v=>'"'+String(v).replace(/"/g,'""')+'"',csv=[tableData.headers,...tableData.rows.map(row=>row.map(v=>finite(v)?v:'未定義'))].map(row=>row.map(quote).join(',')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'mathlab-values.csv');};
   window.addEventListener('hashchange',load);window.addEventListener('pagehide',()=>{try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}});
-  window.GraphStudio={getRenderReport:()=>JSON.parse(JSON.stringify(renderStats))};
+  window.GraphStudio={
+    getRenderReport:()=>JSON.parse(JSON.stringify(renderStats)),
+    snapshot:()=>S.validate(state),
+    key:functionKey,
+    stop:stopAnimation,
+    getSVG:renderSVG,
+    setStudyOverlay(rectangles){
+      if(rectangles===null){studyOverlay=null;scheduleDraw();return;}
+      if(!Array.isArray(rectangles)||rectangles.length>100||rectangles.some(r=>!r||!['x0','x1','y0','y1'].every(k=>finite(r[k]))||r.x1<=r.x0))throw Error('面積積木資料無效。');
+      studyOverlay={key:functionKey(),rectangles:rectangles.map(r=>({...r}))};scheduleDraw();
+    },
+    applyRows(rows,{replace=false,t}={}){
+      if(!Array.isArray(rows)||!rows.length)throw Error('此報告沒有可加入的圖形。');
+      const next=S.validate(state),existing=replace?[]:next.rows;
+      if(existing.length+rows.length>12)throw Error('加入後超過 12 列。可先刪除部分圖形，或明確選擇「以結果取代畫布」。');
+      for(const r of rows)M.parse(r.text);
+      next.rows=[...existing,...rows.map((r,i)=>({text:r.text,label:r.label||'',visible:true,color:colors[(existing.length+i)%colors.length]}))];
+      if(t){if(replace){next.t=t;next.tText=t.map(String);}else if(next.t[0]>t[0]||next.t[1]<t[1])throw Error('目前 t 範圍未涵蓋工具的作圖區間，請調整 t 範圍或選擇取代畫布。');}
+      const valid=S.validate(next);stopAnimation();flushHistory();state=valid;rebuild();flushHistory();notice('圖形已更新；可按「復原」回到原先內容。');
+    }
+  };
   load();new ResizeObserver(resize).observe(canvas);
 })();

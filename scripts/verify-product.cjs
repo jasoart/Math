@@ -140,7 +140,7 @@ async function main() {
     await page.setViewportSize(viewport);
     for (const file of pageNames) {
       await page.goto(`${base}/${file}`, {waitUntil: 'networkidle'});
-      if (file === 'index.html') await page.waitForFunction(() => window.MathLab?.modules.length === 196);
+      if (file === 'index.html') await page.waitForFunction(() => window.MathLab?.modules.length === 520);
       if (file === 'graph.html') await page.waitForFunction(() => document.querySelectorAll('.expression-row').length > 0);
       if (file === 'spatial.html') await page.waitForFunction(() => window.GeometryStudio?.getRenderReport().triangles > 0);
       await settled(page);

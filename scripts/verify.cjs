@@ -14,7 +14,7 @@ const {chromium} = require('playwright');
 
 const root = path.resolve(__dirname, '..');
 const executablePath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
-const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 196);
+const expectedModules = Number(process.env.MATHLAB_EXPECTED_MODULES || 520);
 const reportPath = path.resolve(process.env.MATHLAB_TEST_REPORT || '/tmp/mathlab-verification-report.json');
 const legacyCopy = /本次新增|這次新增|新增\s*50|歷屆|考試|考場|課綱|參考專案|GRAPH STUDIO\s+2\.4|\bv2\.[0-9]+(?:\.[0-9]+)?\b/i;
 const report = {startedAt: new Date().toISOString(), expectedModules, checks: [], errors: []};

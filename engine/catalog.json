@@ -982,6 +982,1626 @@
       "tag": "線性代數"
     },
     {
+      "id": "hs-line-1",
+      "title": "直線與截距 · 單位斜率",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-2",
+      "title": "直線與截距 · 遞減直線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-3",
+      "title": "直線與截距 · 兩倍斜率",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-4",
+      "title": "直線與截距 · 負斜率截距",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-5",
+      "title": "直線與截距 · 分數斜率",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-6",
+      "title": "直線與截距 · 水平直線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-7",
+      "title": "直線與截距 · 經過第三象限",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-8",
+      "title": "直線與截距 · 平緩下降",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-line-9",
+      "title": "直線與截距 · 陡峭上升",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-1",
+      "title": "二次方程的根 · 對稱兩根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-2",
+      "title": "二次方程的根 · 相鄰兩根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-3",
+      "title": "二次方程的根 · 異號兩根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-4",
+      "title": "二次方程的根 · 零點在原點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-5",
+      "title": "二次方程的根 · 正的重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-6",
+      "title": "二次方程的根 · 負的重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-7",
+      "title": "二次方程的根 · 無實零點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-8",
+      "title": "二次方程的根 · 向下開口",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quadratic-roots-9",
+      "title": "二次方程的根 · 分數根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-1",
+      "title": "頂點式與平移 · 右移抬高",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-2",
+      "title": "頂點式與平移 · 左移降低",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-3",
+      "title": "頂點式與平移 · 開口向下",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-4",
+      "title": "頂點式與平移 · 狹窄拋物線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-5",
+      "title": "頂點式與平移 · 寬拋物線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-6",
+      "title": "頂點式與平移 · 分數頂點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-7",
+      "title": "頂點式與平移 · 配方前式",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-8",
+      "title": "頂點式與平移 · 向下配方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-vertex-9",
+      "title": "頂點式與平移 · 窄而向下",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cubic-1",
+      "title": "三次函數的變化 · 標準立方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-2",
+      "title": "三次函數的變化 · 雙極值",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-3",
+      "title": "三次函數的變化 · 平移立方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-4",
+      "title": "三次函數的變化 · 立方加直線",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-5",
+      "title": "三次函數的變化 · 三個不同根",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-6",
+      "title": "三次函數的變化 · 重根切觸",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-7",
+      "title": "三次函數的變化 · 向下立方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-8",
+      "title": "三次函數的變化 · 非對稱雙峰",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-cubic-9",
+      "title": "三次函數的變化 · 小曲率",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-quartic-1",
+      "title": "四次函數與對稱 · 四次接觸",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-2",
+      "title": "四次函數與對稱 · 雙井",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-3",
+      "title": "四次函數與對稱 · 兩個重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-4",
+      "title": "四次函數與對稱 · 四個單根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-5",
+      "title": "四次函數與對稱 · 正定偶函數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-6",
+      "title": "四次函數與對稱 · 偏移四次",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-7",
+      "title": "四次函數與對稱 · 向下雙峰",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-8",
+      "title": "四次函數與對稱 · 奇偶混合",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-quartic-9",
+      "title": "四次函數與對稱 · 寬雙井",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-1",
+      "title": "根的重數 · 三重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-2",
+      "title": "根的重數 · 四重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-3",
+      "title": "根的重數 · 五重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-4",
+      "title": "根的重數 · 一重與二重",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-5",
+      "title": "根的重數 · 一重與三重",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-6",
+      "title": "根的重數 · 雙二重",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-7",
+      "title": "根的重數 · 二重與三重",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-8",
+      "title": "根的重數 · 六重根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-multiplicity-9",
+      "title": "根的重數 · 五次對稱",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-1",
+      "title": "約分與破洞 · 一次破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-2",
+      "title": "約分與破洞 · 負值破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-3",
+      "title": "約分與破洞 · 重因子破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-4",
+      "title": "約分與破洞 · 常數破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-5",
+      "title": "約分與破洞 · 雙破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-6",
+      "title": "約分與破洞 · 高次可去",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-7",
+      "title": "約分與破洞 · 原點破洞",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-8",
+      "title": "約分與破洞 · 偏移商式",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-holes-9",
+      "title": "約分與破洞 · 商為平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-1",
+      "title": "鉛直漸近線 · 雙曲線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-2",
+      "title": "鉛直漸近線 · 右移極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-3",
+      "title": "鉛直漸近線 · 左移極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-4",
+      "title": "鉛直漸近線 · 偶次極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-5",
+      "title": "鉛直漸近線 · 負偶次極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-6",
+      "title": "鉛直漸近線 · 兩個極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-7",
+      "title": "鉛直漸近線 · 兩側異號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-8",
+      "title": "鉛直漸近線 · 三次極點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-poles-9",
+      "title": "鉛直漸近線 · 分子非零",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-1",
+      "title": "斜漸近線與遠方行為 · 直線加倒數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-2",
+      "title": "斜漸近線與遠方行為 · 斜線加移位倒數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-3",
+      "title": "斜漸近線與遠方行為 · 負斜率",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-4",
+      "title": "斜漸近線與遠方行為 · 二次除一次",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-5",
+      "title": "斜漸近線與遠方行為 · 非首一分母",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-6",
+      "title": "斜漸近線與遠方行為 · 水平趨近",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-7",
+      "title": "斜漸近線與遠方行為 · 穿越水平線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-8",
+      "title": "斜漸近線與遠方行為 · 不對稱遠方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-asymptote-9",
+      "title": "斜漸近線與遠方行為 · 三次除二次",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-1",
+      "title": "有理函數的定義域 · 鐘形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-2",
+      "title": "有理函數的定義域 · 奇對稱比值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-3",
+      "title": "有理函數的定義域 · 偶次衰減",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-4",
+      "title": "有理函數的定義域 · 有界轉換",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-5",
+      "title": "有理函數的定義域 · 雙極點平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-6",
+      "title": "有理函數的定義域 · 帶孔比值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-7",
+      "title": "有理函數的定義域 · 分母恆正",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-8",
+      "title": "有理函數的定義域 · 因式混合",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-rational-9",
+      "title": "有理函數的定義域 · 高階平坦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-1",
+      "title": "絕對值與尖點 · V 形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-2",
+      "title": "絕對值與尖點 · 右移尖點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-3",
+      "title": "絕對值與尖點 · 下移尖點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-4",
+      "title": "絕對值與尖點 · 倒 V 形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-5",
+      "title": "絕對值與尖點 · 倍速折線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-6",
+      "title": "絕對值與尖點 · 平方再絕對值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-7",
+      "title": "絕對值與尖點 · 立方再絕對值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-8",
+      "title": "絕對值與尖點 · 絕對值相乘",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-absolute-9",
+      "title": "絕對值與尖點 · 斜線加絕對值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-1",
+      "title": "距離和與折線 · 兩點距離和",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-2",
+      "title": "距離和與折線 · 不對稱兩點",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-3",
+      "title": "距離和與折線 · 三點距離和",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-4",
+      "title": "距離和與折線 · 距離差",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-5",
+      "title": "距離和與折線 · 加權距離",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-6",
+      "title": "距離和與折線 · 巢狀折線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-7",
+      "title": "距離和與折線 · 截平 V 形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-8",
+      "title": "距離和與折線 · 截頂 V 形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-distance-9",
+      "title": "距離和與折線 · 多段波形",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-1",
+      "title": "根號與端點 · 平方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-2",
+      "title": "根號與端點 · 左移根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-3",
+      "title": "根號與端點 · 右移根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-4",
+      "title": "根號與端點 · 反向根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-5",
+      "title": "根號與端點 · 負平方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-6",
+      "title": "根號與端點 · 線性根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-7",
+      "title": "根號與端點 · 半圓",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-8",
+      "title": "根號與端點 · 雙支根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-9",
+      "title": "根號與端點 · 恆正內式",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-1",
+      "title": "根式運算與範圍 · 根號平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-2",
+      "title": "根式運算與範圍 · 兩根相加",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-3",
+      "title": "根式運算與範圍 · 兩根相減",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-4",
+      "title": "根式運算與範圍 · 根號分母",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-5",
+      "title": "根式運算與範圍 · 有界比值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-6",
+      "title": "根式運算與範圍 · 根式差",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-7",
+      "title": "根式運算與範圍 · 凹形乘積",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-8",
+      "title": "根式運算與範圍 · 根式加直線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-radical-combo-9",
+      "title": "根式運算與範圍 · 絕對值根號",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-1",
+      "title": "立方根與反函數 · 立方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-2",
+      "title": "立方根與反函數 · 平移立方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-3",
+      "title": "立方根與反函數 · 反向立方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-4",
+      "title": "立方根與反函數 · 伸縮立方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-5",
+      "title": "立方根與反函數 · 立方根平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-6",
+      "title": "立方根與反函數 · 複合立方根",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-7",
+      "title": "立方根與反函數 · 立方根減直線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-8",
+      "title": "立方根與反函數 · 兩根相加",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-cube-root-9",
+      "title": "立方根與反函數 · 兩根相減",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-1",
+      "title": "指數增長與衰減 · 自然指數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-2",
+      "title": "指數增長與衰減 · 二倍增長",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-3",
+      "title": "指數增長與衰減 · 三倍增長",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-4",
+      "title": "指數增長與衰減 · 一半衰減",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-5",
+      "title": "指數增長與衰減 · 自然衰減",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-6",
+      "title": "指數增長與衰減 · 平移指數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-7",
+      "title": "指數增長與衰減 · 雙向指數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-8",
+      "title": "指數增長與衰減 · 奇對稱指數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-exponential-9",
+      "title": "指數增長與衰減 · 衰減峰值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-1",
+      "title": "對數與定義域 · 自然對數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-2",
+      "title": "對數與定義域 · 常用對數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-3",
+      "title": "對數與定義域 · 底二對數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-4",
+      "title": "對數與定義域 · 平移對數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-5",
+      "title": "對數與定義域 · 反向定義域",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-6",
+      "title": "對數與定義域 · 平方真數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-7",
+      "title": "對數與定義域 · 正定真數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-8",
+      "title": "對數與定義域 · 根的兩側",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-logarithm-9",
+      "title": "對數與定義域 · 對數加直線",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-sine-1",
+      "title": "正弦與振幅週期 · 標準正弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-2",
+      "title": "正弦與振幅週期 · 倍振幅",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-3",
+      "title": "正弦與振幅週期 · 倍頻",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-4",
+      "title": "正弦與振幅週期 · 半頻",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-5",
+      "title": "正弦與振幅週期 · 相位前移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-6",
+      "title": "正弦與振幅週期 · 相位後移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-7",
+      "title": "正弦與振幅週期 · 基線上移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-8",
+      "title": "正弦與振幅週期 · 負振幅",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-sine-9",
+      "title": "正弦與振幅週期 · 混合變换",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-1",
+      "title": "餘弦與相位 · 標準餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-2",
+      "title": "餘弦與相位 · 三倍振幅",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-3",
+      "title": "餘弦與相位 · 三倍頻率",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-4",
+      "title": "餘弦與相位 · 長週期",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-5",
+      "title": "餘弦與相位 · 平移餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-6",
+      "title": "餘弦與相位 · 上下翻轉",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-7",
+      "title": "餘弦與相位 · 上移餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-8",
+      "title": "餘弦與相位 · 混合餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-cosine-9",
+      "title": "餘弦與相位 · 窄幅餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-1",
+      "title": "正切與倒三角比 · 正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-2",
+      "title": "正切與倒三角比 · 倍頻正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-3",
+      "title": "正切與倒三角比 · 平移正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-4",
+      "title": "正切與倒三角比 · 半頻正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-5",
+      "title": "正切與倒三角比 · 餘切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-6",
+      "title": "正切與倒三角比 · 正割",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-7",
+      "title": "正切與倒三角比 · 餘割",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-8",
+      "title": "正切與倒三角比 · 平方正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-tangent-9",
+      "title": "正切與倒三角比 · 有界正切轉換",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-1",
+      "title": "三角恆等與疊圖 · 平方和",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-2",
+      "title": "三角恆等與疊圖 · 平方差",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-3",
+      "title": "三角恆等與疊圖 · 倍角乘積",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-4",
+      "title": "三角恆等與疊圖 · 平方正弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-5",
+      "title": "三角恆等與疊圖 · 正弦餘弦和",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-6",
+      "title": "三角恆等與疊圖 · 相位雙波",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-7",
+      "title": "三角恆等與疊圖 · 正弦差",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-8",
+      "title": "三角恆等與疊圖 · 三倍角",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-identities-9",
+      "title": "三角恆等與疊圖 · 餘弦立方",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-1",
+      "title": "波形與包絡 · 拍頻",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-2",
+      "title": "波形與包絡 · 振幅調變",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-3",
+      "title": "波形與包絡 · 高斯包絡",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-4",
+      "title": "波形與包絡 · 單側阻尼",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-5",
+      "title": "波形與包絡 · 線性包絡",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-6",
+      "title": "波形與包絡 · 雙頻餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-7",
+      "title": "波形與包絡 · 諧波近似",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-8",
+      "title": "波形與包絡 · 波形偏移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-waves-9",
+      "title": "波形與包絡 · Sinc 型",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-1",
+      "title": "反三角函數 · 反正弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-2",
+      "title": "反三角函數 · 反餘弦",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-3",
+      "title": "反三角函數 · 反正切",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-4",
+      "title": "反三角函數 · 反正切伸縮",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-5",
+      "title": "反三角函數 · 反正弦伸縮",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-6",
+      "title": "反三角函數 · 反餘弦平移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-7",
+      "title": "反三角函數 · 正弦主值",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-8",
+      "title": "反三角函數 · 餘弦主值",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-inverse-trig-9",
+      "title": "反三角函數 · 反正切相加",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-continuous-1",
+      "title": "分段連續性 · 絕對值分段",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-2",
+      "title": "分段連續性 · 左右不同冪",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-3",
+      "title": "分段連續性 · 折線接平方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-4",
+      "title": "分段連續性 · 平方與立方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-5",
+      "title": "分段連續性 · 兩條斜線",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-6",
+      "title": "分段連續性 · 平台接斜線",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-7",
+      "title": "分段連續性 · 平方接平台",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-8",
+      "title": "分段連續性 · 正弦接直線",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-continuous-9",
+      "title": "分段連續性 · 開方接平方",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-1",
+      "title": "跳躍與特殊點 · 階躍",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-2",
+      "title": "跳躍與特殊點 · 斜線跳躍",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-3",
+      "title": "跳躍與特殊點 · 平方跳躍",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-4",
+      "title": "跳躍與特殊點 · 單點補值",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-5",
+      "title": "跳躍與特殊點 · 單點刪值",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-6",
+      "title": "跳躍與特殊點 · 兩段常數",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-7",
+      "title": "跳躍與特殊點 · 反向跳躍",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-8",
+      "title": "跳躍與特殊點 · 震盪邊界",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-discontinuous-9",
+      "title": "跳躍與特殊點 · 有界跳躍",
+      "tag": "微積分"
+    },
+    {
+      "id": "hs-steps-1",
+      "title": "取整與階梯函數 · 向下取整",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-2",
+      "title": "取整與階梯函數 · 向上取整",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-3",
+      "title": "取整與階梯函數 · 四捨五入",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-4",
+      "title": "取整與階梯函數 · 符號函數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-5",
+      "title": "取整與階梯函數 · 細階梯",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-6",
+      "title": "取整與階梯函數 · 粗階梯",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-7",
+      "title": "取整與階梯函數 · 小數部分",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-8",
+      "title": "取整與階梯函數 · 對稱階梯",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-steps-9",
+      "title": "取整與階梯函數 · 平移階梯",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-1",
+      "title": "反關係與限制 · 偏移平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-2",
+      "title": "反關係與限制 · 單調立方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-3",
+      "title": "反關係與限制 · 受限平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-4",
+      "title": "反關係與限制 · 受限餘弦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-5",
+      "title": "反關係與限制 · 單調指數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-6",
+      "title": "反關係與限制 · 單調對數",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-7",
+      "title": "反關係與限制 · 奇次平移",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-8",
+      "title": "反關係與限制 · 分式映射",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-inverse-9",
+      "title": "反關係與限制 · 受限正弦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-1",
+      "title": "複合函數與對稱 · 正弦平方輸入",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-2",
+      "title": "複合函數與對稱 · 平方正弦平移",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-3",
+      "title": "複合函數與對稱 · 指数平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-4",
+      "title": "複合函數與對稱 · 對數絕對值",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-5",
+      "title": "複合函數與對稱 · 絕對值正弦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-6",
+      "title": "複合函數與對稱 · 平方根正弦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-7",
+      "title": "複合函數與對稱 · 正弦倒數輸入",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-8",
+      "title": "複合函數與對稱 · 反正切平方",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-composition-9",
+      "title": "複合函數與對稱 · 指數正弦",
+      "tag": "代數"
+    },
+    {
+      "id": "hs-circle-1",
+      "title": "圓與平移 · 單位圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-2",
+      "title": "圓與平移 · 半徑二",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-3",
+      "title": "圓與平移 · 半徑三",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-4",
+      "title": "圓與平移 · 右移圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-5",
+      "title": "圓與平移 · 上移圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-6",
+      "title": "圓與平移 · 斜移圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-7",
+      "title": "圓與平移 · 配方圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-8",
+      "title": "圓與平移 · 大圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-circle-9",
+      "title": "圓與平移 · 斜移小圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-1",
+      "title": "橢圓的長短軸 · 橫長橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-2",
+      "title": "橢圓的長短軸 · 縱長橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-3",
+      "title": "橢圓的長短軸 · 細橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-4",
+      "title": "橢圓的長短軸 · 高橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-5",
+      "title": "橢圓的長短軸 · 平移橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-6",
+      "title": "橢圓的長短軸 · 寬橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-7",
+      "title": "橢圓的長短軸 · 斜移窄橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-8",
+      "title": "橢圓的長短軸 · 一般式",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-ellipse-9",
+      "title": "橢圓的長短軸 · 旋轉橢圓",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-1",
+      "title": "拋物線與方向 · 右開拋物線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-2",
+      "title": "拋物線與方向 · 左開拋物線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-3",
+      "title": "拋物線與方向 · 上開拋物線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-4",
+      "title": "拋物線與方向 · 下開拋物線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-5",
+      "title": "拋物線與方向 · 寬右開",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-6",
+      "title": "拋物線與方向 · 窄右開",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-7",
+      "title": "拋物線與方向 · 平移右開",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-8",
+      "title": "拋物線與方向 · 平移上開",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-parabola-9",
+      "title": "拋物線與方向 · 旋轉拋物線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-1",
+      "title": "雙曲線與漸近線 · 左右開口",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-2",
+      "title": "雙曲線與漸近線 · 上下開口",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-3",
+      "title": "雙曲線與漸近線 · 橫向伸縮",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-4",
+      "title": "雙曲線與漸近線 · 縱向伸縮",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-5",
+      "title": "雙曲線與漸近線 · 非等軸",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-6",
+      "title": "雙曲線與漸近線 · 反向非等軸",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-7",
+      "title": "雙曲線與漸近線 · 平移雙曲線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-8",
+      "title": "雙曲線與漸近線 · 矩形雙曲線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-hyperbola-9",
+      "title": "雙曲線與漸近線 · 斜移乘積",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-1",
+      "title": "參數式的運動方向 · 圓周運動",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-2",
+      "title": "參數式的運動方向 · 反向圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-3",
+      "title": "參數式的運動方向 · 橢圓運動",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-4",
+      "title": "參數式的運動方向 · 高橢圓運動",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-5",
+      "title": "參數式的運動方向 · 平移圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-6",
+      "title": "參數式的運動方向 · 雙速圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-7",
+      "title": "參數式的運動方向 · 相位圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-8",
+      "title": "參數式的運動方向 · 斜切圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-param-ellipse-9",
+      "title": "參數式的運動方向 · 非均速圓周",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-lissajous-1",
+      "title": "李沙育與頻率比 · 一比二",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-2",
+      "title": "李沙育與頻率比 · 二比三",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-3",
+      "title": "李沙育與頻率比 · 三比四",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-4",
+      "title": "李沙育與頻率比 · 一比三",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-5",
+      "title": "李沙育與頻率比 · 二比五",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-6",
+      "title": "李沙育與頻率比 · 相位偏移",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-7",
+      "title": "李沙育與頻率比 · 振幅不等",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-8",
+      "title": "李沙育與頻率比 · 餘弦交叉",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-lissajous-9",
+      "title": "李沙育與頻率比 · 五比四",
+      "tag": "三角"
+    },
+    {
+      "id": "hs-trajectory-1",
+      "title": "參數曲線與軌跡 · 拋物軌跡",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-2",
+      "title": "參數曲線與軌跡 · 投射軌跡",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-3",
+      "title": "參數曲線與軌跡 · 螺旋",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-4",
+      "title": "參數曲線與軌跡 · 擺線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-5",
+      "title": "參數曲線與軌跡 · 心形參數",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-6",
+      "title": "參數曲線與軌跡 · 星形內擺線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-7",
+      "title": "參數曲線與軌跡 · 雙曲參數",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-8",
+      "title": "參數曲線與軌跡 · 有理圓參數",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-trajectory-9",
+      "title": "參數曲線與軌跡 · 指數軌跡",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-1",
+      "title": "極座標與花瓣 · 等半徑",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-2",
+      "title": "極座標與花瓣 · 三瓣玫瑰",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-3",
+      "title": "極座標與花瓣 · 四瓣玫瑰",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-4",
+      "title": "極座標與花瓣 · 五瓣玫瑰",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-5",
+      "title": "極座標與花瓣 · 八瓣玫瑰",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-6",
+      "title": "極座標與花瓣 · 心形線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-7",
+      "title": "極座標與花瓣 · 向下心形",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-8",
+      "title": "極座標與花瓣 · 有內環蝸線",
+      "tag": "幾何"
+    },
+    {
+      "id": "hs-polar-9",
+      "title": "極座標與花瓣 · 阿基米德螺旋",
+      "tag": "幾何"
+    },
+    {
       "id": "academy-linear-01",
       "title": "一次方程與等量關係 · 情境 01",
       "tag": "代數與方程",

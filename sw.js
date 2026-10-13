@@ -1,6 +1,6 @@
 'use strict';
 // Generated shell inventory is refreshed by node scripts/build-pwa.cjs before release.
-const BUILD = 'bda97bc4001b50efb6ce';
+const BUILD = '41a73df9c09867ac5f08';
 const PRECACHE = [
   "academy.html",
   "academy/academy.css",
@@ -15,6 +15,21 @@ const PRECACHE = [
   "assets/studio-icon.png",
   "assets/studio-icon.webp",
   "assets/studio-math.svg",
+  "compiler/compiler.js",
+  "compiler/compiler.msw",
+  "compiler/playground.css",
+  "compiler/playground.js",
+  "compiler/runtime.js",
+  "compiler/worker.js",
+  "curriculum/bridge.js",
+  "curriculum/catalog.js",
+  "curriculum/catalog.msw",
+  "curriculum/geometry.js",
+  "curriculum/geometry.msw",
+  "curriculum/modules.js",
+  "curriculum/modules.msw",
+  "curriculum/tools.js",
+  "curriculum/tools.msw",
   "engine/canvas.js",
   "engine/catalog.json",
   "engine/dashboard.js",
@@ -40,6 +55,9 @@ const PRECACHE = [
   "graph/math.js",
   "graph/render.js",
   "graph/state.js",
+  "graph/study-ui.js",
+  "graph/study.css",
+  "graph/study.js",
   "graph/svg.js",
   "index.html",
   "language/display.js",

@@ -43,5 +43,5 @@ const saved=()=>JSON.parse(w.localStorage.getItem('mathlab.academy.v1'));
   recovery.window.localStorage.setItem('mathlab.academy.v1','{damaged-record');
   for(const e of recovery.window.document.querySelectorAll('script[src]')){const file=e.getAttribute('src').replace(/^\.\//,'');if(['engine/pwa.js','engine/navigation.js'].includes(file))continue;new vm.Script(read(file),{filename:file}).runInContext(recovery.getInternalVMContext());}
   assert.equal(recovery.window.localStorage.getItem('mathlab.academy.v1'),'{damaged-record');assert.match(recovery.window.document.getElementById('academyStorage').textContent,/無法開啟連結/);recovery.window.close();
-  assert.deepEqual(errors,[]);console.log('PASS academy DOM: filters/pagination, parameter edits, comparison, grading/retry guards, review/favorites, share, MathScript transfer, CSV/HTML/source/JSON exports, import rejection, storage failures and 736-entry search.');
+  assert.deepEqual(errors,[]);console.log('PASS academy DOM: filters/pagination, parameter edits, comparison, grading/retry guards, review/favorites, share, MathScript transfer, CSV/HTML/source/JSON exports, import rejection, storage failures and 1060-entry search.');
 })().catch(error=>{console.error(error);process.exitCode=1}).finally(()=>w.close());

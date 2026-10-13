@@ -29,7 +29,7 @@ const base=S.defaults(),migrated=S.validate({...base,version:1,params:{a:1,b:2,c
 assert.equal(migrated.version,3);assert.equal(migrated.params.d,1);checks++;
 assert.deepEqual(S.validate(JSON.parse(JSON.stringify(base))),base);checks++;
 for(const changed of [{version:4},{rows:[]},{rows:Array(13).fill(base.rows[0])},{params:{a:Infinity,b:1,c:1}},{view:{x:0,y:0,span:0}},{ranges:{a:[2,1,.1]}},{ranges:{a:[0,1,0]}},{rows:[{text:'x',visible:true,color:'url(bad)'}]},{t:[1,0]}]){assert.throws(()=>S.validate({...base,...changed}));checks++;}
-const named={...base,rows:[{...base.rows[0],label:'頂點 <A> & B'}],display:{labels:'all',quality:'precise',legend:false}};
+const named={...base,rows:[{...base.rows[0],label:'頂點 <A> & B'}],display:{labels:'all',quality:'precise',legend:false,guides:false}};
 assert.deepEqual(S.validate(JSON.parse(JSON.stringify(named))),named);checks++;
 const oldDocument={...base};delete oldDocument.display;oldDocument.rows=oldDocument.rows.map(({label,...row})=>row);
 assert.equal(S.validate(oldDocument).display.labels,'smart');assert.equal(S.validate(oldDocument).rows[0].label,'');checks+=2;

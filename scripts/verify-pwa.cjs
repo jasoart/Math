@@ -37,7 +37,7 @@ async function ready(page) {
   const context = browser;
   context.on('page', page => page.on('pageerror', error => errors.push(error.message)));
   const page = await context.newPage(); await page.goto(base + 'index.html'); await ready(page);
-  await page.waitForFunction(() => MathLab?.modules.length >= 196);
+  await page.waitForFunction(() => MathLab?.modules.length >= 520);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'PWA status has no mobile overflow');
   const cdp = await context.newCDPSession(page);
   const appManifest = await cdp.send('Page.getAppManifest');
@@ -73,7 +73,7 @@ async function ready(page) {
       await page.waitForFunction(() => window.SpatialStudio?.getRenderReport().faces > 0);
       assert.ok(await page.locator('#surfacePreview math').count() > 0, 'Spatial formula and mesh work entirely offline');
     } else {
-      await page.waitForFunction(() => window.MathLab?.modules.length >= 196);
+      await page.waitForFunction(() => window.MathLab?.modules.length >= 520);
       await page.evaluate(() => MathLab.selectModule('studio-symmetric-eigenspaces'));
       assert.ok(await page.locator('#formulaBox math').count() > 0, 'New module mathematical engine works offline');
     }
