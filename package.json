@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "check": "node --check app.js && node --check extension-modules.js && node --check exam-modules.js && node --check learning.js && node --check exam-explorer.js && node --check evidence.js && node --check graph/math.js && node --check graph/graph.js && node --check graph/state.js && node --check graph/svg.js && node --check graph/exact.js && node --check math-keyboard.js && node --check expansion-modules.js && node --check graph/render.js && node --check scripts/verify-product.cjs && node --check spatial/core.js && node --check spatial/spatial.js && node --check studio-modules.js && node --check engine/canvas.js && node --check engine/typeset.js && node --check engine/workspace.js && node --check engine/pwa.js && node --check sw.js && node --check graph/insight.js && node --check spatial/geometry.js && node --check spatial/geometry-render.js && node --check spatial/geometry-studio.js && node --check engine/spatial-bridge.js && node --check language/values.js && node --check language/mathscript.js && node --check language/worker.js && node --check language/display.js && node --check language/examples.js && node --check language/studio.js && node --check engine/practice.js && node --check engine/practice-ui.js && node --check engine/dashboard.js && node --check engine/navigation.js && node --check language/editor-tools.js && node --check academy/models.js && node --check academy/state.js && node --check academy/academy.js && node compiler/build.cjs --check && node --check graph/study.js && node --check graph/study-ui.js && node --check compiler/playground.js && node --check compiler/worker.js && node --check curriculum/bridge.js",
+    "languages": "node scripts/source-languages.cjs",
+    "languages:check": "node scripts/source-languages.cjs --check",
+    "check": "node --check app.js && node --check extension-modules.js && node --check exam-modules.js && node --check learning.js && node --check exam-explorer.js && node --check evidence.js && node --check graph/math.js && node --check graph/graph.js && node --check graph/state.js && node --check graph/svg.js && node --check graph/exact.js && node --check math-keyboard.js && node --check expansion-modules.js && node --check graph/render.js && node --check scripts/verify-product.cjs && node --check spatial/core.js && node --check spatial/spatial.js && node --check studio-modules.js && node --check engine/canvas.js && node --check engine/typeset.js && node --check engine/workspace.js && node --check engine/pwa.js && node --check sw.js && node --check graph/insight.js && node --check spatial/geometry.js && node --check spatial/geometry-render.js && node --check spatial/geometry-studio.js && node --check engine/spatial-bridge.js && node --check language/values.js && node --check language/mathscript.js && node --check language/worker.js && node --check language/display.js && node --check language/examples.js && node --check language/studio.js && node --check engine/practice.js && node --check engine/practice-ui.js && node --check engine/dashboard.js && node --check engine/navigation.js && node --check language/editor-tools.js && node --check academy/models.js && node --check academy/state.js && node --check academy/academy.js && node compiler/build.cjs --check && node --check graph/study.js && node --check graph/study-ui.js && node --check compiler/playground.js && node --check compiler/worker.js && node --check curriculum/bridge.js && node --check engine/math-ink.js && node --check engine/math-ink-ui.js && node --check language/blocks-model.js && node --check language/blocks.js && node --check graph/dynamics.js && node --check graph/dynamics-ui.js && node --check graph/dynamics-worker.js && node --check graph/sampling-client.js && node --check graph/sampling-worker.js",
     "evidence": "node scripts/build-evidence.cjs",
     "test": "node scripts/verify.cjs",
     "test:graph": "npm run test:graph:core && node scripts/verify-graph.cjs && node scripts/verify-graph-upgrade.cjs",
@@ -18,8 +20,11 @@
     "test:learning": "node --test scripts/practice.test.cjs && node scripts/practice-ui.test.cjs && node scripts/dashboard.test.cjs",
     "test:academy": "node scripts/academy-math.test.cjs && node scripts/academy-dom.test.cjs",
     "build:custom": "node compiler/build.cjs",
-    "test:custom": "node compiler/build.cjs --check && node scripts/mathweb.test.cjs && node scripts/mathweb-dom.test.cjs",
-    "test:highschool": "node scripts/highschool-math.test.cjs && node scripts/highschool-dom.test.cjs"
+    "test:custom": "node compiler/build.cjs --check && node scripts/mathweb.test.cjs && node --test scripts/mathweb-v02.test.cjs && node scripts/mathweb-dom.test.cjs",
+    "test:highschool": "node scripts/highschool-math.test.cjs && node scripts/highschool-dom.test.cjs",
+    "test:studio": "node --test scripts/studio-pro.test.cjs",
+    "test:studio:browser": "node scripts/verify-studio-pro.cjs",
+    "vendor:blocks": "node scripts/vendor-blocks.cjs"
   },
   "engines": {
     "node": ">=20"
@@ -29,6 +34,7 @@
     "playwright": "1.62.1"
   },
   "dependencies": {
+    "blockly": "12.5.1",
     "katex": "0.19.0"
   }
 }
