@@ -67,8 +67,8 @@
     </section>
     <section id="webCompiler" class="web-compiler" aria-labelledby="webCompilerTitle">
       <p class="eyebrow">MATHSCRIPT WEB / BUILD THE LANGUAGE ITSELF</p><h2 id="webCompilerTitle">不只寫實驗，也寫語言。</h2>
-      <p>MathScript Web 0.1 是網站使用的自研編譯語言。用函式、條件、迴圈與紀錄組成模組，再編譯成瀏覽器程式。編譯器本身也以這套語言撰寫。</p>
-      <div class="web-compiler-actions"><label for="webExample">範例</label><select id="webExample"><option value="parabola">函數與取樣</option><option value="factorial">階乘與輸入檢查</option></select><button id="selfCompileWeb" type="button">載入編譯器，驗證自編譯</button><button id="importWebSource" type="button">匯入 .msw</button><input id="webSourceFile" type="file" accept=".msw,.txt,text/plain" hidden></div>
+      <p>MathScript Web 0.2 是網站使用的自研編譯語言。直接寫出加總、連乘、取樣與數學驗證，再用函式、條件與紀錄組成可重用的教材模組。</p>
+      <div class="web-compiler-actions"><label for="webExample">範例</label><select id="webExample"><option value="parabola">函數與取樣</option><option value="factorial">階乘與輸入檢查</option><option value="series">平方和與巢狀加總</option><option value="probability">二項分配與期望值</option><option value="integration">中點積分與誤差驗證</option></select><button id="selfCompileWeb" type="button">載入編譯器，驗證自編譯</button><button id="importWebSource" type="button">匯入 .msw</button><input id="webSourceFile" type="file" accept=".msw,.txt,text/plain" hidden></div>
       <div class="web-compiler-grid"><div><label for="webSource">experiment.msw · 原始碼</label><textarea id="webSource" spellcheck="false" autocapitalize="off" autocomplete="off" maxlength="120000" wrap="off" aria-describedby="webCompilerStatus"></textarea></div><div><label id="webOutputLabel">experiment.js · 編譯產物</label><pre id="webOutput" tabindex="0" aria-labelledby="webOutputLabel">按「編譯」，查看產生的程式碼。</pre></div></div>
       <div class="web-compiler-actions"><button id="compileWeb" class="primary" type="button">編譯 · Ctrl / ⌘ ↵</button><button id="stopWeb" type="button" disabled>停止</button><button id="downloadWebSource" type="button">下載 .msw</button><button id="downloadWebJS" type="button" disabled>下載編譯產物</button></div>
       <p id="webCompilerStatus" class="web-compiler-status" role="status" aria-live="polite">準備好編譯。</p>

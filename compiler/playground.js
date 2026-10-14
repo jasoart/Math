@@ -14,7 +14,16 @@
  const download=(text,name,type)=>{const a=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
  $('webSource').addEventListener('input',stale);$('webSource').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run();}});
  $('compileWeb').onclick=run;$('stopWeb').onclick=()=>{stop();status('已停止編譯。');};
- $('webExample').onchange=()=>{const source=examples[$('webExample').value];if(source){$('webSource').value=source;stale();}};
+ $('webExample').onchange=async()=>{
+   const choice=$('webExample').value,source=examples[choice];
+   if(source){$('webSource').value=source;stale();return;}
+   if(!['series','probability','integration'].includes(choice))return;
+   stale();const expectedTicket=ticket;status('載入數學範例…');
+   try{const response=await fetch('./compiler/examples/'+choice+'.msw');if(!response.ok)throw Error('範例讀取失敗。');
+     const text=await response.text();if(ticket!==expectedTicket)return;
+     $('webSource').value=text;stale();status('數學範例已載入，按「編譯」查看產物。');
+   }catch(error){if(ticket===expectedTicket)status(error.message,true);}
+ };
  $('downloadWebSource').onclick=()=>download($('webSource').value,'experiment.msw','text/plain;charset=utf-8');
  $('downloadWebJS').onclick=()=>{if(output)download(output,'experiment.js','text/javascript;charset=utf-8');};
  $('importWebSource').onclick=()=>$('webSourceFile').click();$('webSourceFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>360000)throw Error('原始碼檔不可超過 360 KB。');const source=await file.text();if(source.length>120000)throw Error('原始碼最多 120000 字。');$('webSource').value=source;stale();status('原始碼已匯入，尚未編譯。');}catch(e){status(e.message,true);}finally{$('webSourceFile').value='';}};

@@ -1,0 +1,11 @@
+# These paths are reproducible build products, not additional authored JS.
+compiler/compiler.js linguist-generated=true
+curriculum/catalog.js linguist-generated=true
+curriculum/geometry.js linguist-generated=true
+curriculum/modules.js linguist-generated=true
+curriculum/tools.js linguist-generated=true
+vendor/** linguist-vendored=true
+
+# MathScript Web is not registered in Linguist. An invented language=Other
+# override would NOT make GitHub's native Languages panel report it as Other.
+# See docs/languages.md for the separate, reproducible project source report.

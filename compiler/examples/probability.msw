@@ -1,0 +1,14 @@
+# The empty product is 1, so C(n,0) works without a special branch.
+(module Binomial
+  (fn combinations (n k)
+    (assert-math (and (integer n) (and (integer k) (and (>= k 0) (and (<= k n) (<= n 100))))) "0 ≤ k ≤ n ≤ 100")
+    (return (product-range (i 1 k) (/ (+ (- n k) i) i))))
+  (let n 12)
+  (let p 0.4)
+  (fn mass (k) (return (* (combinations n k) (* (pow p k) (pow (- 1 p) (- n k))))))
+  (let distribution (collect-range (k 0 n) (array k (mass k))))
+  (let total (sum-range (k 0 n) (mass k)))
+  (let expected (sum-range (k 0 n) (* k (mass k))))
+  (assert-math (< (abs (- total 1)) 0.000000000001) "機率總和約為 1")
+  (assert-math (< (abs (- expected (* n p))) 0.000000000001) "期望值約為 np")
+  (export (record ("distribution" distribution) ("total" total) ("expected" expected))))

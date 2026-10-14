@@ -1,0 +1,11 @@
+# Midpoint quadrature for x² on [0,1], checked against its known error.
+(module Midpoint
+  (fn estimate (n)
+    (assert-math (and (integer n) (and (> n 0) (<= n 10000))) "分割數 1～10000")
+    (let h (/ 1 n))
+    (return (sum-range (i 0 (- n 1)) (* h (pow (* (+ i 0.5) h) 2)))))
+  (let n 100)
+  (let area (estimate n))
+  (let theoretical (- (/ 1 3) (/ 1 (* 12 (* n n)))))
+  (assert-math (< (abs (- area theoretical)) 0.000000000001) "中點法誤差公式")
+  (export (record ("area" area) ("estimate" estimate))))
