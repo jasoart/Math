@@ -212,7 +212,7 @@
     source=String(source??'');
     // Do not cache absence of the optional renderer during deferred script startup.
     const produce=()=>{
-      const content=source.length<=MATH_LIMIT?render(expressionTeX(source),options.displayMode):null;
+      const content=source.length<=MATH_LIMIT?(root.MathInk?.safe(source)?.html||render(expressionTeX(source),options.displayMode)):null;
       return `<span class="math-expression${content?' is-typeset':' is-plain'}" data-math-source="${escape(source)}">${content||escape(source)}</span>`;
     };
     return source.length>LIMIT||!root.katex?produce():cached(`e:${!!options.displayMode}:${source}`,produce);

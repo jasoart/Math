@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "method": "Project-defined authored source bytes; NOT GitHub Linguist. Other means custom .msw sources. Excludes vendor/, .js siblings of .msw, and extensions outside the documented allowlist.",
-  "totalBytes": 1825622,
+  "totalBytes": 1915982,
   "languages": [
     {
       "name": "JavaScript",
-      "bytes": 1498881,
+      "bytes": 1564423,
       "files": [
         "academy/academy.js",
         "academy/models.js",
@@ -19,6 +19,8 @@
         "curriculum/bridge.js",
         "engine/canvas.js",
         "engine/dashboard.js",
+        "engine/math-ink-ui.js",
+        "engine/math-ink.js",
         "engine/navigation.js",
         "engine/practice-ui.js",
         "engine/practice.js",
@@ -31,15 +33,22 @@
         "exam-modules.js",
         "expansion-modules.js",
         "extension-modules.js",
+        "graph/dynamics-ui.js",
+        "graph/dynamics-worker.js",
+        "graph/dynamics.js",
         "graph/exact.js",
         "graph/graph.js",
         "graph/insight.js",
         "graph/math.js",
         "graph/render.js",
+        "graph/sampling-client.js",
+        "graph/sampling-worker.js",
         "graph/state.js",
         "graph/study-ui.js",
         "graph/study.js",
         "graph/svg.js",
+        "language/blocks-model.js",
+        "language/blocks.js",
         "language/display.js",
         "language/editor-tools.js",
         "language/examples.js",
@@ -83,9 +92,11 @@
         "scripts/spatial-bridge.test.cjs",
         "scripts/spatial.test.cjs",
         "scripts/studio-modules.test.cjs",
+        "scripts/studio-pro.test.cjs",
         "scripts/studio-test-host.cjs",
         "scripts/symbol-input.test.cjs",
         "scripts/typeset.test.cjs",
+        "scripts/vendor-blocks.cjs",
         "scripts/vendor-math.cjs",
         "scripts/verify-canvas-engine.cjs",
         "scripts/verify-geometry.cjs",
@@ -94,6 +105,7 @@
         "scripts/verify-product.cjs",
         "scripts/verify-pwa.cjs",
         "scripts/verify-spatial.cjs",
+        "scripts/verify-studio-pro.cjs",
         "scripts/verify.cjs",
         "spatial/core.js",
         "spatial/geometry-render.js",
@@ -103,31 +115,33 @@
         "studio-modules.js",
         "sw.js"
       ],
-      "percentage": 82.1
+      "percentage": 81.65
     },
     {
       "name": "CSS",
-      "bytes": 124602,
+      "bytes": 143534,
       "files": [
         "academy/academy.css",
         "compiler/playground.css",
         "engine/insight.css",
         "engine/pwa.css",
+        "engine/studio-pro.css",
         "engine/studio.css",
         "engine/typeset.css",
         "graph/graph.css",
         "graph/study.css",
+        "language/blocks.css",
         "language/studio.css",
         "math-keyboard.css",
         "spatial/geometry-studio.css",
         "spatial/spatial.css",
         "styles.css"
       ],
-      "percentage": 6.83
+      "percentage": 7.49
     },
     {
       "name": "HTML",
-      "bytes": 79359,
+      "bytes": 85245,
       "files": [
         "academy.html",
         "graph.html",
@@ -136,7 +150,7 @@
         "script.html",
         "spatial.html"
       ],
-      "percentage": 4.35
+      "percentage": 4.45
     },
     {
       "name": "Other · MathScript Web",
@@ -151,7 +165,7 @@
         "curriculum/modules.msw",
         "curriculum/tools.msw"
       ],
-      "percentage": 3.98
+      "percentage": 3.8
     },
     {
       "name": "Python",
@@ -163,7 +177,7 @@
         "scripts/check-mathscript-data.py",
         "scripts/check-studio-math.py"
       ],
-      "percentage": 2.74
+      "percentage": 2.61
     }
   ]
 }

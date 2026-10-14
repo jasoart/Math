@@ -12,7 +12,19 @@
   let state=defaultState(), compiled=[], width=800,height=500, points=[], frame=0, analysisTimer=0, noticeTimer=0, saveTimer=0;
   let history=null, historyTimer=0, animation=null, integral=null, tableData=null, analysisGeneration=0;
   let labelItems=[],labelObstacles=[],curveObstacles=[],renderStats={},exporting=false,interactionUntil=0,detailTimer=0,frameQuality=null;
-  let studyOverlay=null,guideKey='',guideData=[];
+  let studyOverlay=null,guideKey='',guideData=[],dynamicsOverlay=null;
+  function drawDynamics(){
+    if(!dynamicsOverlay)return;
+    const data=dynamicsOverlay;ctx.save();ctx.lineWidth=1.25;
+    for(const [x,y,u,v,speed]of data.arrows){
+      const px=sx(x),py=sy(y),len=Math.min(23,data.cell*.62),dx=u/speed*len/2,dy=-v/speed*len/2;
+      if(px<0||px>width||py<0||py>height)continue;
+      ctx.strokeStyle=speed>3?'#3f8c83':'#8cb7ac';ctx.beginPath();ctx.moveTo(px-dx,py-dy);ctx.lineTo(px+dx,py+dy);ctx.moveTo(px+dx-dx*.38+dy*.35,py+dy-dy*.38-dx*.35);ctx.lineTo(px+dx,py+dy);ctx.lineTo(px+dx-dx*.38-dy*.35,py+dy-dy*.38+dx*.35);ctx.stroke();
+    }
+    const palette=['#d36d49','#175f8e','#9971a5','#b38537'];
+    for(const trace of data.traces){ctx.strokeStyle=palette[trace.seed%palette.length];ctx.lineWidth=2;ctx.setLineDash(trace.direction<0?[4,4]:[]);ctx.beginPath();let first=true;for(const [x,y]of trace.points){const px=sx(x),py=sy(y);if(first){ctx.moveTo(px,py);first=false;}else ctx.lineTo(px,py);}ctx.stroke();}
+    ctx.setLineDash([]);data.seeds.forEach((p,i)=>dot(p[0],p[1],palette[i%palette.length],'初始 '+(i+1),'seed-'+i,8));ctx.restore();
+  }
   function studyChanged(){
     if(studyOverlay&&studyOverlay.key!==functionKey())studyOverlay=null;
     window.dispatchEvent(new CustomEvent('graph:change',{detail:{key:functionKey(),playing:!!animation}}));
@@ -37,7 +49,8 @@
     }ctx.restore();
   }
 
-  const curveCache=new Map();
+  const curveCache=new Map(),refiner=window.GraphRefiner?.create(()=>scheduleDraw());
+  window.addEventListener('pagehide',()=>refiner?.close());
   const storageKey='mathlab-graph-v1'; // Preserve the existing user's saved workspace.
   const finite=n=>Number.isFinite(n), clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   const fmt=n=>!finite(n)?'未定義':n===0?'0':Math.abs(n)>=1e5||Math.abs(n)<1e-4?Number(n).toExponential(4):String(Number(n.toFixed(6)));
@@ -174,7 +187,13 @@
     if(result.stats.budgetExhausted)renderStats.limited=true;
   }
   function sampled(c){
-    const q=quality(),key=JSON.stringify([c.text,c.kind,state.params,state.view,state.t,width,height,q]);
+    let q=quality();
+    if(c.text&&!exporting&&q!=='interactive'&&refiner?.available){
+      const scene=JSON.stringify([compiled.filter(row=>row.visible&&!row.error&&row.kind!=='point').map(row=>row.text),state.params,state.view,state.t,width,height,q]),result=refiner.get(scene,c.text,{params:{...state.params},view:viewport(),t:state.t,quality:q});
+      if(result){if(renderStats.background!=='refining')renderStats.background='ready';return result;}
+      renderStats.background='refining';q='interactive';
+    }
+    const key=JSON.stringify([c.text,c.kind,state.params,state.view,state.t,width,height,q]);
     if(c.text&&curveCache.has(key))return curveCache.get(key);
     const options={quality:q};
     const result=c.kind==='function'?R.sampleFunction(t=>evaluate(c,t),viewport(),options):c.kind==='implicit'||c.kind==='inequality'?R.contourImplicit((x,y)=>evaluate(c,x,y),viewport(),options):R.sampleParametric(t=>evaluate(c,t),state.t[0],state.t[1],viewport(),options);
@@ -205,6 +224,7 @@
     renderStats.labels=layout.labels.map(l=>({id:l.id,x:l.x,y:l.y,width:l.width,height:l.height,text:l.text}));renderStats.suppressed=labelItems.length-layout.labels.length;
     $('labelReadout').textContent=state.display.labels==='none'?'標註已隱藏':`標註 ${layout.labels.length}/${labelItems.length}`+(renderStats.suppressed?' · 密集處請查看智慧分析':'');
     if(renderStats.limited)$('labelReadout').textContent+=' · 密集圖形請縮小觀察範圍以取得更多細節';
+    if(renderStats.background)$('labelReadout').textContent+=renderStats.background==='refining'?' · 背景細化中':' · 背景細化完成';
     canvas.dataset.labelCount=String(layout.labels.length);canvas.dataset.quality=quality();
   }
   function rebuildLegend(){
@@ -223,12 +243,12 @@
   function draw(){
     frameQuality=quality();try{
     labelItems=[];labelObstacles=[{x:8,y:8,width:Math.min(270,width-16),height:30},{x:width-100,y:height-32,width:92,height:24}];curveObstacles=[];renderStats={quality:quality(),evaluations:0,segments:0};
-    ctx.clearRect(0,0,width,height);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);grid();ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();shadeArea();drawStudyOverlay();drawGuides();
+    ctx.clearRect(0,0,width,height);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);grid();ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();shadeArea();drawStudyOverlay();drawDynamics();drawGuides();
     for(const c of compiled.filter(c=>!c.error&&c.visible)){if(c.kind==='point'){const p=evaluate(c,0);dot(...p,c.color,`${c.label?c.label+' ':''}(${fmt(p[0])}, ${fmt(p[1])})`,'point-'+c.index,10);}else if(c.kind==='implicit'||c.kind==='inequality')implicit(c);else curve(c);if(c.kind!=='point')curveName(c,sampled(c));}
     if($('showAnalysis').checked)for(const [i,p] of points.entries())dot(p.x,p.y,p.color,`${p.label.split(' · ').at(-1)} (${fmt(p.x)}, ${fmt(p.y)})`,'analysis-'+i,p.label.includes('交點')?9:6);
     probe();drawGuides(true);drawLabels();ctx.restore();$('viewReadout').textContent=`x ∈ [${fmt(wx(0))}, ${fmt(wx(width))}]`;
     for(const [id,key]of [['viewX','x'],['viewY','y'],['viewSpan','span']])if(document.activeElement!==$(id))$(id).value=state.viewText[key];
-    }finally{frameQuality=null;}
+    }finally{frameQuality=null;if(!exporting)window.dispatchEvent(new CustomEvent('graph:render'));}
   }
   async function analyze(){
     const ticket=analysisGeneration,params={...state.params},xmin=wx(0),xmax=wx(width),ymin=wy(height),ymax=wy(0);
@@ -403,6 +423,11 @@
   $('exportCSV').onclick=()=>{if(!buildTable())return;const quote=v=>'"'+String(v).replace(/"/g,'""')+'"',csv=[tableData.headers,...tableData.rows.map(row=>row.map(v=>finite(v)?v:'未定義'))].map(row=>row.map(quote).join(',')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'mathlab-values.csv');};
   window.addEventListener('hashchange',load);window.addEventListener('pagehide',()=>{try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}});
   window.GraphStudio={
+    viewport,
+    setDynamicsOverlay(data){
+      if(data!==null&&(!Array.isArray(data?.arrows)||data.arrows.length>1024||!Array.isArray(data.traces)||data.traces.length>24||!Array.isArray(data.seeds)||data.seeds.length>12))throw Error('向量場資料無效。');
+      dynamicsOverlay=data;scheduleDraw();
+    },
     getRenderReport:()=>JSON.parse(JSON.stringify(renderStats)),
     snapshot:()=>S.validate(state),
     key:functionKey,

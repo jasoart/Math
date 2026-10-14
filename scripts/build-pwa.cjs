@@ -17,10 +17,10 @@ function inventory() {
     for (const item of fs.readdirSync(path.join(root, relative), { withFileTypes: true })) {
       const next = relative + '/' + item.name;
       if (item.isDirectory()) scan(next);
-      else if (/\.(?:js|css|png|webp|svg|woff2?|ttf|json|msw)$/.test(item.name)) files.add(next);
+      else if (/\.(?:js|css|png|webp|svg|woff2?|ttf|json|msw|cur|gif)$/.test(item.name)) files.add(next);
     }
   }
-  for (const directory of ['assets', 'engine', 'graph', 'spatial', 'language', 'compiler', 'curriculum', 'academy', 'vendor/katex']) scan(directory);
+  for (const directory of ['assets', 'engine', 'graph', 'spatial', 'language', 'compiler', 'curriculum', 'academy', 'vendor/katex', 'vendor/blockly']) scan(directory);
   const sorted = [...files].sort();
   for (const file of sorted) { if (!fs.existsSync(path.join(root, file))) throw Error('Missing PWA asset: ' + file); }
   return sorted;

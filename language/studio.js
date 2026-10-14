@@ -10,7 +10,7 @@
   function notify(text) { clearTimeout(noticeTimer); $('studioNotice').textContent = text; $('studioNotice').hidden = false; noticeTimer = setTimeout(() => { $('studioNotice').hidden = true; }, 6000); }
   function exportsEnabled(enabled) { for (const id of ['shareProject', 'exportSVG', 'exportHTML', 'exportCSV']) $(id).disabled = !enabled; }
   function status(text, state) { $('runStatus').textContent = text; $('runStatus').dataset.state = state || ''; }
-  function lineNumbers() { $('lineNumbers').textContent = Array.from({ length: source.value.split('\n').length }, (_, i) => i + 1).join('\n'); if (root.MathScriptEditor) $('sourceHighlight').innerHTML = root.MathScriptEditor.highlight(source.value); position(); }
+  function lineNumbers() { $('lineNumbers').textContent = Array.from({ length: source.value.split('\n').length }, (_, i) => i + 1).join('\n'); if (root.MathScriptEditor) $('sourceHighlight').innerHTML = root.MathScriptEditor.highlight(source.value); position(); root.dispatchEvent(new CustomEvent('mathscript:source')); }
   function position() { const before = source.value.slice(0, source.selectionStart), rows = before.split('\n'); $('cursorPosition').textContent = `第 ${rows.length} 行 · 第 ${rows.at(-1).length + 1} 欄`; }
   function historyButtons() { $('undoEdit').disabled = historyIndex <= 0; $('redoEdit').disabled = historyIndex >= history.length - 1; }
   function remember() {

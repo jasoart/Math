@@ -4,9 +4,9 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>平面繪圖｜MATH LAB 數學工作室</title>
   <meta name="description" content="自由輸入函數、隱函數、參數式、極座標與座標點，即時調參數、找交點、積分面積、數值表並匯出圖形。">
-  <meta name="theme-color" content="#4f46e5"><link rel="icon" href="./assets/studio-icon.png" type="image/png">
+  <meta name="theme-color" content="#185e54"><link rel="icon" href="./assets/studio-icon.png" type="image/png">
   <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./graph/graph.css">
-  <script src="./graph/math.js" defer></script><script src="./graph/insight.js" defer></script><script src="./graph/exact.js" defer></script><script src="./vendor/katex/katex.min.js" defer></script><script src="./engine/typeset.js" defer></script><script src="./math-keyboard.js" defer></script><script src="./graph/state.js" defer></script><script src="./graph/svg.js" defer></script><script src="./graph/render.js" defer></script><script src="./compiler/runtime.js" defer></script><script src="./curriculum/geometry.js" defer></script><script src="./graph/study.js" defer></script><script src="./curriculum/tools.js" defer></script><script src="./graph/graph.js" defer></script><script src="./graph/study-ui.js" defer></script>
+  <script src="./graph/math.js" defer></script><script src="./graph/insight.js" defer></script><script src="./graph/exact.js" defer></script><script src="./vendor/katex/katex.min.js" defer></script><script src="./engine/math-ink.js" defer></script><script src="./engine/typeset.js" defer></script><script src="./math-keyboard.js" defer></script><script src="./graph/state.js" defer></script><script src="./graph/svg.js" defer></script><script src="./graph/render.js" defer></script><script src="./compiler/runtime.js" defer></script><script src="./curriculum/geometry.js" defer></script><script src="./graph/study.js" defer></script><script src="./curriculum/tools.js" defer></script><script src="./graph/sampling-client.js" defer></script><script src="./graph/graph.js" defer></script><script src="./graph/study-ui.js" defer></script><script src="./graph/dynamics.js" defer></script><script src="./graph/dynamics-ui.js" defer></script>
 <link rel="stylesheet" href="./math-keyboard.css">
   <link rel="stylesheet" href="./vendor/katex/katex.min.css">
   <link rel="stylesheet" href="./engine/typeset.css">
@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="./engine/studio.css">
   <script defer src="./engine/navigation.js"></script>
   <link rel="stylesheet" href="./graph/study.css">
+  <link rel="stylesheet" href="./engine/studio-pro.css">
 </head>
 <body class="graph-app">
   <a class="skip-link" href="#graphCanvas">跳至繪圖畫布</a>
@@ -32,7 +33,7 @@
     <div><p class="eyebrow">THE GRAPH STUDIO</p><h1>平面繪圖<span>每條曲線，都有自己的語言。</span></h1></div>
     <div class="graph-actions"><span class="local-badge">自動保存在此裝置</span><button id="undoGraph" title="復原 Ctrl/Cmd+Z" disabled>↶ 復原</button><button id="redoGraph" title="重做 Ctrl/Cmd+Shift+Z" disabled>↷ 重做</button><button id="shareGraph">分享圖形</button><button id="exportGraph" class="primary">匯出 PNG ↗</button><button id="exportSVG">SVG</button></div>
   </header>
-  <nav class="workspace-tabs studio-tabs" aria-label="平面繪圖工作區"><a href="#graphExpressions">算式</a><a href="#graphStage">畫布</a><a href="#graphAnalysis">分析</a><a href="#graphCalculus">面積</a><a href="#highschoolTools">高中工具</a></nav>
+  <nav class="workspace-tabs studio-tabs" aria-label="平面繪圖工作區"><a href="#graphExpressions">算式</a><a href="#graphStage">畫布</a><a href="#graphDynamics">向量場</a><a href="#graphAnalysis">分析</a><a href="#graphCalculus">面積</a><a href="#highschoolTools">高中工具</a></nav>
   <main class="graph-layout">
     <aside class="graph-sidebar" aria-label="繪圖設定">
       <section id="graphExpressions" class="graph-panel"><div class="graph-heading"><h2>算式與圖形</h2><span id="curveCount" class="small-label"></span></div>
@@ -59,6 +60,7 @@
         <div class="canvas-wrap"><canvas id="graphCanvas" tabindex="0" aria-label="自由繪圖座標平面；方向鍵移動，加減鍵縮放" aria-describedby="graphHint analysisResults">請使用支援 Canvas 的瀏覽器，或查看下方數值分析。</canvas><div id="coordinateReadout" aria-hidden="true">拖曳平移 · 雙指縮放</div><div class="graph-watermark" aria-hidden="true">MATH LAB</div></div>
         <div class="graph-stage-footer"><span id="graphHint">x、y 等比例 · 保留原式 · 繪圖與分析為數值近似</span><span id="viewReadout"></span><span id="labelReadout"></span></div>
       </section>
+      <section id="graphDynamics" class="graph-panel dynamics-panel" aria-labelledby="dynamicsTitle"><div class="graph-heading"><div><p class="eyebrow">DYNAMICS LAB / FOLLOW THE FLOW</p><h2 id="dynamicsTitle">讓軌跡，說出變化的方向。</h2></div><span class="ink-badge">向量場 ＋ 相平面</span></div><p class="graph-intro">設定 dx/dt 與 dy/dt，觀察每個初始點的未來與過去。實線向前，虛線向後；箭頭長度正規化，較深色表示速度較大。</p><div class="field-equations"><label>dx / dt<input id="fieldP" value="y" spellcheck="false" maxlength="480"></label><label>dy / dt<input id="fieldQ" value="-x" spellcheck="false" maxlength="480"></label><label>從範例開始<select id="fieldPreset"><option value="oscillator">簡諧振盪</option><option value="spiral">阻尼螺旋</option><option value="pendulum">非線性單擺</option><option value="saddle">鞍點</option><option value="logistic">邏輯斯成長</option></select></label></div><div class="field-options"><label>箭頭密度<select id="fieldDensity"><option value="12">疏 · 12</option><option value="20" selected>標準 · 20</option><option value="30">密 · 30</option></select></label><label>前後積分時間<input type="number" id="fieldDuration" min="0.01" max="40" step="1" value="12"></label><label>初始 x<input id="fieldSeedX" value="2"></label><label>初始 y<input id="fieldSeedY" value="0"></label><button id="addFieldSeed" type="button">＋ 初始點</button></div><div id="fieldSeeds" class="field-seeds" aria-label="初始點"></div><div class="field-actions"><button id="runField" type="button" class="primary">繪製向量場 ↗</button><button id="stopField" type="button" disabled>停止</button><button id="clearField" type="button">清除疊圖</button><button id="fieldCSV" type="button" disabled>軌跡 CSV</button><label class="checkbox-label"><input id="clickFieldSeed" type="checkbox">點畫布加入初始點</label></div><p id="fieldStatus" class="field-status" role="status" aria-live="polite">選擇一個系統，觀察軌跡如何演化。</p><p class="small-label">自適應 RK4 數值近似；不保證跨越不連續點或剛性系統的精度。向量場設定另存於本機草稿，疊圖包含在 PNG／SVG，軌跡可匯出 CSV。圖形 JSON／分享連結不包含此疊圖。</p></section>
       <section id="graphAnalysis" class="graph-panel analysis-panel"><div class="graph-heading"><div><p class="eyebrow">EXPLORE / 讓圖形說話</p><h2>智慧分析</h2></div><label class="checkbox-label"><input id="showAnalysis" type="checkbox" checked>標示特殊點</label></div>
         <p class="graph-intro">分析目前視窗內的 y=f(x)：零點、局部極值與兩兩交點。點選結果可移至該處。</p><div id="analysisResults" class="analysis-results"></div>
         <div id="graphFormulaInsight" class="formula-insight" aria-live="polite"></div>
